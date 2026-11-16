@@ -1,19 +1,19 @@
-🗺️ MapTec — TJRR
+# 🗺️ MapTec — TJRR
 
-Aplicação web self-contained (HTML/CSS/JS em arquivo único) desenvolvida para auxiliar equipes técnicas na localização rápida de salas, setores e códigos de transferência nas dependências do TJRR.
+Localizador de salas, setores e códigos de transferência das dependências do Tribunal de Justiça do Estado de Roraima. Aplicação web leve (HTML/CSS/JS), instalável como app (PWA) e com consulta offline.
 
-✨ Funcionalidades
+**Acesse:** https://rafajames.github.io/MapTec-TJRR/
 
-Busca Unificada: Pesquisa por sala, setor, andar ou código de transferência.
+## ✨ Funcionalidades
 
-Modo Offline: Consulta garantida mesmo sem conexão com a internet.
+- **Busca unificada** por sala, setor, andar ou código — ignora acentos e maiúsculas, aceita várias palavras e destaca o trecho encontrado.
+- **Código em destaque** em cada card, com botão **Copiar**.
+- **Referência de localização** ("como chegar") por sala, editável no modo ADM.
+- **Pisos recolhíveis**, ordenação **Por sala / A–Z** e link direto para uma sala (`#/predio/<id>/<sala>`).
+- **PWA**: instala na tela inicial e funciona sem internet.
+- **Layout responsivo**: celular (1 coluna) e desktop (3 colunas).
+- **Modo ADM**: cadastrar/editar salas, códigos e referências pela interface.
 
-Gestão em Campo (Modo ADM): Permite cadastrar e editar salas/prédios diretamente pela interface.
+## 📄 Uso
 
-
-📄 Licença e uso
-
-© 2026 Rafajames – Todos os direitos reservados. Uso exclusivo e restrito a colaboradores autorizados do Tribunal de Justiça do Estado de Roraima.
-
-[GitHub: github.com/Rafajames
-](https://rafajames.github.io/MapTec-TJRR/)
+Ferramenta de apoio às equipes técnicas do TJRR. Desenvolvido por [Rafajames](https://github.com/Rafajames).

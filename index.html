@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapeamento de Unidades</title>
+<title>MapTec · TJRR</title>
+<meta name="description" content="MapTec: localizador de salas, setores e códigos de transferência do TJRR.">
+<meta name="theme-color" content="#004494">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
     :root {
         --primary-color: #004494;
@@ -494,6 +499,58 @@
         color: #999;
         font-size: 0.9rem;
     }
+
+    /* ===== Melhorias v2 ===== */
+    :focus-visible { outline: 3px solid #e08300; outline-offset: 2px; }
+    button.chip, button.mode-btn, button.back-btn, button.sort-btn { font-family: inherit; }
+    a.building-card { display: block; color: inherit; text-decoration: none; }
+    .back-btn { width: 44px; height: 44px; top: 10px; left: 10px; }
+    .header-top { padding-left: 62px; padding-right: 62px; }
+    .search-row { display: flex; gap: 8px; align-items: center; }
+    .sort-btn { flex-shrink: 0; background: var(--primary-light); color: var(--primary-color); border: 1px solid #cfe0f5; border-radius: 10px; padding: 0 14px; height: 46px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+    .badge-last { background: #fff4e5; color: #9a5a00; border: 1px solid #ffdca8; border-radius: 4px; padding: 2px 7px; font-size: 0.7rem; font-weight: 700; vertical-align: middle; margin-left: 6px; }
+
+    .card h3 { font-size: 1rem; margin-bottom: 8px; }
+    .ref-line { font-size: 0.85rem; color: #4a5560; margin: -2px 0 8px; }
+    .card .info-row { margin-top: 10px; align-items: stretch; }
+    .code-block { display: flex; flex-direction: column; background: var(--primary-light); border: 1px solid #cce0f5; border-radius: 8px; padding: 6px 14px; min-width: 96px; }
+    .code-block.editable { cursor: pointer; border-style: dashed; border-color: var(--primary-color); }
+    .code-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #4a5560; }
+    .code-num { font-size: 1.5rem; font-weight: 800; line-height: 1.15; color: var(--primary-dark); }
+    .code-empty { align-self: center; font-size: 0.85rem; color: #5b6670; font-style: italic; }
+    .code-empty.add { font-style: normal; font-weight: 700; color: var(--primary-color); border: 1px dashed var(--primary-color); border-radius: 8px; padding: 10px 14px; cursor: pointer; }
+    .copy-btn { background: var(--primary-color); color: #fff; border: none; border-radius: 8px; padding: 0 16px; font-weight: 700; font-size: 0.85rem; cursor: pointer; min-height: 44px; }
+    .copy-btn:active { transform: scale(.96); }
+    .card .sala-info { margin-left: auto; align-self: center; }
+    .card.flash { animation: flash 2.2s ease; }
+    @keyframes flash { 0%,60% { box-shadow: 0 0 0 4px #e08300; } 100% { box-shadow: 0 2px 4px rgba(0,0,0,.02); } }
+
+    .floor-title { cursor: pointer; display: flex; align-items: center; gap: 8px; user-select: none; }
+    .floor-title::before { content: '▾'; font-size: .9em; }
+    .floor-section.collapsed .floor-title::before { content: '▸'; }
+    .floor-section.collapsed .card-grid { display: none; }
+    .floor-count { margin-left: auto; font-size: .75rem; font-weight: 700; color: #4a5560; background: #eceff1; border-radius: 10px; padding: 2px 9px; }
+
+    .global-result-item { display: block; color: inherit; text-decoration: none; }
+    .global-result-item .name { font-size: 1rem; }
+    .res-code { display: inline-block; margin-top: 6px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; border-radius: 6px; padding: 2px 10px; font-size: .95rem; }
+    .res-count { font-size: .8rem; color: #4a5560; margin: 4px 2px 8px; }
+    mark { background: #ffe9a8; color: inherit; border-radius: 2px; padding: 0 1px; }
+
+    /* contraste */
+    .building-card .meta, .app-description, .ownership-footer, .modal .modal-sub, .field-hint,
+    .link-btn, .global-result-item .loc, .empty-state, .loading-msg { color: #4a5560; }
+    .ownership-footer .copyright { color: #5b6670; }
+    .ownership-footer, .field-hint, .link-btn { font-size: .82rem; }
+    .link-btn.danger { color: #b02a1c; }
+
+    /* desktop */
+    @media (min-width: 1000px) {
+        main { max-width: 1200px; }
+        .card-grid, .building-grid { grid-template-columns: repeat(3, 1fr); }
+        .search-container, .floor-chips { padding-left: max(15px, calc((100vw - 1200px) / 2 + 15px)); padding-right: max(15px, calc((100vw - 1200px) / 2 + 15px)); }
+        .floor-chips { flex-wrap: wrap; overflow: visible; }
+    }
 </style>
 </head>
 <body>
@@ -870,6 +927,8 @@ const db = {
 const STORAGE_KEY_ROOMS = 'salas-adicionadas-tecnicos';
 const STORAGE_KEY_PREDIOS = 'predios-adicionados-tecnicos';
 const STORAGE_KEY_CODES = 'codigos-transferencia-overrides';
+const STORAGE_KEY_REFS = 'referencias-localizacao';
+const DADOS_ATUALIZADOS = '16/11/2026';
 
 // ===================== CONFIGURAÇÃO — ALTERE AQUI =====================
 // Troque a senha abaixo por uma de sua escolha antes de distribuir o arquivo.
@@ -882,17 +941,19 @@ const OWNER_NAME = 'Jamerson Rafael';
 
 let userRooms = [];      // { id, predioId, divisaoNome, sala, nome, codigoTransferencia }
 let userPredios = [];    // { id, nome, divisoes: [...], userAdded: true }
+let refOverrides = {};   // { chave: 'texto de referência/como chegar' }
+let sortMode = localStorage.getItem('maptec_sort') || 'sala';
 let codeOverrides = {};  // { "predioId||divisaoNome||sala||nome": "codigo" }  -> usado para editar salas fixas do db
 let dataLoaded = false;
 let isAdminMode = localStorage.getItem('mapeamento_admin_mode') === 'true';
 let isOffline = false;
 
 const LOGO_TJRR_URL = 'https://avatars.githubusercontent.com/u/24796065?s=280&v=4';
-const GITHUB_ICON_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqLyiYI6toDd8wc_g3Sk_iHP__XQAd-hrFslE2QIQOVQ&s=10';
+const GITHUB_SVG = '<svg class="github-icon" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>';
 const GITHUB_PROFILE_URL = 'https://github.com/Rafajames';
-const APP_DESCRIPTION = 'Ferramenta desenvolvida para otimizar o mapeamento e o deslocamento técnico pelas dependências do Tribunal de Justiça do Estado de Roraima. Acesso restrito a colaboradores autorizados.';
+const APP_DESCRIPTION = 'Ferramenta de apoio ao deslocamento técnico pelas dependências do Tribunal de Justiça do Estado de Roraima: localize salas, setores e códigos de transferência.';
 
-const LOGO_TJRR_SVG = `<img src="${LOGO_TJRR_URL}" alt="Logo TJRR" class="logo-tjrr" onclick="handleLogoTap()">`;
+const LOGO_TJRR_SVG = `<img src="${LOGO_TJRR_URL}" alt="Logo TJRR" class="logo-tjrr" onclick="handleLogoTap()" onerror="this.style.display='none'">`;
 
 let logoTapCount = 0;
 let logoTapTimer = null;
@@ -961,6 +1022,11 @@ async function loadAllData() {
         if (r && r.value) codeOverrides = JSON.parse(r.value);
     } catch (e) { codeOverrides = {}; }
 
+    try {
+        const r = await storageGet(STORAGE_KEY_REFS, true);
+        if (r && r.value) refOverrides = JSON.parse(r.value);
+    } catch (e) { refOverrides = {}; }
+
     dataLoaded = true;
     route();
 }
@@ -971,6 +1037,10 @@ async function saveUserRooms() {
 }
 async function saveUserPredios() {
     try { await storageSet(STORAGE_KEY_PREDIOS, JSON.stringify(userPredios), true); route(); }
+    catch (e) { showToast('Erro ao salvar. Tente novamente.'); console.error(e); }
+}
+async function saveRefOverrides() {
+    try { await storageSet(STORAGE_KEY_REFS, JSON.stringify(refOverrides), true); route(); }
     catch (e) { showToast('Erro ao salvar. Tente novamente.'); console.error(e); }
 }
 async function saveCodeOverrides() {
@@ -1063,6 +1133,74 @@ function labelDivisoes(divisoes) {
     return divisoes.length + ' ' + unidade + (divisoes.length === 1 ? '' : 's');
 }
 
+
+// ===================== TEXTO / BUSCA =====================
+const SIGLAS = new Set(['CPS','SEC','SAD','GMF','TIC','TI','NPI','SIL','DML','OAB','TRE','STI','DPE','MPE','CIJ','CEJAI','CEJUSC','CRSF','DGEX','CEAVCAI','NATJUS','NUPEMEC','PROCON','QGBT','SALC','SINFRA','NAT','JUS','TJRR','CNJ']);
+const MINUSC = new Set(['de','da','do','das','dos','e','em','no','na','nos','nas','para','com','ao']);
+const ACENTOS = { ANALISE:'análise', ATENCIMENTO:'atendimento', AUDIENCIAS:'audiências', INFORMACAO:'informação', INFORMATICA:'informática', JURIDICA:'jurídica', LOGISTICA:'logística', NUCLEO:'núcleo', PRECATORIOS:'precatórios', PRECENDENTES:'precedentes', PRESIDENCIA:'presidência', REUNIAO:'reunião', SINDICANCIA:'sindicância', TECNICA:'técnica' };
+
+// Só formata na EXIBIÇÃO (os dados e os códigos de edição continuam intactos).
+function fmtNome(s) {
+    s = String(s || '');
+    const letras = s.replace(/[^A-Za-zÀ-ú]/g, '');
+    const ups = letras.replace(/[^A-ZÀ-Ú]/g, '').length;
+    s = s.replace(/,\//g, '/').replace(/_/g, ' – ');
+    if (!letras || ups / letras.length < 0.6) return s.trim();
+    let first = true;
+    return s.replace(/[A-Za-zÀ-ú0-9ºª]+/g, (w) => {
+        const wasFirst = first; first = false;
+        if (SIGLAS.has(w)) return w;
+        if (/\d/.test(w) && /[A-Z]/.test(w)) return w;
+        const low = ACENTOS[w] || w.toLowerCase();
+        if (!wasFirst && MINUSC.has(low)) return low;
+        return low.charAt(0).toUpperCase() + low.slice(1);
+    }).trim();
+}
+
+function norm(s) {
+    return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+function matches(hayNorm, q) {
+    const tokens = norm(q).split(/\s+/).filter(Boolean);
+    return tokens.every(tk => hayNorm.includes(tk));
+}
+function highlight(text, q) {
+    const tokens = norm(q).split(/\s+/).filter(Boolean);
+    const n = norm(text);
+    if (!tokens.length || n.length !== text.length) return escapeHtml(text);
+    const marks = new Array(text.length).fill(false);
+    tokens.forEach(tk => {
+        let i = n.indexOf(tk);
+        while (i !== -1) { for (let k = i; k < i + tk.length; k++) marks[k] = true; i = n.indexOf(tk, i + tk.length); }
+    });
+    let out = '', open = false;
+    for (let k = 0; k < text.length; k++) {
+        if (marks[k] && !open) { out += '<mark>'; open = true; }
+        if (!marks[k] && open) { out += '</mark>'; open = false; }
+        out += escapeHtml(text[k]);
+    }
+    return out + (open ? '</mark>' : '');
+}
+function plural(n, um, varios) { return n + ' ' + (n === 1 ? um : varios); }
+function cardKey(u) { return slugify((u.sala || '') + '-' + u.nome); }
+
+function copiarCodigo(cod) {
+    const ok = () => showToast('Código ' + cod + ' copiado.');
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(cod).then(ok, () => showToast('Não foi possível copiar.'));
+    } else {
+        const ta = document.createElement('textarea');
+        ta.value = cod; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); } catch (e) { showToast('Não foi possível copiar.'); }
+        ta.remove();
+    }
+}
+function toggleSort() {
+    sortMode = sortMode === 'az' ? 'sala' : 'az';
+    localStorage.setItem('maptec_sort', sortMode);
+    renderBuildingPage(currentPredioId);
+}
+
 function todosPredios() {
     return db.predios.concat(userPredios);
 }
@@ -1117,9 +1255,9 @@ function getDivisoesComExtras(predio) {
 function route() {
     if (!dataLoaded) { renderLoading(); return; }
     const hash = window.location.hash || '#/';
-    const match = hash.match(/^#\/predio\/([^\/]+)/);
+    const match = hash.match(/^#\/predio\/([^\/]+)(?:\/([^\/]+))?/);
     if (match) {
-        renderBuildingPage(match[1]);
+        renderBuildingPage(match[1], match[2]);
     } else {
         renderHomePage();
     }
@@ -1128,7 +1266,7 @@ window.addEventListener('hashchange', route);
 
 function renderLoading() {
     document.getElementById('appHeader').innerHTML = `
-        <div class="header-top">${LOGO_TJRR_SVG}<h1 class="header-title">Mapeamento de Unidades</h1></div>`;
+        <div class="header-top">${LOGO_TJRR_SVG}<h1 class="header-title">MapTec</h1></div>`;
     document.getElementById('mainContent').innerHTML = `<div class="loading-msg">Carregando...</div>`;
 }
 
@@ -1141,24 +1279,25 @@ function renderHomePage() {
         <div class="header-top">
             ${LOGO_TJRR_SVG}
             <div>
-                <h1 class="header-title">Mapeamento de Unidades</h1>
-                <div class="header-subtitle">Selecione o prédio de atendimento</div>
+                <h1 class="header-title">MapTec</h1>
+                <div class="header-subtitle">Salas e códigos de transferência · TJRR</div>
             </div>
             ${renderModeButton()}
         </div>
         ${renderOfflineBadge()}
         <div class="search-container">
-            <input type="text" id="globalSearchInput" class="search-input" placeholder="Buscar sala ou setor em todos os prédios...">
+            <input type="text" id="globalSearchInput" class="search-input" placeholder="Buscar sala, setor ou código em todos os prédios..." aria-label="Buscar em todos os prédios" autocomplete="off">
         </div>`;
 
-    document.getElementById('globalSearchInput').addEventListener('keyup', renderGlobalSearchOrGrid);
+    document.getElementById('globalSearchInput').addEventListener('input', renderGlobalSearchOrGrid);
     renderGlobalSearchOrGrid();
 }
 
 function renderGlobalSearchOrGrid() {
-    const q = (document.getElementById('globalSearchInput').value || '').trim().toLowerCase();
+    const q = (document.getElementById('globalSearchInput').value || '').trim();
     const main = document.getElementById('mainContent');
     const predios = todosPredios();
+    const last = localStorage.getItem('maptec_last');
 
     if (!q) {
         main.innerHTML = `<div class="building-grid">` +
@@ -1167,45 +1306,45 @@ function renderGlobalSearchOrGrid() {
                 const totalSalas = divisoes.reduce((acc, d) => acc + d.unidades.length, 0);
                 const cor = getPredioColor(p);
                 return `
-                    <div class="building-card" style="border-left-color: ${cor};" onclick="window.location.hash='#/predio/${p.id}'">
-                        <h2 style="color: ${cor};">${escapeHtml(p.nome)}</h2>
-                        <div class="meta">${labelDivisoes(divisoes)} · ${totalSalas} sala(s) mapeada(s)</div>
-                    </div>`;
+                    <a class="building-card" href="#/predio/${p.id}" style="border-left-color: ${cor};">
+                        <h2 style="color: ${cor};">${escapeHtml(p.nome)}${p.id === last ? '<span class="badge-last">último acesso</span>' : ''}</h2>
+                        <div class="meta">${labelDivisoes(divisoes)} · ${plural(totalSalas, 'sala mapeada', 'salas mapeadas')}</div>
+                    </a>`;
             }).join('') +
-            (isAdminMode ? `<div class="building-card add-new" onclick="openAddPredioModal()">+ Cadastrar novo prédio</div>` : '') +
+            (isAdminMode ? `<div class="building-card add-new" role="button" tabindex="0" onclick="openAddPredioModal()">+ Cadastrar novo prédio</div>` : '') +
             `</div>` +
             `<div class="ownership-footer">
                 <div class="app-description">${escapeHtml(APP_DESCRIPTION)}</div>
                 <a class="github-link" href="${GITHUB_PROFILE_URL}" target="_blank" rel="noopener noreferrer">
-                    <img src="${GITHUB_ICON_URL}" alt="GitHub" class="github-icon">
-                    github.com/Rafajames
+                    ${GITHUB_SVG}
+                    Desenvolvido por Rafajames
                 </a>
-                <div class="copyright">© 2026 Rafajames – Todos os direitos reservados.</div>
+                <div class="copyright">Base de salas atualizada em ${DADOS_ATUALIZADOS}</div>
             </div>`;
         return;
     }
 
     let results = [];
     predios.forEach(p => {
-        const divisoes = getDivisoesComExtras(p);
-        divisoes.forEach(div => {
+        getDivisoesComExtras(p).forEach(div => {
             div.unidades.forEach(u => {
-                const hay = `${u.nome} ${u.sala} ${u.codigoTransferencia}`.toLowerCase();
-                if (hay.includes(q)) results.push({ predio: p, divisaoNome: div.nome, unidade: u });
+                const hay = norm(`${u.nome} ${u.sala} ${u.codigoTransferencia} ${div.nome} ${p.nome}`);
+                if (matches(hay, q)) results.push({ predio: p, divisaoNome: div.nome, unidade: u });
             });
         });
     });
 
     if (results.length === 0) {
-        main.innerHTML = `<div class="empty-state"><div class="big">Nada encontrado</div><p>Tente outro termo de busca.</p></div>`;
+        main.innerHTML = `<div class="empty-state"><div class="big">Nada encontrado para "${escapeHtml(q)}"</div><p>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</p></div>`;
         return;
     }
 
-    main.innerHTML = `<div class="global-results">` + results.map(r => `
-        <div class="global-result-item" onclick="window.location.hash='#/predio/${r.predio.id}'">
-            <div class="name">${escapeHtml(r.unidade.nome)}</div>
-            <div class="loc">${escapeHtml(r.predio.nome)} · ${escapeHtml(r.divisaoNome)}${r.unidade.sala ? ' · Sala ' + escapeHtml(r.unidade.sala) : ''}${r.unidade.codigoTransferencia ? ' · Cód: ' + escapeHtml(r.unidade.codigoTransferencia) : ''}</div>
-        </div>
+    main.innerHTML = `<div class="res-count">${plural(results.length, 'resultado', 'resultados')}</div><div class="global-results">` + results.map(r => `
+        <a class="global-result-item" href="#/predio/${r.predio.id}/${cardKey(r.unidade)}">
+            <div class="name">${highlight(fmtNome(r.unidade.nome), q)}</div>
+            <div class="loc">${escapeHtml(r.predio.nome)} · ${escapeHtml(r.divisaoNome)}${r.unidade.sala ? ' · Sala ' + escapeHtml(r.unidade.sala) : ''}</div>
+            ${r.unidade.codigoTransferencia ? `<span class="res-code">Cód. ${highlight(r.unidade.codigoTransferencia, q)}</span>` : ''}
+        </a>
     `).join('') + `</div>`;
 }
 
@@ -1256,10 +1395,14 @@ async function excluirPredio(predioId) {
 // ---------- PÁGINA DO PRÉDIO ----------
 let currentPredioId = null;
 
-function renderBuildingPage(predioId) {
+function renderBuildingPage(predioId, focusKey) {
     const predio = findPredio(predioId);
     if (!predio) { window.location.hash = '#/'; return; }
+    const mudou = currentPredioId !== predioId;
+    const prevInput = document.getElementById('searchInput');
+    const prevSearch = (!mudou && prevInput) ? prevInput.value : '';
     currentPredioId = predioId;
+    localStorage.setItem('maptec_last', predioId);
 
     const divisoes = getDivisoesComExtras(predio);
     const cor = getPredioColor(predio);
@@ -1268,7 +1411,7 @@ function renderBuildingPage(predioId) {
     header.style.backgroundColor = cor;
     header.innerHTML = `
         <div class="header-top">
-            <button class="back-btn" onclick="window.location.hash='#/'">‹</button>
+            <button class="back-btn" aria-label="Voltar para a lista de prédios" onclick="window.location.hash='#/'">‹</button>
             <div>
                 <h1 class="header-title">${escapeHtml(predio.nome)}</h1>
                 <div class="header-subtitle">${labelDivisoes(divisoes)}${predio.userAdded ? ' · cadastrado por técnico' : ''}</div>
@@ -1277,13 +1420,17 @@ function renderBuildingPage(predioId) {
         </div>
         ${renderOfflineBadge()}
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Buscar sala, setor ou código..." onkeyup="filtrarCards()">
+            <div class="search-row">
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar sala, setor ou código..." aria-label="Buscar neste prédio" autocomplete="off" oninput="filtrarCards()">
+                <button class="sort-btn" onclick="toggleSort()" aria-label="Alternar ordenação" title="Alternar ordenação">${sortMode === 'az' ? 'Por sala' : 'A–Z'}</button>
+            </div>
         </div>
         <div class="floor-chips" id="floorChips"></div>`;
+    if (prevSearch) document.getElementById('searchInput').value = prevSearch;
 
     document.getElementById('floorChips').innerHTML = divisoes.map(d =>
-        `<span class="chip" style="background:${cor}1a; color:${cor}; border-color:${cor}55;" onclick="scrollToFloor('${slugify(d.nome)}')">${escapeHtml(d.nome)}</span>`
-    ).join('') + (isAdminMode && predio.userAdded ? `<span class="chip" style="background:#fdecea;color:#c0392b;border-color:#f5c6c2;cursor:pointer;" onclick="excluirPredio('${predio.id}')">Excluir prédio</span>` : '');
+        `<button class="chip" style="background:${cor}1a; color:${cor}; border-color:${cor}55;" onclick="scrollToFloor('${slugify(d.nome)}')">${escapeHtml(d.nome)}</button>`
+    ).join('') + (isAdminMode && predio.userAdded ? `<button class="chip" style="background:#fdecea;color:#b02a1c;border-color:#f5c6c2;" onclick="excluirPredio('${predio.id}')">Excluir prédio</button>` : '');
 
     const main = document.getElementById('mainContent');
     main.innerHTML = '';
@@ -1299,45 +1446,70 @@ function renderBuildingPage(predioId) {
             const titulo = document.createElement('h2');
             titulo.className = 'floor-title';
             titulo.style.borderBottomColor = cor;
-            titulo.innerText = divisao.nome;
+            titulo.setAttribute('role', 'button');
+            titulo.setAttribute('tabindex', '0');
+            titulo.setAttribute('aria-label', 'Recolher ou expandir ' + divisao.nome);
+            titulo.innerHTML = `<span>${escapeHtml(divisao.nome)}</span><span class="floor-count">${divisao.unidades.length}</span>`;
+            const alterna = () => section.classList.toggle('collapsed');
+            titulo.addEventListener('click', alterna);
+            titulo.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alterna(); } });
             section.appendChild(titulo);
 
             const grid = document.createElement('div');
             grid.className = 'card-grid';
 
-            divisao.unidades.forEach(unidade => {
+            const unidades = sortMode === 'az'
+                ? divisao.unidades.slice().sort((a, b) => norm(a.nome).localeCompare(norm(b.nome), 'pt-BR'))
+                : divisao.unidades;
+
+            unidades.forEach(unidade => {
                 const card = document.createElement('div');
                 card.className = 'card' + (unidade.userAdded ? ' user-added' : '');
                 card.style.borderLeftColor = unidade.userAdded ? 'var(--accent)' : cor;
-                const searchString = `${unidade.nome.toLowerCase()} ${unidade.sala} ${unidade.codigoTransferencia}`.toLowerCase();
-                card.setAttribute('data-search', searchString);
 
-                const htmlSala = unidade.sala
-                    ? `<div class="sala-info">Sala <strong>${escapeHtml(unidade.sala)}</strong></div>`
-                    : '';
+                const refKey = unidade.userAdded ? 'user||' + unidade.userAddedId : unidade.codeEditKey;
+                const ref = refOverrides[refKey] || '';
+                const cod = unidade.codigoTransferencia;
+                card.setAttribute('data-key', cardKey(unidade));
+                card.setAttribute('data-search', norm(`${unidade.nome} ${unidade.sala} ${cod} ${ref}`));
+
+                const htmlSala = unidade.sala ? `<div class="sala-info">Sala <strong>${escapeHtml(unidade.sala)}</strong></div>` : '';
                 const badgeNova = unidade.userAdded ? `<span class="badge-nova">Cadastrada por técnico</span>` : '';
 
-                const codeClass = unidade.codigoTransferencia ? 'code-badge filled' : 'code-badge';
-                const codeText = unidade.codigoTransferencia ? escapeHtml(unidade.codigoTransferencia) : 'Cód: --';
                 const editArgs = unidade.userAdded
                     ? `true, '${unidade.userAddedId}', ''`
                     : `false, '', '${unidade.codeEditKey.replace(/'/g, "\\'")}'`;
-                const codeBadgeHtml = isAdminMode
-                    ? `<div class="${codeClass}" onclick="openEditCodeModal(${editArgs}, '${escapeHtml(unidade.codigoTransferencia).replace(/'/g, "\\'")}')">${codeText}</div>`
-                    : `<div class="${codeClass}" style="cursor:default;">${codeText}</div>`;
+                const editCall = `openEditCodeModal(${editArgs}, '${escapeHtml(cod).replace(/'/g, "\\'")}')`;
 
+                let codeHtml;
+                if (cod) {
+                    const bloco = `<span class="code-label">Cód. transferência</span><span class="code-num">${escapeHtml(cod)}</span>`;
+                    codeHtml = (isAdminMode
+                        ? `<div class="code-block editable" onclick="${editCall}" title="Editar código">${bloco}</div>`
+                        : `<div class="code-block">${bloco}</div>`)
+                        + `<button class="copy-btn" data-c="${escapeHtml(cod)}" onclick="copiarCodigo(this.dataset.c)" aria-label="Copiar código ${escapeHtml(cod)}">Copiar</button>`;
+                } else {
+                    codeHtml = isAdminMode
+                        ? `<div class="code-empty add" role="button" tabindex="0" onclick="${editCall}">+ Adicionar código</div>`
+                        : `<div class="code-empty">Sem código mapeado</div>`;
+                }
+
+                const btnRef = isAdminMode
+                    ? `<button class="link-btn" data-k="${encodeURIComponent(refKey)}" data-r="${encodeURIComponent(ref)}" onclick="openEditRefModal(decodeURIComponent(this.dataset.k), decodeURIComponent(this.dataset.r))">${ref ? 'editar' : '+'} referência</button>`
+                    : '';
                 const btnRemover = (isAdminMode && unidade.userAdded)
                     ? `<button class="link-btn danger" onclick="removerSalaUsuario('${unidade.userAddedId}')">remover</button>`
                     : '';
 
                 card.innerHTML = `
-                    <h3>${escapeHtml(unidade.nome)}</h3>
+                    <h3>${escapeHtml(fmtNome(unidade.nome))}</h3>
+                    ${ref ? `<div class="ref-line">📍 ${escapeHtml(ref)}</div>` : ''}
                     <div class="info-row">
-                        ${codeBadgeHtml}
+                        ${codeHtml}
                         ${htmlSala}
-                        ${badgeNova}
                     </div>
-                    <div class="card-actions">${btnRemover}</div>
+                    ${badgeNova ? `<div style="margin-top:8px">${badgeNova}</div>` : ''}
+                    <div class="card-actions">${btnRef}${btnRemover}</div>
                 `;
                 grid.appendChild(card);
             });
@@ -1345,14 +1517,26 @@ function renderBuildingPage(predioId) {
             section.appendChild(grid);
             main.appendChild(section);
         });
+        main.insertAdjacentHTML('beforeend', `<div id="noResults" class="empty-state hidden"><div class="big">Nenhuma sala encontrada</div><p>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</p></div>`);
     }
 
     document.getElementById('fabAddRoom').classList.toggle('hidden', !isAdminMode);
+    if (prevSearch) filtrarCards();
+
+    if (focusKey) {
+        const el = document.querySelector(`.card[data-key="${focusKey}"]`);
+        if (el) {
+            el.closest('.floor-section').classList.remove('collapsed');
+            setTimeout(() => { el.scrollIntoView({ block: 'center' }); el.classList.add('flash'); }, 60);
+        }
+    } else if (mudou) {
+        window.scrollTo(0, 0);
+    }
 }
 
 function scrollToFloor(slug) {
     const el = document.getElementById('floor-' + slug);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el) { el.classList.remove('collapsed'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 }
 
 function slugify(str) {
@@ -1360,20 +1544,52 @@ function slugify(str) {
 }
 
 function filtrarCards() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
+    const q = document.getElementById('searchInput').value;
     const cards = document.querySelectorAll('.card');
     const sections = document.querySelectorAll('.floor-section');
 
-    cards.forEach(card => {
-        const searchData = card.getAttribute('data-search');
-        card.classList.toggle('hidden', !searchData.includes(input));
-    });
+    cards.forEach(card => card.classList.toggle('hidden', !matches(card.getAttribute('data-search'), q)));
 
     sections.forEach(section => {
         const cardsInSection = section.querySelectorAll('.card');
         const hiddenCards = section.querySelectorAll('.card.hidden');
         section.classList.toggle('hidden', cardsInSection.length === hiddenCards.length);
+        if (q.trim()) section.classList.remove('collapsed');
     });
+    const nr = document.getElementById('noResults');
+    if (nr) nr.classList.toggle('hidden', document.querySelectorAll('.card:not(.hidden)').length > 0);
+}
+
+// =====================================================================
+// REFERÊNCIA DE LOCALIZAÇÃO ("como chegar")
+// =====================================================================
+let editingRefKey = null;
+function openEditRefModal(refKey, current) {
+    if (!isAdminMode) { showToast('Entre no modo ADM para editar referências.'); return; }
+    editingRefKey = refKey;
+    document.getElementById('modalRoot').innerHTML = `
+        <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+            <div class="modal">
+                <h2>Referência de localização</h2>
+                <div class="modal-sub">Ajuda o técnico a chegar na sala.</div>
+                <div class="field">
+                    <label>Como chegar</label>
+                    <input id="er_ref" type="text" placeholder="Ex: Corredor da direita, ao lado do elevador" value="${escapeHtml(current || '').replace(/"/g, '&quot;')}">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+                    <button class="btn btn-primary" onclick="salvarRef()">Salvar</button>
+                </div>
+            </div>
+        </div>`;
+    document.getElementById('er_ref').focus();
+}
+async function salvarRef() {
+    const v = document.getElementById('er_ref').value.trim();
+    if (v) refOverrides[editingRefKey] = v; else delete refOverrides[editingRefKey];
+    closeModal();
+    await saveRefOverrides();
+    showToast('Referência atualizada.');
 }
 
 // =====================================================================
@@ -1457,6 +1673,10 @@ function openAddRoomModal(predioId) {
                     <input id="f_codigo" type="text" placeholder="Ex: 1234">
                     <div class="field-hint">Se ainda não souber o código, deixe em branco e edite depois.</div>
                 </div>
+                <div class="field">
+                    <label>Referência de localização (opcional)</label>
+                    <input id="f_ref" type="text" placeholder="Ex: Ao lado do elevador">
+                </div>
                 <div class="modal-actions">
                     <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
                     <button class="btn btn-primary" onclick="salvarNovaSala('${predioId}')">Salvar</button>
@@ -1483,16 +1703,21 @@ async function salvarNovaSala(predioId) {
     if (!divisaoNome) { showToast('Informe o andar/bloco.'); return; }
     if (!nome) { showToast('Informe o nome da sala/setor.'); return; }
 
-    userRooms.push({ id: uid('sala'), predioId, divisaoNome, sala, nome, codigoTransferencia });
+    const novoId = uid('sala');
+    userRooms.push({ id: novoId, predioId, divisaoNome, sala, nome, codigoTransferencia });
+    const refTxt = (document.getElementById('f_ref').value || '').trim();
+    if (refTxt) refOverrides['user||' + novoId] = refTxt;
     closeModal();
     renderBuildingPage(predioId);
     await saveUserRooms();
+    if (refTxt) await saveRefOverrides();
     showToast('Sala adicionada.');
 }
 
 async function removerSalaUsuario(userAddedId) {
     if (!isAdminMode) { showToast('Entre no modo ADM para remover salas.'); return; }
     userRooms = userRooms.filter(r => r.id !== userAddedId);
+    delete refOverrides['user||' + userAddedId];
     closeModal();
     renderBuildingPage(currentPredioId);
     await saveUserRooms();
@@ -1507,6 +1732,7 @@ function closeModal() {
 // INIT
 // =====================================================================
 loadAllData();
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
 </html>
