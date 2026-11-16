@@ -1,10 +1,10 @@
 # 🗺️ MapTec · TJRR
 
-Encontre salas, setores, unidades e **códigos de transferência** dos prédios do Tribunal de Justiça do Estado de Roraima.
+Encontre salas, setores e unidades dos prédios do Tribunal de Justiça do Estado de Roraima.
 
 **Acesse:** https://rafajames.github.io/MapTec-TJRR/
 
-O MapTec **não** tem plantas nem mapas internos: ele informa prédio, andar, número da sala, setor/unidade, código de transferência e o endereço do prédio (com atalho para o Google Maps).
+O MapTec **não** tem plantas nem mapas internos: ele informa prédio, andar, número da sala, setor/unidade, código (quando existir) e o endereço do prédio (com atalho para o Google Maps).
 
 ## Como funciona
 

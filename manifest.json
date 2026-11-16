@@ -1,7 +1,7 @@
 {
   "name": "MapTec TJRR",
   "short_name": "MapTec",
-  "description": "Localizador de salas, setores e códigos de transferência do TJRR.",
+  "description": "Localizador de salas, setores e unidades do TJRR.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
