@@ -205,6 +205,19 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
     .res { grid-template-columns: 60px 1fr; }
     .res-code { grid-column: 2; justify-self: start; }
 }
+.admin-bar { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 14px; padding:10px 12px; background:#fff8e6; border:1px dashed #e3c26b; border-radius:12px; align-items:center; }
+.admin-bar .tag { font-size:.78rem; font-weight:700; color:#7a4a00; text-transform:uppercase; letter-spacing:.04em; margin-right:4px; }
+.btn-sm { min-height:38px; padding:0 14px; font-size:.85rem; border-radius:10px; }
+.btn-danger { background:#fdecec; color:#a31515; border:1px solid #f3c1c1; }
+.btn-danger:hover { background:#fbd9d9; }
+.form-f { display:block; margin:0 0 12px; font-size:.85rem; font-weight:700; color:var(--navy); }
+.form-f input, .form-f textarea { display:block; width:100%; margin-top:5px; padding:11px 12px; border:1px solid var(--blue-line); border-radius:10px; font:inherit; font-weight:400; color:#14233d; box-sizing:border-box; }
+.form-err { color:#a31515; background:#fdecec; border-radius:10px; padding:10px 12px; margin:0 0 12px; font-size:.88rem; }
+.adm-sec { margin:18px 0 0; } .adm-sec h3 { margin:0 0 8px; color:var(--navy); font-size:1rem; }
+.adm-row { display:flex; gap:10px; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--blue-line); font-size:.88rem; flex-wrap:wrap; }
+.adm-row small { color:var(--muted); }
+.adm-add { display:flex; gap:8px; } .adm-add input { flex:1; min-width:0; padding:10px 12px; border:1px solid var(--blue-line); border-radius:10px; font:inherit; }
+.modal.wide { max-width:640px; max-height:90vh; overflow:auto; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
@@ -225,6 +238,7 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
 <footer class="footer"><div class="container" id="footer"></div></footer>
 <div id="modalRoot"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 // ============================================================
 // CONFIG
@@ -233,6 +247,10 @@ const REPO = 'Rafajames/MapTec-TJRR';
 const DATA_URL = 'data/maptec.json';
 const CACHE_DATA = 'maptec_data_cache_v3';
 const CACHE_DATE = 'maptec_updated_v3';
+const SB_URL = 'https://qkemhenapokxbzfgubdx.supabase.co';
+const SB_KEY = 'sb_publishable_0uLZU8Bo8b2p9ehevMnafw_Y8LGZur-'; // chave pública (segurança = RLS no banco)
+const sb = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SB_URL, SB_KEY, { auth: { flowType: 'pkce', persistSession: true, detectSessionInUrl: true } }) : null;
 
 // ============================================================
 // ÍCONES
@@ -253,7 +271,11 @@ const ICONS = {
     chevron: '<path d="M9 6l6 6-6 6"/>',
     edit: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>',
     wifi: '<path d="M2 8.8a15 15 0 0120 0M5 12.5a10 10 0 0114 0M8.5 16a5 5 0 017 0M12 19.5h.01"/>',
-    check: '<path d="M20 6L9 17l-5-5"/>'
+    check: '<path d="M20 6L9 17l-5-5"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/>',
+    logout: '<path d="M9 21H5a1 1 0 01-1-1V4a1 1 0 011-1h4M16 17l5-5-5-5M21 12H9"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/>'
 };
 function ico(name, size) {
     size = size || 20;
@@ -321,21 +343,47 @@ const totalSalas = p => p.divisoes.reduce((a, d) => a + d.unidades.length, 0);
 // ============================================================
 let DATA = null;
 let INDEX = [];
-let state = { offline: false, updatedAt: localStorage.getItem(CACHE_DATE) || '' };
+let state = { offline: false, updatedAt: localStorage.getItem(CACHE_DATE) || '', user: null, admin: false, owner: false, trash: [] };
+const byOrdem = (a, b) => (a.ordem || 0) - (b.ordem || 0);
+
+function mapRemote(rows) {
+    const predios = [], trash = [];
+    rows.sort(byOrdem).forEach(p => {
+        const nc = p.nome_curto || p.nome;
+        if (p.deleted_at) { trash.push({ tab: 'predios', id: p.id, tipo: 'Prédio', nome: p.nome, at: p.deleted_at }); return; }
+        const divs = [];
+        (p.divisoes || []).sort(byOrdem).forEach(d => {
+            if (d.deleted_at) { trash.push({ tab: 'divisoes', id: d.id, tipo: 'Andar/bloco', nome: d.nome + ' — ' + nc, at: d.deleted_at }); return; }
+            const us = [];
+            (d.unidades || []).sort(byOrdem).forEach(u => {
+                if (u.deleted_at) { trash.push({ tab: 'unidades', id: u.id, tipo: 'Sala', nome: [u.sala, u.nome].filter(Boolean).join(' ') + ' — ' + nc + ' / ' + d.nome, at: u.deleted_at }); return; }
+                us.push({ id: u.id, sala: u.sala, nome: u.nome, codigo: u.codigo, obs: u.obs });
+            });
+            divs.push({ id: d.id, nome: d.nome, unidades: us });
+        });
+        predios.push({ id: p.id, nome: p.nome, nomeCurto: p.nome_curto, subtitulo: p.subtitulo, endereco: { logradouro: p.logradouro, bairro: p.bairro, cidade: p.cidade, cep: p.cep }, foto: p.foto, divisoes: divs });
+    });
+    return { data: { versao: 'db', predios }, trash };
+}
 
 async function loadData() {
+    state.offline = false;
     try {
-        const r = await fetch(DATA_URL, { cache: 'no-cache' });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const fromSW = r.headers.get('X-MapTec-Cache') === '1';
-        DATA = await r.json();
-        if (!fromSW) localStorage.setItem(CACHE_DATA, JSON.stringify(DATA));
-        state.offline = fromSW;
-        const lm = r.headers.get('last-modified');
-        if (!state.updatedAt && lm) state.updatedAt = new Date(lm).toISOString();
+        if (!sb) throw new Error('sem biblioteca');
+        const { data, error } = await sb.from('predios').select('*,divisoes(*,unidades(*))');
+        if (error) throw error;
+        if (!data || !data.length) throw new Error('banco vazio');
+        const m = mapRemote(data);
+        DATA = m.data; state.trash = m.trash;
+        localStorage.setItem(CACHE_DATA, JSON.stringify(DATA));
+        loadUpdatedAt();
     } catch (e) {
+        state.trash = [];
         const c = localStorage.getItem(CACHE_DATA);
         if (c) { DATA = JSON.parse(c); state.offline = true; }
+        else {
+            try { const r = await fetch(DATA_URL); if (r.ok) { DATA = await r.json(); state.offline = true; } } catch (e2) { /* sem dados */ }
+        }
     }
     if (!DATA) return false;
     buildIndex();
@@ -350,14 +398,12 @@ function buildIndex() {
         });
     })));
 }
-// A data vem do último commit REAL do arquivo de dados (API pública do GitHub).
+// A data vem do banco: maior "atualizado em" entre prédios, andares e salas ativos.
 async function loadUpdatedAt() {
     try {
-        const r = await fetch(`https://api.github.com/repos/${REPO}/commits?path=${encodeURIComponent(DATA_URL)}&per_page=1`);
-        if (!r.ok) return;
-        const j = await r.json();
-        const iso = j && j[0] && j[0].commit && j[0].commit.committer && j[0].commit.committer.date;
-        if (iso) { state.updatedAt = iso; localStorage.setItem(CACHE_DATE, iso); renderFooter(); renderBanner(); }
+        const { data, error } = await sb.rpc('ultima_atualizacao');
+        if (error || !data) return;
+        state.updatedAt = data; localStorage.setItem(CACHE_DATE, data); renderFooter(); renderBanner();
     } catch (e) { /* mantém a data em cache */ }
 }
 
@@ -379,9 +425,16 @@ function renderBanner() {
         : '';
 }
 function renderTopActions(isHome) {
+    const canAdmin = state.admin && !state.offline;
     $('topActions').innerHTML = (isHome ? '' : `<a class="top-btn" href="#/">${ico('home')}<span>Início</span></a>`)
-        + `<button class="top-btn" id="aboutBtn" type="button">${ico('info')}<span>Sobre o sistema</span></button>`;
+        + (canAdmin ? `<button class="top-btn" id="admBtn" type="button">${ico('shield')}<span>Administração</span></button>` : '')
+        + `<button class="top-btn" id="aboutBtn" type="button">${ico('info')}<span>Sobre</span></button>`
+        + (sb ? (state.user ? `<button class="top-btn" id="outBtn" type="button" title="${esc(state.user.email || '')}">${ico('logout')}<span>Sair</span></button>`
+                            : `<button class="top-btn" id="inBtn" type="button">${ico('user')}<span>Entrar</span></button>`) : '');
     $('aboutBtn').addEventListener('click', openAbout);
+    if ($('admBtn')) $('admBtn').addEventListener('click', openAdmin);
+    if ($('outBtn')) $('outBtn').addEventListener('click', () => sb.auth.signOut());
+    if ($('inBtn')) $('inBtn').addEventListener('click', () => sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } }).then(r => { if (r.error) toast('Não foi possível iniciar o login com o Google.'); }));
 }
 function toast(msg) {
     const t = document.createElement('div');
@@ -397,6 +450,7 @@ function renderHome() {
     document.title = 'MapTec · TJRR';
     renderTopActions(true);
     const hero = DATA.predios[0] ? DATA.predios[0].foto : '';
+    const adm = state.admin && !state.offline;
     $('app').innerHTML = `
         <section class="hero" style="--hero-img:url('${esc(hero)}')">
             <div class="container">
@@ -410,10 +464,11 @@ function renderHome() {
                 </form>
             </div>
         </section>
-        <div class="container" id="homeBody"></div>`;
+        <div class="container">${adm ? `<div class="admin-bar" style="margin-top:16px"><span class="tag">Administrador</span><button class="btn btn-soft btn-sm" id="newPredio" type="button">${ico('plus', 16)} Novo prédio</button></div>` : ''}<div id="homeBody"></div></div>`;
     const input = $('q');
     input.addEventListener('input', () => { homeQuery = input.value; renderHomeBody(); });
     $('homeForm').addEventListener('submit', e => { e.preventDefault(); input.blur(); const f = document.querySelector('.res'); if (f) f.focus(); });
+    if ($('newPredio')) $('newPredio').addEventListener('click', () => formPredio(null));
     renderHomeBody();
 }
 function searchAll(q) {
@@ -471,7 +526,7 @@ let curBuilding = null;
 const mapsUrl = p => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent([p.endereco.logradouro, p.endereco.bairro, p.endereco.cidade, p.endereco.cep].filter(Boolean).join(', '));
 
 function renderBuilding(p, aslug) {
-    const andar = p.divisoes.find(d => slugify(d.nome) === aslug) || p.divisoes[0];
+    const andar = p.divisoes.find(d => slugify(d.nome) === aslug) || p.divisoes[0] || { id: null, nome: 'Nenhum andar cadastrado', unidades: [] };
     document.title = (p.nomeCurto || p.nome) + ' · MapTec';
     renderTopActions(false);
     const e = p.endereco;
@@ -496,6 +551,13 @@ function renderBuilding(p, aslug) {
             </aside>
             <section class="panel" aria-labelledby="floorTitle">
                 <div class="panel-head"><span class="ico-wrap">${ico('layers', 30)}</span><div><h2 id="floorTitle">${esc(andar.nome)}</h2><p id="floorSub"></p></div></div>
+                ${state.admin && !state.offline ? `<div class="admin-bar"><span class="tag">Administrador</span>
+                    <button class="btn btn-soft btn-sm" id="aNewRoom" type="button" ${andar.id ? '' : 'disabled'}>${ico('plus', 16)} Nova sala</button>
+                    <button class="btn btn-soft btn-sm" id="aNewFloor" type="button">${ico('plus', 16)} Novo andar/bloco</button>
+                    <button class="btn btn-soft btn-sm" id="aEditFloor" type="button" ${andar.id ? '' : 'disabled'}>${ico('edit', 16)} Renomear andar</button>
+                    <button class="btn btn-danger btn-sm" id="aDelFloor" type="button" ${andar.id ? '' : 'disabled'}>Excluir andar</button>
+                    <button class="btn btn-soft btn-sm" id="aEditPredio" type="button">${ico('edit', 16)} Editar prédio</button>
+                    <button class="btn btn-danger btn-sm" id="aDelPredio" type="button">Excluir prédio</button></div>` : ''}
                 <div class="tools">
                     <label class="field">${ico('search', 20)}<span class="sr">Buscar neste prédio</span><input id="bq" type="search" placeholder="Buscar por número ou setor…" autocomplete="off" value="${esc(buildingQuery)}"></label>
                     <div class="view-toggle" role="group" aria-label="Modo de exibição">
@@ -506,6 +568,10 @@ function renderBuilding(p, aslug) {
                 <div id="roomsBox"></div>
             </section>
         </div></div>`;
+    const on = (id, fn) => { if ($(id)) $(id).addEventListener('click', fn); };
+    on('aNewRoom', () => formUnidade(p, andar, null)); on('aNewFloor', () => formAndar(p, null)); on('aEditFloor', () => formAndar(p, andar));
+    on('aDelFloor', () => confirmaExcluir('o andar/bloco "' + andar.nome + '" (as salas dele ficam ocultas junto)', 'divisoes', andar.id));
+    on('aEditPredio', () => formPredio(p)); on('aDelPredio', () => confirmaExcluir('o prédio "' + (p.nomeCurto || p.nome) + '" (andares e salas ficam ocultos junto)', 'predios', p.id));
     const draw = () => drawRooms(p, andar);
     $('bq').addEventListener('input', () => { buildingQuery = $('bq').value; draw(); });
     $('vGrid').addEventListener('click', () => setView('grid', draw));
@@ -574,10 +640,13 @@ function openRoom(p, aslug, u) {
         ${u.codigo ? `<div class="m-code"><strong><span class="cod-l">Código</span> ${esc(u.codigo)}</strong><button class="btn btn-primary" type="button" id="copyBtn" aria-label="Copiar ${esc(u.codigo)}">${ico('copy', 18)} Copiar</button></div>` : ''}
         ${u.obs ? `<div class="m-obs">${ico('info', 20)}<span>${esc(u.obs)}</span></div>` : ''}
         <div class="m-actions">
+            ${state.admin && !state.offline ? `<button class="btn btn-soft" type="button" id="rEdit">${ico('edit', 18)} Editar</button><button class="btn btn-danger" type="button" id="rDel">Excluir</button>` : ''}
             <a class="btn btn-soft" href="${esc(sug)}" target="_blank" rel="noopener noreferrer">${ico('edit', 18)} Sugerir correção</a>
             <a class="btn btn-primary" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener noreferrer">${ico('pin', 18)} Ver prédio no Google Maps</a>
         </div>
     </div>`, () => { location.hash = base; });
+    if ($('rEdit')) $('rEdit').addEventListener('click', () => formUnidade(p, andar, u));
+    if ($('rDel')) $('rDel').addEventListener('click', () => confirmaExcluir('a sala ' + (u.sala || fmtNome(u.nome)), 'unidades', u.id));
     const cb = $('copyBtn');
     if (cb) cb.addEventListener('click', () => copiar(u.codigo));
 }
@@ -601,9 +670,140 @@ function openAbout() {
             ${it('search', 'Busca rápida', 'Encontre por número da sala, setor, unidade ou prédio.')}
             ${it('building', 'Navegação simples', 'Escolha o prédio e o andar para ver todas as salas.')}
             ${it('edit', 'Correções', 'Encontrou algo errado? Use "Sugerir correção" na sala.')}
+            ${it('shield', 'Dados no servidor', 'As salas ficam em banco de dados e só administradores autorizados podem alterar.')}
             ${it('check', 'Funciona sem internet', 'Os últimos dados consultados ficam salvos no aparelho.')}
         </div>
     </div>`, hideModal);
+}
+
+// ============================================================
+// ADMINISTRAÇÃO (só funciona para quem está na tabela admins; o banco valida tudo via RLS)
+// ============================================================
+async function refreshAuth() {
+    state.user = null; state.admin = false; state.owner = false;
+    if (!sb) return;
+    try {
+        const { data } = await sb.auth.getSession();
+        state.user = data && data.session ? data.session.user : null;
+        if (state.user) {
+            const [a, o] = await Promise.all([sb.rpc('is_admin'), sb.rpc('is_owner')]);
+            state.admin = a.data === true; state.owner = o.data === true;
+        }
+    } catch (e) { /* sem rede: segue como visitante */ }
+}
+async function refresh() {
+    await loadData(); renderBanner(); renderFooter(); rendered = ''; route();
+}
+const closeTo = () => { hideModal(); };
+function msgErro(e) {
+    const m = (e && e.message) || '';
+    if (/duplicate|unique|divisoes_nome_uq/i.test(m)) return 'Já existe um item com esse nome neste local.';
+    if (/check constraint|violates check/i.test(m)) return 'Dados inválidos: confira os campos (informe ao menos o número ou o nome; respeite os tamanhos).';
+    if (/Failed to fetch|NetworkError|network/i.test(m)) return 'Sem conexão com o servidor. Nada foi salvo.';
+    if (/row-level security|permission|JWT/i.test(m)) return 'Sem permissão para esta ação. Entre novamente com uma conta de administrador.';
+    return m || 'Erro ao salvar. Nada foi alterado.';
+}
+// Executa a escrita; só retorna sucesso se o banco devolveu a linha gravada.
+async function gravar(q) {
+    const { data, error } = await q;
+    if (error) throw error;
+    if (!data || !data.length) throw new Error('Sem permissão: o banco não aplicou a alteração.');
+    return data;
+}
+function openForm(title, fields, init, onSubmit) {
+    init = init || {};
+    showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="fTitle">
+        <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
+        <h2 id="fTitle" style="margin:0 40px 14px 0;color:var(--navy)">${esc(title)}</h2>
+        <form id="admForm" novalidate><div id="fErr"></div>
+        ${fields.map(f => `<label class="form-f">${esc(f.label)}${f.req ? ' *' : ''}${f.area ? `<textarea name="${f.k}" rows="2" maxlength="${f.max}">${esc(init[f.k] || '')}</textarea>` : `<input name="${f.k}" maxlength="${f.max}" value="${esc(init[f.k] || '')}" ${f.ph ? `placeholder="${esc(f.ph)}"` : ''} ${f.ro ? 'readonly' : ''}>`}</label>`).join('')}
+        <div class="m-actions"><button class="btn btn-soft" type="button" id="fCancel">Cancelar</button><button class="btn btn-primary" type="submit" id="fOk">Salvar</button></div></form></div>`, closeTo);
+    $('fCancel').addEventListener('click', closeTo);
+    $('admForm').addEventListener('submit', async ev => {
+        ev.preventDefault();
+        const v = {}; fields.forEach(f => v[f.k] = $('admForm').elements[f.k].value.trim());
+        const falta = fields.find(f => f.req && !v[f.k]);
+        if (falta) { $('fErr').innerHTML = `<p class="form-err">Preencha: ${esc(falta.label)}.</p>`; return; }
+        $('fOk').disabled = true; $('fOk').textContent = 'Salvando…';
+        try { await onSubmit(v); hideModal(); await refresh(); toast('Salvo.'); }
+        catch (e) { $('fErr').innerHTML = `<p class="form-err" role="alert">${esc(msgErro(e))}</p>`; $('fOk').disabled = false; $('fOk').textContent = 'Salvar'; }
+    });
+    const first = $('admForm').querySelector('input:not([readonly]),textarea'); if (first) first.focus();
+}
+const proxOrdem = arr => (arr.length ? arr.length : 0) + 1000 + Date.now() % 1000; // vai para o fim da lista
+function formUnidade(p, andar, u) {
+    openForm(u ? 'Editar sala' : 'Nova sala — ' + andar.nome, [
+        { k: 'sala', label: 'Número da sala (opcional)', max: 20 }, { k: 'nome', label: 'Nome do setor/unidade', max: 200 },
+        { k: 'codigo', label: 'Código (opcional)', max: 30 }, { k: 'obs', label: 'Observação (opcional)', max: 500, area: true }], u,
+        async v => {
+            if (!v.sala && !v.nome) throw new Error('check constraint');
+            if (u) await gravar(sb.from('unidades').update(v).eq('id', u.id).select());
+            else await gravar(sb.from('unidades').insert({ ...v, divisao_id: andar.id, ordem: proxOrdem(andar.unidades) }).select());
+        });
+}
+function formAndar(p, d) {
+    openForm(d ? 'Renomear andar/bloco' : 'Novo andar/bloco — ' + (p.nomeCurto || p.nome), [{ k: 'nome', label: 'Nome (ex.: 3º Piso, Bloco 2)', max: 100, req: true }], d,
+        async v => {
+            if (d) await gravar(sb.from('divisoes').update(v).eq('id', d.id).select());
+            else await gravar(sb.from('divisoes').insert({ ...v, predio_id: p.id, ordem: proxOrdem(p.divisoes) }).select());
+            if (!d) location.hash = `#/predio/${p.id}/${slugify(v.nome)}`;
+        });
+}
+function formPredio(p) {
+    const fields = [{ k: 'nome', label: 'Nome completo', max: 200, req: true }, { k: 'nome_curto', label: 'Nome curto', max: 60, req: true },
+        { k: 'subtitulo', label: 'Subtítulo', max: 200 }, { k: 'logradouro', label: 'Endereço', max: 200 }, { k: 'bairro', label: 'Bairro', max: 100 },
+        { k: 'cidade', label: 'Cidade', max: 100 }, { k: 'cep', label: 'CEP', max: 12 }, { k: 'foto', label: 'Foto (caminho em assets/predios/ ou link)', max: 300 }];
+    if (!p) fields.unshift({ k: 'id', label: 'Identificador (letras minúsculas, números e hífen)', max: 40, req: true, ph: 'ex.: forum-novo' });
+    const init = p ? { nome: p.nome, nome_curto: p.nomeCurto, subtitulo: p.subtitulo, logradouro: p.endereco.logradouro, bairro: p.endereco.bairro, cidade: p.endereco.cidade, cep: p.endereco.cep, foto: p.foto } : { cidade: 'Boa Vista – RR' };
+    openForm(p ? 'Editar prédio' : 'Novo prédio', fields, init, async v => {
+        if (p) await gravar(sb.from('predios').update(v).eq('id', p.id).select());
+        else { if (!/^[a-z0-9-]{2,40}$/.test(v.id)) throw new Error('Identificador inválido: use 2 a 40 letras minúsculas, números ou hífen.'); await gravar(sb.from('predios').insert({ ...v, ordem: DATA.predios.length + 1 }).select()); location.hash = '#/predio/' + v.id; }
+    });
+}
+function confirmaExcluir(desc, tab, id) {
+    showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+        <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
+        <h2 id="cTitle" style="margin:0 40px 10px 0;color:var(--navy)">Excluir?</h2>
+        <p style="margin:0">Você vai excluir ${esc(desc)}. O item vai para a lixeira e pode ser restaurado em Administração.</p>
+        <div id="fErr" style="margin-top:12px"></div>
+        <div class="m-actions"><button class="btn btn-soft" type="button" id="cNo">Cancelar</button><button class="btn btn-danger" type="button" id="cYes">Excluir</button></div></div>`, closeTo);
+    $('cNo').addEventListener('click', closeTo);
+    $('cYes').addEventListener('click', async () => {
+        $('cYes').disabled = true; $('cYes').textContent = 'Excluindo…';
+        try {
+            await gravar(sb.from(tab).update({ deleted_at: new Date().toISOString() }).eq('id', id).select());
+            hideModal(); if (tab === 'predios') location.hash = '#/'; else if (tab === 'unidades') { const h = location.hash.split('/'); location.hash = h.slice(0, 4).join('/'); }
+            await refresh(); toast('Enviado para a lixeira.');
+        } catch (e) { $('fErr').innerHTML = `<p class="form-err" role="alert">${esc(msgErro(e))}</p>`; $('cYes').disabled = false; $('cYes').textContent = 'Excluir'; }
+    });
+}
+async function openAdmin() {
+    showModal(`<div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="gTitle">
+        <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
+        <h2 id="gTitle" style="margin:0 40px 4px 0;color:var(--navy)">Administração</h2>
+        <p style="margin:0;color:var(--muted);font-size:.88rem">Conectado como ${esc(state.user.email)}${state.owner ? ' (administrador principal)' : ''}</p>
+        <div id="admBody"><p class="empty">Carregando…</p></div></div>`, hideModal);
+    const body = $('admBody');
+    try {
+        const [ad, hi] = await Promise.all([sb.rpc('listar_admins'), sb.from('historico').select('*').order('id', { ascending: false }).limit(40)]);
+        if (ad.error) throw ad.error; if (hi.error) throw hi.error;
+        const dt = iso => new Date(iso).toLocaleString('pt-BR', { timeZone: 'America/Manaus', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+        const desc = h => { const d = h.depois || h.antes || {}; return h.tabela === 'admins' ? h.registro_id : (d.sala || '') + ' ' + (d.nome || d.nome_curto || ''); };
+        body.innerHTML = `
+        <div class="adm-sec"><h3>Administradores</h3>
+            ${ad.data.map(a => `<div class="adm-row"><span>${esc(a.email)}${a.is_owner ? ' <small>(principal)</small>' : ''}</span>${state.owner && !a.is_owner ? `<button class="btn btn-danger btn-sm" data-rm="${esc(a.email)}" type="button">Remover</button>` : ''}</div>`).join('')}
+            ${state.owner ? `<form class="adm-add" id="addAdm" style="margin-top:10px"><input type="email" id="addEmail" placeholder="e-mail Google da pessoa" required maxlength="200" aria-label="E-mail para promover"><button class="btn btn-primary btn-sm" type="submit">Promover a administrador</button></form><p style="font-size:.8rem;color:var(--muted);margin:6px 0 0">A pessoa precisa entrar com a conta Google desse e-mail.</p>` : '<p style="font-size:.85rem;color:var(--muted)">Só o administrador principal promove ou remove administradores.</p>'}
+            <div id="admErr"></div></div>
+        <div class="adm-sec"><h3>Lixeira</h3>${state.trash.length ? state.trash.map(t => `<div class="adm-row"><span>${esc(t.tipo)}: ${esc(fmtNome(t.nome))}<br><small>excluído em ${esc(dt(t.at))}</small></span><button class="btn btn-soft btn-sm" data-re="${t.tab}:${esc(t.id)}" type="button">Restaurar</button></div>`).join('') : '<p style="font-size:.88rem;color:var(--muted)">Vazia.</p>'}</div>
+        <div class="adm-sec"><h3>Histórico recente</h3>${hi.data.length ? hi.data.map(h => `<div class="adm-row"><span>${esc(h.acao)} ${esc(h.tabela === 'unidades' ? 'sala' : h.tabela === 'divisoes' ? 'andar' : h.tabela === 'predios' ? 'prédio' : 'admin')} <strong>${esc(fmtNome(desc(h)).trim())}</strong><br><small>${esc(h.usuario || '')} · ${esc(dt(h.em))}</small></span></div>`).join('') : '<p style="font-size:.88rem;color:var(--muted)">Sem alterações.</p>'}</div>`;
+        const erro = e => { $('admErr').innerHTML = `<p class="form-err" role="alert">${esc(msgErro(e))}</p>`; };
+        if ($('addAdm')) $('addAdm').addEventListener('submit', async ev => { ev.preventDefault(); const r = await sb.rpc('promover_admin', { p_email: $('addEmail').value }); if (r.error) return erro(r.error); toast('Administrador adicionado.'); openAdmin(); });
+        body.querySelectorAll('[data-rm]').forEach(b => b.addEventListener('click', async () => { const r = await sb.rpc('remover_admin', { p_email: b.dataset.rm }); if (r.error) return erro(r.error); toast('Administrador removido.'); openAdmin(); }));
+        body.querySelectorAll('[data-re]').forEach(b => b.addEventListener('click', async () => {
+            const [tab, id] = b.dataset.re.split(':'); b.disabled = true;
+            try { await gravar(sb.from(tab).update({ deleted_at: null }).eq('id', id).select()); await refresh(); toast('Restaurado.'); openAdmin(); } catch (e) { b.disabled = false; erro(e); }
+        }));
+    } catch (e) { body.innerHTML = `<p class="form-err" role="alert">${esc(msgErro(e))}</p>`; }
 }
 
 // ============================================================
@@ -620,7 +820,7 @@ function route() {
     }
     const p = DATA.predios.find(x => x.id === m[1]);
     if (!p) { location.hash = '#/'; return; }
-    const aslug = m[2] || slugify(p.divisoes[0].nome);
+    const aslug = m[2] || slugify((p.divisoes[0] || {}).nome || '');
     const key = 'b:' + p.id + ':' + aslug;
     if (rendered !== key) {
         if (!rendered.startsWith('b:' + p.id + ':')) buildingQuery = '';
@@ -640,14 +840,21 @@ window.addEventListener('hashchange', route);
 // ============================================================
 (async function init() {
     renderFooter();
+    await refreshAuth();
     const ok = await loadData();
     if (!ok) {
         $('app').innerHTML = `<div class="container"><div class="empty" role="alert"><strong>Não foi possível carregar os dados</strong>Verifique sua conexão e tente novamente.<br><br><button class="btn btn-primary" onclick="location.reload()">Tentar novamente</button></div></div>`;
         return;
     }
     renderBanner(); renderFooter();
+    if (location.search.includes('code=')) history.replaceState(null, '', location.pathname + location.hash);
     route();
-    loadUpdatedAt();
+    if (sb) sb.auth.onAuthStateChange((ev, session) => {
+        const uid = session && session.user ? session.user.id : null;
+        if (ev !== 'SIGNED_IN' && ev !== 'SIGNED_OUT') return;
+        if (uid === (state.user && state.user.id) || (!uid && !state.user)) return;
+        setTimeout(async () => { await refreshAuth(); await refresh(); }, 0);
+    });
 })();
 
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
