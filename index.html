@@ -171,7 +171,8 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
 .m-row .ico { color: var(--navy); margin-top: 2px; }
 .m-code { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--blue-soft); border: 1px solid var(--blue-line); border-radius: 12px; padding: 12px 16px; margin: 16px 0; }
 .m-code small { display: block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
-.m-code strong { display: inline-flex; align-items: center; gap: 10px; font-size: 1.9rem; color: var(--navy); line-height: 1.1; }
+.m-code .cod-l { font-size: 1rem; font-weight: 600; color: var(--muted); margin-right: 4px; }
+.m-code strong { display: inline-flex; align-items: baseline; gap: 6px; font-size: 1.9rem; color: var(--navy); line-height: 1.1; }
 .m-nocode { background: #f4f6fa; border-radius: 12px; padding: 12px 16px; margin: 16px 0; color: var(--muted); font-style: italic; }
 .m-obs { display: flex; gap: 10px; background: var(--blue-soft); border-radius: 10px; padding: 12px 14px; color: var(--navy); margin: 12px 0; }
 .m-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; margin-top: 20px; }
@@ -252,7 +253,6 @@ const ICONS = {
     chevron: '<path d="M9 6l6 6-6 6"/>',
     edit: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>',
     wifi: '<path d="M2 8.8a15 15 0 0120 0M5 12.5a10 10 0 0114 0M8.5 16a5 5 0 017 0M12 19.5h.01"/>',
-    phone: '<path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 011.7 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"/>',
     check: '<path d="M20 6L9 17l-5-5"/>'
 };
 function ico(name, size) {
@@ -457,7 +457,7 @@ function renderHomeBody() {
                 ${r.u.sala ? `<span class="res-num">${esc(r.u.sala)}</span>` : ''}
                 <span><div class="res-name">${r.u.nome ? highlight(fmtNome(r.u.nome), q) : '<em>Sem nome cadastrado</em>'}</div>
                 <div class="res-loc">${esc(r.p.nomeCurto || r.p.nome)} · ${esc(r.d.nome)}</div></span>
-                ${r.u.codigo ? `<span class="res-code">${ico('phone', 14)} ${highlight(r.u.codigo, q)}</span>` : ''}
+                ${r.u.codigo ? `<span class="res-code">Código ${highlight(r.u.codigo, q)}</span>` : ''}
             </a>`).join('')}</div>`;
 }
 
@@ -534,7 +534,7 @@ function drawRooms(p, andar) {
             ${r.u.sala ? `<span class="room-num">${highlight(r.u.sala, q)}</span>` : ''}
             <span class="room-name">${r.u.nome ? highlight(fmtNome(r.u.nome), q) : '<em>Sem nome cadastrado</em>'}</span>
             ${q ? `<span class="room-floor">${esc(r.d.nome)}</span>` : ''}
-            ${r.u.codigo ? `<span class="room-code">${ico('phone', 13)} ${highlight(r.u.codigo, q)}</span>` : ''}
+            ${r.u.codigo ? `<span class="room-code">Código ${highlight(r.u.codigo, q)}</span>` : ''}
         </a>`).join('')}</div>`;
 }
 
@@ -571,7 +571,7 @@ function openRoom(p, aslug, u) {
         <div class="m-row">${ico('building', 22)}<span>${esc(p.nomeCurto || p.nome)}</span></div>
         <div class="m-row">${ico('layers', 22)}<span>${esc(andar.nome)}</span></div>
         ${u.nome ? `<div class="m-row">${ico('door', 22)}<span>${esc(fmtNome(u.nome))}</span></div>` : ''}
-        ${u.codigo ? `<div class="m-code"><strong>${ico('phone', 26)} ${esc(u.codigo)}</strong><button class="btn btn-primary" type="button" id="copyBtn" aria-label="Copiar ${esc(u.codigo)}">${ico('copy', 18)} Copiar</button></div>` : ''}
+        ${u.codigo ? `<div class="m-code"><strong><span class="cod-l">Código</span> ${esc(u.codigo)}</strong><button class="btn btn-primary" type="button" id="copyBtn" aria-label="Copiar ${esc(u.codigo)}">${ico('copy', 18)} Copiar</button></div>` : ''}
         ${u.obs ? `<div class="m-obs">${ico('info', 20)}<span>${esc(u.obs)}</span></div>` : ''}
         <div class="m-actions">
             <a class="btn btn-soft" href="${esc(sug)}" target="_blank" rel="noopener noreferrer">${ico('edit', 18)} Sugerir correção</a>
