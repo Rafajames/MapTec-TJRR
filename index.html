@@ -7,7 +7,7 @@
 <meta name="description" content="MapTec: encontre salas, setores e unidades do Tribunal de Justiça do Estado de Roraima.">
 <meta name="theme-color" content="#0a2c63">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="assets/logo-tjrr-azul.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
 :root {
@@ -47,7 +47,7 @@ button { font-family: inherit; }
 .topbar { background: var(--navy); color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,.18); }
 .topbar .container { display: flex; align-items: center; gap: 16px; min-height: 64px; }
 .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: #fff; min-width: 0; }
-.brand-logo { width: 44px; height: 44px; border-radius: 10px; background: #fff; object-fit: cover; flex-shrink: 0; }
+.brand-logo { height: 50px; width: auto; flex-shrink: 0; display: block; }
 .brand-sep { width: 1px; height: 34px; background: rgba(255,255,255,.35); }
 .brand-name { font-size: 1.3rem; font-weight: 700; line-height: 1.15; letter-spacing: .2px; }
 .brand-sub { font-size: .82rem; color: rgba(255,255,255,.82); }
@@ -86,9 +86,9 @@ button { font-family: inherit; }
 .b-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
 .b-card img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; background: var(--blue-soft); }
 .b-body { padding: 14px 16px 16px; position: relative; }
-.b-name { margin: 0 0 4px; font-size: 1.05rem; color: var(--text); padding-right: 40px; }
+.b-name { margin: 0 0 4px; font-size: 1.05rem; color: var(--text); }
 .b-meta { display: flex; align-items: center; gap: 6px; font-size: .86rem; color: var(--muted); margin-top: 3px; }
-.b-go { position: absolute; right: 14px; bottom: 14px; width: 34px; height: 34px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; }
+.b-go { position: absolute; right: 14px; top: -18px; box-shadow: 0 2px 8px rgba(10,44,99,.3); border: 2px solid #fff; width: 34px; height: 34px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* ===== Search results ===== */
@@ -191,6 +191,7 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
 @media (max-width: 640px) {
     .container { padding: 0 14px; }
     .brand-name { font-size: 1.1rem; }
+    .brand-logo { height: 42px; }
     .brand-sep, .top-btn span { display: none; }
     .hero .container { padding-top: 28px; padding-bottom: 30px; }
     .hero { background-image: linear-gradient(180deg, #f1f6fe 0%, rgba(241,246,254,.9) 55%, rgba(241,246,254,.6) 100%), var(--hero-img); }
@@ -211,7 +212,7 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
 <header class="topbar">
     <div class="container">
         <a class="brand" href="#/" aria-label="MapTec · TJRR — página inicial">
-            <img class="brand-logo" id="logo" alt="Logotipo do TJRR" src="https://avatars.githubusercontent.com/u/24796065?s=280&v=4" onerror="this.style.display='none'">
+            <img class="brand-logo" id="logo" alt="Poder Judiciário do Estado de Roraima" src="assets/logo-tjrr-branco.png" width="78" height="50">
             <span class="brand-sep"></span>
             <span><span class="brand-name">MapTec · TJRR</span><br><span class="brand-sub">Salas, setores e unidades</span></span>
         </a>
@@ -404,7 +405,7 @@ function renderHome() {
                 <form class="searchbar" id="homeForm" role="search">
                     ${ico('search', 22)}
                     <label class="sr" for="q">Buscar sala, setor ou unidade</label>
-                    <input id="q" type="search" placeholder="Buscar sala, setor ou unidade…" autocomplete="off" value="${esc(homeQuery)}">
+                    <input id="q" type="search" placeholder="Buscar sala ou setor…" autocomplete="off" value="${esc(homeQuery)}">
                     <button class="btn btn-primary" type="submit"><span>Buscar</span>${ico('arrow')}</button>
                 </form>
             </div>

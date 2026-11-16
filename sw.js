@@ -1,8 +1,8 @@
 // Service worker do MapTec: rede primeiro (sempre pega a versão nova); sem conexão, usa o cache.
 // Respostas servidas do cache recebem o cabeçalho X-MapTec-Cache para o app avisar que os dados podem estar desatualizados.
-const CACHE = 'maptec-v3';
+const CACHE = 'maptec-v4';
 const BASE = ['./', 'index.html', 'manifest.json', 'data/maptec.json', 'icon-192.png', 'icon-512.png',
-    'assets/predios/sede.jpg', 'assets/predios/cidadania.jpg', 'assets/predios/criminal.jpg', 'assets/predios/palacio.jpg', 'assets/predios/sobral.jpg'];
+    'assets/logo-tjrr-branco.png', 'assets/predios/sede.jpg', 'assets/predios/cidadania.jpg', 'assets/predios/criminal.jpg', 'assets/predios/palacio.jpg', 'assets/predios/sobral.jpg'];
 
 self.addEventListener('install', e => {
     e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE)).then(() => self.skipWaiting()));
