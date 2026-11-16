@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MapTec · TJRR</title>
-<meta name="description" content="MapTec: encontre salas, setores, unidades e códigos de transferência do Tribunal de Justiça do Estado de Roraima.">
+<meta name="description" content="MapTec: encontre salas, setores e unidades do Tribunal de Justiça do Estado de Roraima.">
 <meta name="theme-color" content="#0a2c63">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
@@ -99,7 +99,6 @@ button { font-family: inherit; }
 .res-num { background: var(--blue-soft); color: var(--navy); font-weight: 800; font-size: 1.15rem; text-align: center; border-radius: 10px; padding: 12px 6px; }
 .res-name { font-weight: 700; font-size: 1rem; }
 .res-loc { color: var(--muted); font-size: .86rem; margin-top: 2px; }
-.res-code { background: var(--navy); color: #fff; font-weight: 700; font-size: .9rem; border-radius: 8px; padding: 6px 12px; white-space: nowrap; }
 mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; }
 .empty { text-align: center; padding: 56px 20px; color: var(--muted); }
 .empty strong { display: block; font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
@@ -147,13 +146,11 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
 .room:hover { border-color: var(--blue); box-shadow: var(--shadow); transform: translateY(-2px); }
 .room-num { font-size: 1.35rem; font-weight: 800; color: var(--navy); line-height: 1; }
 .room-name { overflow-wrap: anywhere; font-size: .8rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.room-code { margin-top: auto; align-self: flex-start; background: var(--blue-soft); color: var(--navy); font-weight: 700; font-size: .78rem; border-radius: 6px; padding: 2px 8px; }
 .room-floor { font-size: .72rem; color: var(--blue); font-weight: 700; }
 .rooms.list { display: grid; gap: 8px; }
 .rooms.list .room { flex-direction: row; align-items: center; gap: 14px; min-height: 0; padding: 10px 14px; }
 .rooms.list .room-num { min-width: 64px; font-size: 1.1rem; }
 .rooms.list .room-name { flex: 1; font-size: .92rem; color: var(--text); -webkit-line-clamp: 2; }
-.rooms.list .room-code { margin: 0; }
 
 /* ===== Modal ===== */
 .overlay { position: fixed; inset: 0; background: rgba(8, 24, 54, .55); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 3000; animation: fade .18s ease; }
@@ -167,10 +164,6 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
 .m-head h2 { margin: 0; font-size: 1.6rem; color: var(--text); line-height: 1.15; }
 .m-row { display: flex; gap: 12px; align-items: flex-start; font-size: 1.02rem; margin: 12px 0; }
 .m-row .ico { color: var(--navy); margin-top: 2px; }
-.m-code { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--blue-soft); border: 1px solid var(--blue-line); border-radius: 12px; padding: 12px 16px; margin: 16px 0; }
-.m-code small { display: block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
-.m-code strong { font-size: 1.9rem; color: var(--navy); line-height: 1.1; }
-.m-nocode { background: #f4f6fa; border-radius: 12px; padding: 12px 16px; margin: 16px 0; color: var(--muted); font-style: italic; }
 .m-obs { display: flex; gap: 10px; background: var(--blue-soft); border-radius: 10px; padding: 12px 14px; color: var(--navy); margin: 12px 0; }
 .m-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; margin-top: 20px; }
 .about-list { display: grid; gap: 14px; margin: 18px 0 4px; }
@@ -199,7 +192,6 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
     .modal { padding: 20px; }
     .m-head h2 { font-size: 1.35rem; }
     .res { grid-template-columns: 60px 1fr; }
-    .res-code { grid-column: 2; justify-self: start; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
@@ -211,7 +203,7 @@ mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; 
         <a class="brand" href="#/" aria-label="MapTec · TJRR — página inicial">
             <img class="brand-logo" id="logo" alt="Logotipo do TJRR" src="https://avatars.githubusercontent.com/u/24796065?s=280&v=4" onerror="this.style.display='none'">
             <span class="brand-sep"></span>
-            <span><span class="brand-name">MapTec · TJRR</span><br><span class="brand-sub">Salas e códigos de transferência</span></span>
+            <span><span class="brand-name">MapTec · TJRR</span><br><span class="brand-sub">Salas, setores e unidades</span></span>
         </a>
         <div class="top-actions" id="topActions"></div>
     </div>
@@ -342,7 +334,7 @@ function buildIndex() {
     DATA.predios.forEach(p => p.divisoes.forEach(d => d.unidades.forEach((u, i) => {
         INDEX.push({
             p, d, u, aslug: slugify(d.nome),
-            hay: norm([u.nome, u.sala ? 'sala ' + u.sala + ' ' + semZeros(u.sala) : 's/n sem numero', u.codigo, u.obs, d.nome, p.nome, p.nomeCurto, p.subtitulo, p.endereco.bairro].join(' '))
+            hay: norm([u.nome, u.sala ? 'sala ' + u.sala + ' ' + semZeros(u.sala) : 's/n sem numero', u.obs, d.nome, p.nome, p.nomeCurto, p.subtitulo, p.endereco.bairro].join(' '))
         });
     })));
 }
@@ -365,7 +357,7 @@ function renderFooter() {
     const d = state.updatedAt ? fmtData(state.updatedAt) : '';
     $('footer').innerHTML = `
         <strong>MapTec · TJRR</strong>
-        <span>Ferramenta de consulta de salas, setores, unidades e códigos de transferência do Tribunal de Justiça do Estado de Roraima.</span>
+        <span>Ferramenta de consulta de salas, setores e unidades do Tribunal de Justiça do Estado de Roraima.</span>
         <span>Desenvolvido por <a href="https://github.com/Rafajames" target="_blank" rel="noopener noreferrer">Rafajames</a>${d ? ' · Base de salas atualizada em ' + d : ''}</span>`;
 }
 function renderBanner() {
@@ -400,8 +392,8 @@ function renderHome() {
                 <p>Use a busca ou selecione um prédio para visualizar os andares e salas disponíveis.</p>
                 <form class="searchbar" id="homeForm" role="search">
                     ${ico('search', 22)}
-                    <label class="sr" for="q">Buscar sala, setor, unidade ou código</label>
-                    <input id="q" type="search" placeholder="Buscar sala, setor ou código…" autocomplete="off" value="${esc(homeQuery)}">
+                    <label class="sr" for="q">Buscar sala, setor ou unidade</label>
+                    <input id="q" type="search" placeholder="Buscar sala, setor ou unidade…" autocomplete="off" value="${esc(homeQuery)}">
                     <button class="btn btn-primary" type="submit"><span>Buscar</span>${ico('arrow')}</button>
                 </form>
             </div>
@@ -419,7 +411,6 @@ function searchAll(q) {
         if (!t.every(x => r.hay.includes(x))) return;
         let s = 0;
         if (r.u.sala && semZeros(norm(r.u.sala)) === nq) s += 100;
-        if (r.u.codigo && norm(r.u.codigo) === nq) s += 90;
         if (nq && norm(r.u.nome).startsWith(nq)) s += 20;
         res.push({ r, s, i });
     });
@@ -444,7 +435,7 @@ function renderHomeBody() {
     }
     const res = searchAll(q), MAX = 80;
     if (!res.length) {
-        box.innerHTML = `<div class="empty" role="status"><strong>Nada encontrado para "${esc(q)}"</strong>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</div>`;
+        box.innerHTML = `<div class="empty" role="status"><strong>Nada encontrado para "${esc(q)}"</strong>Confira a grafia ou tente só parte do nome, o número da sala.</div>`;
         return;
     }
     box.innerHTML = `<div class="res-count" role="status" aria-live="polite">${plural(res.length, 'resultado', 'resultados')}${res.length > MAX ? ` — mostrando os ${MAX} primeiros; refine a busca` : ''}</div>
@@ -453,7 +444,6 @@ function renderHomeBody() {
                 <span class="res-num">${r.u.sala ? esc(r.u.sala) : 's/n'}</span>
                 <span><div class="res-name">${r.u.nome ? highlight(fmtNome(r.u.nome), q) : '<em>Sem nome cadastrado</em>'}</div>
                 <div class="res-loc">${esc(r.p.nomeCurto || r.p.nome)} · ${esc(r.d.nome)}</div></span>
-                ${r.u.codigo ? `<span class="res-code">Cód. ${highlight(r.u.codigo, q)}</span>` : ''}
             </a>`).join('')}</div>`;
 }
 
@@ -522,7 +512,7 @@ function drawRooms(p, andar) {
         ? `${plural(items.length, 'resultado', 'resultados')} em todo o prédio`
         : 'Selecione uma sala para ver mais informações';
     if (!items.length) {
-        $('roomsBox').innerHTML = `<div class="empty" role="status"><strong>Nenhuma sala encontrada</strong>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</div>`;
+        $('roomsBox').innerHTML = `<div class="empty" role="status"><strong>Nenhuma sala encontrada</strong>Confira a grafia ou tente só parte do nome, o número da sala.</div>`;
         return;
     }
     $('roomsBox').innerHTML = `<div class="rooms ${viewMode}">${items.map((r, i) => `
@@ -530,7 +520,6 @@ function drawRooms(p, andar) {
             <span class="room-num">${r.u.sala ? highlight(r.u.sala, q) : 's/n'}</span>
             <span class="room-name">${r.u.nome ? highlight(fmtNome(r.u.nome), q) : '<em>Sem nome cadastrado</em>'}</span>
             ${q ? `<span class="room-floor">${esc(r.d.nome)}</span>` : ''}
-            ${r.u.codigo ? `<span class="room-code">Cód. ${highlight(r.u.codigo, q)}</span>` : ''}
         </a>`).join('')}</div>`;
 }
 
@@ -560,43 +549,28 @@ document.addEventListener('keydown', e => {
 function openRoom(p, aslug, u) {
     const andar = p.divisoes.find(d => slugify(d.nome) === aslug) || p.divisoes[0];
     const base = `#/predio/${p.id}/${aslug}`;
-    const sug = `https://github.com/${REPO}/issues/new?title=${encodeURIComponent('Correção: ' + (u.sala ? 'sala ' + u.sala : fmtNome(u.nome)) + ' — ' + (p.nomeCurto || p.nome))}&body=${encodeURIComponent(`Prédio: ${p.nome}\nAndar/bloco: ${andar.nome}\nSala: ${u.sala || 's/n'}\nSetor/unidade: ${u.nome}\nCódigo atual: ${u.codigo || '—'}\n\nO que está incorreto ou faltando?\n`)}`;
+    const sug = `https://github.com/${REPO}/issues/new?title=${encodeURIComponent('Correção: ' + (u.sala ? 'sala ' + u.sala : fmtNome(u.nome)) + ' — ' + (p.nomeCurto || p.nome))}&body=${encodeURIComponent(`Prédio: ${p.nome}\nAndar/bloco: ${andar.nome}\nSala: ${u.sala || 's/n'}\nSetor/unidade: ${u.nome}\n\nO que está incorreto ou faltando?\n`)}`;
     showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
         <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
         <div class="m-head"><span class="m-badge">${ico('door', 32)}</span><h2 id="mTitle">${u.sala ? 'Sala ' + esc(u.sala) : esc(fmtNome(u.nome) || 'Sala sem número')}</h2></div>
         <div class="m-row">${ico('building', 22)}<span>${esc(p.nomeCurto || p.nome)}</span></div>
         <div class="m-row">${ico('layers', 22)}<span>${esc(andar.nome)}</span></div>
         ${u.nome ? `<div class="m-row">${ico('door', 22)}<span>${esc(fmtNome(u.nome))}</span></div>` : ''}
-        ${u.codigo
-            ? `<div class="m-code"><div><small>Código de transferência</small><strong>${esc(u.codigo)}</strong></div><button class="btn btn-primary" type="button" id="copyBtn">${ico('copy', 18)} Copiar</button></div>`
-            : `<div class="m-nocode">Sem código de transferência cadastrado.</div>`}
         ${u.obs ? `<div class="m-obs">${ico('info', 20)}<span>${esc(u.obs)}</span></div>` : ''}
         <div class="m-actions">
             <a class="btn btn-soft" href="${esc(sug)}" target="_blank" rel="noopener noreferrer">${ico('edit', 18)} Sugerir correção</a>
             <a class="btn btn-primary" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener noreferrer">${ico('pin', 18)} Ver prédio no Google Maps</a>
         </div>
     </div>`, () => { location.hash = base; });
-    const cb = $('copyBtn');
-    if (cb) cb.addEventListener('click', () => copiar(u.codigo));
-}
-function copiar(cod) {
-    const ok = () => toast('Código ' + cod + ' copiado.');
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(cod).then(ok, () => toast('Não foi possível copiar.'));
-    } else {
-        const ta = document.createElement('textarea'); ta.value = cod; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); ok(); } catch (e) { toast('Não foi possível copiar.'); }
-        ta.remove();
-    }
 }
 function openAbout() {
     const it = (i, t, d) => `<div class="about-item"><span class="circ">${ico(i, 22)}</span><div><strong>${t}</strong><span>${d}</span></div></div>`;
     showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aTitle">
         <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
         <h2 id="aTitle" style="margin:0 40px 6px 0;color:var(--navy)">MapTec · TJRR</h2>
-        <p style="margin:0;color:var(--muted)">Consulta rápida de salas, setores, unidades e códigos de transferência dos prédios do Tribunal de Justiça do Estado de Roraima.</p>
+        <p style="margin:0;color:var(--muted)">Consulta rápida de salas, setores e unidades dos prédios do Tribunal de Justiça do Estado de Roraima.</p>
         <div class="about-list">
-            ${it('search', 'Busca rápida', 'Encontre por número da sala, setor, unidade, código ou prédio.')}
+            ${it('search', 'Busca rápida', 'Encontre por número da sala, setor, unidade ou prédio.')}
             ${it('building', 'Navegação simples', 'Escolha o prédio e o andar para ver todas as salas.')}
             ${it('edit', 'Correções', 'Encontrou algo errado? Use "Sugerir correção" na sala.')}
             ${it('check', 'Funciona sem internet', 'Os últimos dados consultados ficam salvos no aparelho.')}
