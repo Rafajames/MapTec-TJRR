@@ -284,7 +284,9 @@ function fmtNome(s) {
 const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 const slugify = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const plural = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
-function tokens(q) { return norm(q).split(/\s+/).filter(Boolean); }
+// Números sem zeros à esquerda: "001", "01" e "1" são equivalentes.
+const semZeros = s => s.replace(/^0+(?=\d)/, '');
+function tokens(q) { return norm(q).split(/\s+/).filter(Boolean).map(semZeros); }
 function matches(hay, q) { return tokens(q).every(t => hay.includes(t)); }
 function highlight(text, q) {
     const tk = tokens(q), n = norm(text);
@@ -340,7 +342,7 @@ function buildIndex() {
     DATA.predios.forEach(p => p.divisoes.forEach(d => d.unidades.forEach((u, i) => {
         INDEX.push({
             p, d, u, aslug: slugify(d.nome),
-            hay: norm([u.nome, u.sala, u.codigo, u.obs, d.nome, p.nome, p.nomeCurto, p.subtitulo, p.endereco.bairro].join(' '))
+            hay: norm([u.nome, u.sala ? 'sala ' + u.sala + ' ' + semZeros(u.sala) : 's/n sem numero', u.codigo, u.obs, d.nome, p.nome, p.nomeCurto, p.subtitulo, p.endereco.bairro].join(' '))
         });
     })));
 }
@@ -411,14 +413,14 @@ function renderHome() {
     renderHomeBody();
 }
 function searchAll(q) {
-    const t = tokens(q), nq = norm(q).trim();
+    const t = tokens(q), nq = t.filter(x => x !== 'sala').join(' ');
     const res = [];
     INDEX.forEach((r, i) => {
         if (!t.every(x => r.hay.includes(x))) return;
         let s = 0;
-        if (r.u.sala && norm(r.u.sala) === nq) s += 100;
+        if (r.u.sala && semZeros(norm(r.u.sala)) === nq) s += 100;
         if (r.u.codigo && norm(r.u.codigo) === nq) s += 90;
-        if (norm(r.u.nome).startsWith(nq)) s += 20;
+        if (nq && norm(r.u.nome).startsWith(nq)) s += 20;
         res.push({ r, s, i });
     });
     res.sort((a, b) => b.s - a.s || a.i - b.i);
@@ -449,7 +451,7 @@ function renderHomeBody() {
         <div class="res-list">${res.slice(0, MAX).map(r => `
             <a class="res" href="#/predio/${esc(r.p.id)}/${r.aslug}/${esc(r.u.id)}">
                 <span class="res-num">${r.u.sala ? esc(r.u.sala) : 's/n'}</span>
-                <span><div class="res-name">${highlight(fmtNome(r.u.nome), q)}</div>
+                <span><div class="res-name">${r.u.nome ? highlight(fmtNome(r.u.nome), q) : '<em>Sem nome cadastrado</em>'}</div>
                 <div class="res-loc">${esc(r.p.nomeCurto || r.p.nome)} · ${esc(r.d.nome)}</div></span>
                 ${r.u.codigo ? `<span class="res-code">Cód. ${highlight(r.u.codigo, q)}</span>` : ''}
             </a>`).join('')}</div>`;
@@ -526,7 +528,7 @@ function drawRooms(p, andar) {
     $('roomsBox').innerHTML = `<div class="rooms ${viewMode}">${items.map((r, i) => `
         <a class="room" href="#/predio/${esc(p.id)}/${r.aslug}/${esc(r.u.id)}" style="animation-delay:${Math.min(i, 20) * 15}ms">
             <span class="room-num">${r.u.sala ? highlight(r.u.sala, q) : 's/n'}</span>
-            <span class="room-name">${highlight(fmtNome(r.u.nome), q)}</span>
+            <span class="room-name">${r.u.nome ? highlight(fmtNome(r.u.nome), q) : '<em>Sem nome cadastrado</em>'}</span>
             ${q ? `<span class="room-floor">${esc(r.d.nome)}</span>` : ''}
             ${r.u.codigo ? `<span class="room-code">Cód. ${highlight(r.u.codigo, q)}</span>` : ''}
         </a>`).join('')}</div>`;
@@ -561,10 +563,10 @@ function openRoom(p, aslug, u) {
     const sug = `https://github.com/${REPO}/issues/new?title=${encodeURIComponent('Correção: ' + (u.sala ? 'sala ' + u.sala : fmtNome(u.nome)) + ' — ' + (p.nomeCurto || p.nome))}&body=${encodeURIComponent(`Prédio: ${p.nome}\nAndar/bloco: ${andar.nome}\nSala: ${u.sala || 's/n'}\nSetor/unidade: ${u.nome}\nCódigo atual: ${u.codigo || '—'}\n\nO que está incorreto ou faltando?\n`)}`;
     showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
         <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
-        <div class="m-head"><span class="m-badge">${ico('door', 32)}</span><h2 id="mTitle">${u.sala ? 'Sala ' + esc(u.sala) : esc(fmtNome(u.nome))}</h2></div>
+        <div class="m-head"><span class="m-badge">${ico('door', 32)}</span><h2 id="mTitle">${u.sala ? 'Sala ' + esc(u.sala) : esc(fmtNome(u.nome) || 'Sala sem número')}</h2></div>
         <div class="m-row">${ico('building', 22)}<span>${esc(p.nomeCurto || p.nome)}</span></div>
         <div class="m-row">${ico('layers', 22)}<span>${esc(andar.nome)}</span></div>
-        <div class="m-row">${ico('door', 22)}<span>${esc(fmtNome(u.nome))}</span></div>
+        ${u.nome ? `<div class="m-row">${ico('door', 22)}<span>${esc(fmtNome(u.nome))}</span></div>` : ''}
         ${u.codigo
             ? `<div class="m-code"><div><small>Código de transferência</small><strong>${esc(u.codigo)}</strong></div><button class="btn btn-primary" type="button" id="copyBtn">${ico('copy', 18)} Copiar</button></div>`
             : `<div class="m-nocode">Sem código de transferência cadastrado.</div>`}
