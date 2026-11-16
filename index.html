@@ -4,1142 +4,267 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MapTec · TJRR</title>
-<meta name="description" content="MapTec: localizador de salas, setores e códigos de transferência do TJRR.">
-<meta name="theme-color" content="#004494">
+<meta name="description" content="MapTec: encontre salas, setores, unidades e códigos de transferência do Tribunal de Justiça do Estado de Roraima.">
+<meta name="theme-color" content="#0a2c63">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-    :root {
-        --primary-color: #004494;
-        --primary-dark: #00305e;
-        --primary-light: #e6f0fa;
-        --secondary-color: #f4f7f6;
-        --text-color: #333333;
-        --card-bg: #ffffff;
-        --border-color: #e1e4e8;
-        --accent: #e08300;
-    }
+:root {
+    --navy: #0a2c63;
+    --navy-2: #0d3a80;
+    --blue: #0b4fb0;
+    --blue-soft: #e8f0fb;
+    --blue-line: #cfe0f6;
+    --bg: #f3f6fb;
+    --card: #ffffff;
+    --text: #14233d;
+    --muted: #4a5b75;
+    --line: #dfe6f1;
+    --accent: #e08300;
+    --radius: 14px;
+    --shadow: 0 2px 10px rgba(10, 44, 99, .08);
+    --shadow-lg: 0 10px 30px rgba(10, 44, 99, .16);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.45; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+button { font-family: inherit; }
+:focus-visible { outline: 3px solid #f2a33a; outline-offset: 2px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: -999px; top: 8px; background: #fff; color: var(--navy); padding: 8px 14px; border-radius: 8px; z-index: 5000; }
+.skip:focus { left: 8px; }
+.ico { flex-shrink: 0; vertical-align: middle; }
+.hidden { display: none !important; }
+.container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
 
-    * { box-sizing: border-box; }
+/* ===== Topbar ===== */
+.topbar { background: var(--navy); color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,.18); }
+.topbar .container { display: flex; align-items: center; gap: 16px; min-height: 64px; }
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: #fff; min-width: 0; }
+.brand-logo { width: 44px; height: 44px; border-radius: 10px; background: #fff; object-fit: cover; flex-shrink: 0; }
+.brand-sep { width: 1px; height: 34px; background: rgba(255,255,255,.35); }
+.brand-name { font-size: 1.3rem; font-weight: 700; line-height: 1.15; letter-spacing: .2px; }
+.brand-sub { font-size: .82rem; color: rgba(255,255,255,.82); }
+.top-actions { margin-left: auto; display: flex; gap: 6px; }
+.top-btn { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #fff; border: 0; border-radius: 10px; padding: 10px 12px; min-height: 44px; font-size: .9rem; cursor: pointer; text-decoration: none; }
+.top-btn:hover { background: rgba(255,255,255,.12); }
 
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        margin: 0;
-        background-color: var(--secondary-color);
-        color: var(--text-color);
-    }
+.banner { background: #fff4e0; color: #7a4a00; border-bottom: 1px solid #f3d9a8; font-size: .88rem; }
+.banner .container { padding-top: 9px; padding-bottom: 9px; display: flex; gap: 8px; align-items: center; }
 
-    header {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        background-color: var(--primary-color);
-        background-image: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(0,0,0,0.10));
-        box-shadow: 0 3px 12px rgba(0,0,0,0.2);
-        z-index: 1000;
-        border-radius: 0 0 16px 16px;
-    }
+/* ===== Hero ===== */
+.hero {
+    background-color: #eaf2fd;
+    background-image: linear-gradient(90deg, #f1f6fe 0%, #f1f6fe 38%, rgba(241,246,254,.55) 62%, rgba(241,246,254,.1) 100%), var(--hero-img);
+    background-size: cover; background-position: right center;
+    border-bottom: 1px solid var(--line);
+}
+.hero .container { padding-top: 44px; padding-bottom: 44px; }
+.hero h1 { margin: 0 0 10px; font-size: clamp(1.7rem, 4.6vw, 2.5rem); line-height: 1.12; color: var(--navy); max-width: 560px; letter-spacing: -.3px; }
+.hero p { margin: 0 0 26px; max-width: 520px; color: var(--muted); font-size: 1.02rem; }
+.searchbar { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid var(--blue-line); border-radius: 16px; padding: 8px 8px 8px 16px; max-width: 760px; box-shadow: var(--shadow-lg); color: var(--blue); }
+.searchbar:focus-within { border-color: var(--blue); }
+.searchbar input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-size: 1.05rem; color: var(--text); padding: 12px 4px; font-family: inherit; }
+.searchbar input::placeholder { color: #7a8aa3; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 12px; padding: 0 22px; min-height: 48px; font-weight: 700; font-size: .95rem; cursor: pointer; text-decoration: none; transition: background .15s, transform .1s; }
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--navy-2); }
+.btn-soft { background: var(--blue-soft); color: var(--navy); border: 1px solid var(--blue-line); }
+.btn-soft:hover { background: #dce9fa; }
 
-    .header-top {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 6px;
-        padding: 16px 58px 6px;
-    }
+/* ===== Section / building cards ===== */
+.section-title { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; margin: 30px 0 16px; color: var(--navy); }
+.building-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(208px, 1fr)); }
+.b-card { display: block; text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; transition: transform .18s ease, box-shadow .18s ease; animation: rise .35s ease both; }
+.b-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.b-card img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; background: var(--blue-soft); }
+.b-body { padding: 14px 16px 16px; position: relative; }
+.b-name { margin: 0 0 4px; font-size: 1.05rem; color: var(--text); padding-right: 40px; }
+.b-meta { display: flex; align-items: center; gap: 6px; font-size: .86rem; color: var(--muted); margin-top: 3px; }
+.b-go { position: absolute; right: 14px; bottom: 14px; width: 34px; height: 34px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-    .logo-tjrr {
-        width: 44px;
-        height: 44px;
-        flex-shrink: 0;
-        border-radius: 10px;
-        object-fit: cover;
-        background: #ffffff;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    }
+/* ===== Search results ===== */
+.res-count { font-size: .9rem; color: var(--muted); margin: 26px 2px 12px; }
+.res-list { display: grid; gap: 10px; }
+.res { display: grid; grid-template-columns: 78px 1fr auto; gap: 14px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; text-decoration: none; box-shadow: var(--shadow); }
+.res:hover { border-color: var(--blue); }
+.res-num { background: var(--blue-soft); color: var(--navy); font-weight: 800; font-size: 1.15rem; text-align: center; border-radius: 10px; padding: 12px 6px; }
+.res-name { font-weight: 700; font-size: 1rem; }
+.res-loc { color: var(--muted); font-size: .86rem; margin-top: 2px; }
+.res-code { background: var(--navy); color: #fff; font-weight: 700; font-size: .9rem; border-radius: 8px; padding: 6px 12px; white-space: nowrap; }
+mark { background: #ffe9a8; color: inherit; border-radius: 3px; padding: 0 1px; }
+.empty { text-align: center; padding: 56px 20px; color: var(--muted); }
+.empty strong { display: block; font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
 
-    .app-description {
-        text-align: center;
-        font-size: 0.8rem;
-        color: #6b7680;
-        line-height: 1.5;
-        max-width: 560px;
-        margin: 0 auto 10px;
-    }
+/* ===== Building page ===== */
+.crumbs { display: flex; align-items: center; gap: 6px; font-size: .9rem; padding: 16px 0 12px; color: var(--muted); flex-wrap: wrap; }
+.crumbs a { color: var(--blue); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.layout > * { min-width: 0; }
+.layout { display: grid; gap: 22px; grid-template-columns: 1fr; padding-bottom: 20px; }
+@media (min-width: 900px) { .layout { grid-template-columns: 290px 1fr; align-items: start; } }
+.side { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+@media (min-width: 900px) { .side { position: sticky; top: 84px; } }
+.side img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.side-body { padding: 16px; }
+.side h1 { margin: 0 0 2px; font-size: 1.25rem; color: var(--navy); }
+.side .sub { color: var(--muted); font-size: .88rem; margin-bottom: 10px; }
+.addr { font-size: .88rem; color: var(--text); display: flex; gap: 8px; margin: 10px 0 14px; }
+.addr .ico { color: var(--blue); margin-top: 2px; }
+.side .btn { width: 100%; min-height: 44px; font-size: .9rem; }
+.side-count { font-size: .85rem; color: var(--muted); margin: 12px 0 0; text-align: center; }
+.floors-title { margin: 18px 0 8px; font-size: .95rem; color: var(--navy); }
+.floors { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+@media (min-width: 900px) { .floors { flex-direction: column; overflow: visible; max-height: 52vh; overflow-y: auto; } }
+.floor { display: flex; align-items: center; gap: 10px; text-decoration: none; white-space: nowrap; background: var(--blue-soft); color: var(--navy); border: 1px solid var(--blue-line); border-radius: 10px; padding: 0 14px; min-height: 44px; font-weight: 600; font-size: .92rem; transition: background .15s; }
+.floor:hover { background: #dce9fa; }
+.floor[aria-current="true"] { background: var(--blue); border-color: var(--blue); color: #fff; }
+.floor .n { margin-left: auto; font-size: .78rem; font-weight: 700; opacity: .8; padding-left: 8px; }
 
-    .github-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        text-decoration: none;
-    }
-    .github-icon {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        vertical-align: middle;
-    }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; min-height: 300px; }
+.panel-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.panel-head .ico-wrap { color: var(--blue); }
+.panel-head h2 { margin: 0; font-size: 1.4rem; color: var(--navy); }
+.panel-head p { margin: 2px 0 0; color: var(--muted); font-size: .9rem; }
+.tools { display: flex; gap: 10px; margin-bottom: 16px; }
+.field { flex: 1; display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--blue-line); border-radius: 12px; padding: 0 12px; background: #fff; color: var(--blue); }
+.field:focus-within { border-color: var(--blue); }
+.field input { flex: 1; min-width: 0; border: 0; outline: 0; font-size: 1rem; padding: 12px 2px; background: transparent; font-family: inherit; color: var(--text); }
+.view-toggle { display: flex; border: 1.5px solid var(--blue-line); border-radius: 12px; overflow: hidden; }
+.view-toggle button { background: #fff; border: 0; width: 46px; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+.view-toggle button[aria-pressed="true"] { background: var(--blue); color: #fff; }
 
-    .mode-btn {
-        position: absolute;
-        top: 14px;
-        right: 14px;
-        background: rgba(255,255,255,0.15);
-        border: 1px solid rgba(255,255,255,0.3);
-        color: white;
-        padding: 6px 11px;
-        border-radius: 14px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        cursor: pointer;
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-    .mode-btn-admin {
-        background: rgba(255,255,255,0.95);
-        color: var(--primary-dark);
-    }
+.rooms.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.room { display: flex; flex-direction: column; gap: 6px; text-decoration: none; background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px; min-height: 104px; transition: border-color .15s, box-shadow .15s, transform .12s; animation: rise .3s ease both; }
+.room:hover { border-color: var(--blue); box-shadow: var(--shadow); transform: translateY(-2px); }
+.room-num { font-size: 1.35rem; font-weight: 800; color: var(--navy); line-height: 1; }
+.room-name { overflow-wrap: anywhere; font-size: .8rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.room-code { margin-top: auto; align-self: flex-start; background: var(--blue-soft); color: var(--navy); font-weight: 700; font-size: .78rem; border-radius: 6px; padding: 2px 8px; }
+.room-floor { font-size: .72rem; color: var(--blue); font-weight: 700; }
+.rooms.list { display: grid; gap: 8px; }
+.rooms.list .room { flex-direction: row; align-items: center; gap: 14px; min-height: 0; padding: 10px 14px; }
+.rooms.list .room-num { min-width: 64px; font-size: 1.1rem; }
+.rooms.list .room-name { flex: 1; font-size: .92rem; color: var(--text); -webkit-line-clamp: 2; }
+.rooms.list .room-code { margin: 0; }
 
-    .ownership-footer {
-        text-align: center;
-        font-size: 0.75rem;
-        color: #8b95a0;
-        line-height: 1.6;
-        padding: 26px 24px 96px;
-        max-width: 900px;
-        margin: 10px auto 0;
-        border-top: 1px solid var(--border-color);
-    }
-    .ownership-footer a {
-        color: var(--primary-color);
-        text-decoration: none;
-        font-weight: 600;
-    }
-    .ownership-footer a:hover { text-decoration: underline; }
-    .ownership-footer .copyright {
-        margin-top: 6px;
-        color: #a7afb8;
-    }
+/* ===== Modal ===== */
+.overlay { position: fixed; inset: 0; background: rgba(8, 24, 54, .55); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 3000; animation: fade .18s ease; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.modal { background: #fff; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; border-radius: 18px; box-shadow: var(--shadow-lg); padding: 26px; position: relative; animation: pop .22s ease; }
+@keyframes pop { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+.modal-x { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border: 0; background: transparent; border-radius: 50%; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+.modal-x:hover { background: var(--blue-soft); }
+.m-head { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 16px; padding-right: 40px; }
+.m-badge { width: 64px; height: 64px; border-radius: 50%; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.m-head h2 { margin: 0; font-size: 1.6rem; color: var(--text); line-height: 1.15; }
+.m-row { display: flex; gap: 12px; align-items: flex-start; font-size: 1.02rem; margin: 12px 0; }
+.m-row .ico { color: var(--navy); margin-top: 2px; }
+.m-code { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--blue-soft); border: 1px solid var(--blue-line); border-radius: 12px; padding: 12px 16px; margin: 16px 0; }
+.m-code small { display: block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+.m-code strong { font-size: 1.9rem; color: var(--navy); line-height: 1.1; }
+.m-nocode { background: #f4f6fa; border-radius: 12px; padding: 12px 16px; margin: 16px 0; color: var(--muted); font-style: italic; }
+.m-obs { display: flex; gap: 10px; background: var(--blue-soft); border-radius: 10px; padding: 12px 14px; color: var(--navy); margin: 12px 0; }
+.m-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; margin-top: 20px; }
+.about-list { display: grid; gap: 14px; margin: 18px 0 4px; }
+.about-item { display: flex; gap: 14px; align-items: flex-start; }
+.about-item .circ { width: 44px; height: 44px; border-radius: 50%; background: var(--blue-soft); color: var(--blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.about-item strong { display: block; color: var(--navy); }
+.about-item span { color: var(--muted); font-size: .9rem; }
 
-    .back-btn {
-        position: absolute;
-        top: 14px;
-        left: 14px;
-        background: rgba(255,255,255,0.15);
-        border: 1px solid rgba(255,255,255,0.25);
-        color: white;
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        font-size: 1.1rem;
-        cursor: pointer;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+/* ===== Footer / toast ===== */
+.footer { background: var(--navy); color: rgba(255,255,255,.88); margin-top: 36px; font-size: .88rem; }
+.footer .container { padding-top: 24px; padding-bottom: 28px; display: grid; gap: 4px; }
+.footer strong { color: #fff; font-size: 1rem; }
+.footer a { color: #fff; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #14233d; color: #fff; padding: 12px 20px; border-radius: 10px; z-index: 4000; box-shadow: var(--shadow-lg); font-size: .92rem; }
 
-    .header-title {
-        color: white;
-        margin: 0;
-        font-size: 1.15rem;
-        font-weight: 600;
-        line-height: 1.3;
-    }
-
-    .header-subtitle {
-        color: rgba(255,255,255,0.75);
-        font-size: 0.78rem;
-        margin-top: 2px;
-    }
-
-    .search-container {
-        background-color: white;
-        padding: 10px 15px;
-        border-bottom: 1px solid var(--border-color);
-        margin-top: 12px;
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1.5px solid #d5dade;
-        border-radius: 10px;
-        font-size: 16px;
-        background-color: var(--secondary-color);
-    }
-
-    .search-input:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        background-color: white;
-    }
-
-    .floor-chips {
-        display: flex;
-        overflow-x: auto;
-        gap: 8px;
-        padding: 10px 15px;
-        scrollbar-width: none;
-        background: white;
-        border-bottom: 1px solid var(--border-color);
-    }
-    .floor-chips::-webkit-scrollbar { display: none; }
-    .chip {
-        background: var(--primary-light);
-        color: var(--primary-color);
-        border: 1px solid #cfe0f5;
-        padding: 9px 15px;
-        border-radius: 16px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        white-space: nowrap;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    main {
-        padding: 15px;
-        max-width: 900px;
-        margin: 0 auto;
-        padding-bottom: 100px;
-    }
-
-    /* HOME: grid de prédios */
-    .building-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 14px;
-        margin-top: 6px;
-    }
-    @media (min-width: 600px) {
-        .building-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .building-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-left: 6px solid var(--primary-color);
-        border-radius: 10px;
-        padding: 18px;
-        cursor: pointer;
-        transition: transform 0.1s ease, box-shadow 0.15s ease;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-    }
-    .building-card:active { transform: scale(0.98); }
-    .building-card h2 {
-        margin: 0 0 6px;
-        font-size: 1.05rem;
-        color: var(--primary-dark);
-    }
-    .building-card .meta {
-        font-size: 0.82rem;
-        color: #777;
-    }
-    .building-card.add-new {
-        border-left-color: var(--accent);
-        border-style: dashed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: var(--accent);
-        font-weight: 700;
-        min-height: 74px;
-    }
-
-    .global-results {
-        margin-top: 10px;
-    }
-    .global-result-item {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 12px 14px;
-        margin-bottom: 8px;
-        cursor: pointer;
-        border-left: 4px solid var(--accent);
-    }
-    .global-result-item .name { font-weight: 600; font-size: 0.92rem; color: var(--text-color); }
-    .global-result-item .loc { font-size: 0.78rem; color: #777; margin-top: 3px; }
-
-    /* BUILDING PAGE */
-    .floor-section { margin-bottom: 30px; scroll-margin-top: 150px; }
-
-    .floor-title {
-        font-size: 1.05rem;
-        color: #555;
-        border-bottom: 2px solid var(--border-color);
-        padding-bottom: 5px;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 700;
-    }
-
-    .card-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    @media (min-width: 600px) {
-        .card-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .card {
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 16px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        border-left: 5px solid var(--primary-color);
-        position: relative;
-    }
-    .card.user-added { border-left-color: var(--accent); }
-
-    .card h3 {
-        margin: 0 0 12px 0;
-        font-size: 0.95rem;
-        line-height: 1.4;
-        color: var(--primary-color);
-    }
-
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 8px;
-        flex-wrap: wrap;
-        gap: 6px;
-    }
-
-    .sala-info {
-        color: #444;
-        background-color: #f8f9fa;
-        padding: 4px 10px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
-        font-size: 0.9rem;
-        font-weight: 600;
-    }
-
-    .code-badge {
-        background-color: var(--primary-light);
-        color: var(--primary-color);
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-weight: bold;
-        font-size: 0.85rem;
-        border: 1px dashed var(--primary-color);
-        cursor: pointer;
-    }
-    .code-badge.filled {
-        border: 1px solid #cce0f5;
-        font-size: 0.95rem;
-    }
-
-    .badge-nova {
-        background: #fff4e5;
-        color: var(--accent);
-        border: 1px solid #ffdca8;
-        padding: 3px 9px;
-        border-radius: 4px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .card-actions {
-        margin-top: 10px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 14px;
-    }
-    .link-btn {
-        background: none;
-        border: none;
-        color: #999;
-        font-size: 0.78rem;
-        cursor: pointer;
-        text-decoration: underline;
-        padding: 0;
-    }
-    .link-btn.danger { color: #c0392b; }
-
-    .hidden { display: none !important; }
-
-    .empty-state {
-        text-align: center;
-        padding: 50px 20px;
-        color: #777;
-    }
-    .empty-state .big {
-        font-size: 1.1rem;
-        color: var(--text-color);
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
-    /* FAB */
-    .fab {
-        position: fixed;
-        bottom: 22px;
-        right: 22px;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        width: 58px;
-        height: 58px;
-        border-radius: 50%;
-        font-size: 28px;
-        cursor: pointer;
-        box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-        z-index: 900;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 0;
-    }
-    .fab:active { transform: scale(0.94); }
-
-    /* MODAL */
-    .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.5);
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        z-index: 2000;
-    }
-    @media (min-width: 640px) {
-        .modal-overlay { align-items: center; }
-    }
-    .modal {
-        background: white;
-        width: 100%;
-        max-width: 480px;
-        max-height: 88vh;
-        overflow-y: auto;
-        border-radius: 14px 14px 0 0;
-        padding: 22px 20px 26px;
-    }
-    @media (min-width: 640px) {
-        .modal { border-radius: 10px; }
-    }
-    .modal h2 {
-        margin: 0 0 4px;
-        font-size: 1.15rem;
-        color: var(--primary-dark);
-    }
-    .modal .modal-sub {
-        font-size: 0.82rem;
-        color: #888;
-        margin-bottom: 18px;
-    }
-    .field { margin-bottom: 14px; }
-    .field label {
-        display: block;
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--primary-color);
-        margin-bottom: 5px;
-    }
-    .field input, .field select {
-        width: 100%;
-        padding: 10px 11px;
-        border: 1.5px solid var(--border-color);
-        border-radius: 6px;
-        font-size: 0.95rem;
-        background: #fff;
-    }
-    .field input:focus, .field select:focus {
-        outline: none;
-        border-color: var(--primary-color);
-    }
-    .field-hint { font-size: 0.75rem; color: #999; margin-top: 4px; }
-    .modal-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 18px;
-        justify-content: flex-end;
-    }
-    .btn {
-        border: none;
-        border-radius: 6px;
-        padding: 10px 16px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        cursor: pointer;
-    }
-    .btn-primary { background: var(--primary-color); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); }
-    .btn-ghost { background: transparent; color: #666; border: 1px solid #ccc; }
-    .btn-danger { background: transparent; color: #c0392b; border: 1px solid #c0392b; }
-
-    .toast {
-        position: fixed;
-        bottom: 92px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #222;
-        color: white;
-        padding: 10px 18px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        z-index: 3000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    .loading-msg {
-        text-align: center;
-        padding: 40px 20px;
-        color: #999;
-        font-size: 0.9rem;
-    }
-
-    /* ===== Melhorias v2 ===== */
-    :focus-visible { outline: 3px solid #e08300; outline-offset: 2px; }
-    button.chip, button.mode-btn, button.back-btn, button.sort-btn { font-family: inherit; }
-    a.building-card { display: block; color: inherit; text-decoration: none; }
-    .back-btn { width: 44px; height: 44px; top: 10px; left: 10px; }
-    .header-top { padding-left: 62px; padding-right: 62px; }
-    .search-row { display: flex; gap: 8px; align-items: center; }
-    .sort-btn { flex-shrink: 0; background: var(--primary-light); color: var(--primary-color); border: 1px solid #cfe0f5; border-radius: 10px; padding: 0 14px; height: 46px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
-    .badge-last { background: #fff4e5; color: #9a5a00; border: 1px solid #ffdca8; border-radius: 4px; padding: 2px 7px; font-size: 0.7rem; font-weight: 700; vertical-align: middle; margin-left: 6px; }
-
-    .card h3 { font-size: 1rem; margin-bottom: 8px; }
-    .ref-line { font-size: 0.85rem; color: #4a5560; margin: -2px 0 8px; }
-    .card .info-row { margin-top: 10px; align-items: stretch; }
-    .code-block { display: flex; flex-direction: column; background: var(--primary-light); border: 1px solid #cce0f5; border-radius: 8px; padding: 6px 14px; min-width: 96px; }
-    .code-block.editable { cursor: pointer; border-style: dashed; border-color: var(--primary-color); }
-    .code-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #4a5560; }
-    .code-num { font-size: 1.5rem; font-weight: 800; line-height: 1.15; color: var(--primary-dark); }
-    .code-empty { align-self: center; font-size: 0.85rem; color: #5b6670; font-style: italic; }
-    .code-empty.add { font-style: normal; font-weight: 700; color: var(--primary-color); border: 1px dashed var(--primary-color); border-radius: 8px; padding: 10px 14px; cursor: pointer; }
-    .copy-btn { background: var(--primary-color); color: #fff; border: none; border-radius: 8px; padding: 0 16px; font-weight: 700; font-size: 0.85rem; cursor: pointer; min-height: 44px; }
-    .copy-btn:active { transform: scale(.96); }
-    .card .sala-info { margin-left: auto; align-self: center; }
-    .card.flash { animation: flash 2.2s ease; }
-    @keyframes flash { 0%,60% { box-shadow: 0 0 0 4px #e08300; } 100% { box-shadow: 0 2px 4px rgba(0,0,0,.02); } }
-
-    .floor-title { cursor: pointer; display: flex; align-items: center; gap: 8px; user-select: none; }
-    .floor-title::before { content: '▾'; font-size: .9em; }
-    .floor-section.collapsed .floor-title::before { content: '▸'; }
-    .floor-section.collapsed .card-grid { display: none; }
-    .floor-count { margin-left: auto; font-size: .75rem; font-weight: 700; color: #4a5560; background: #eceff1; border-radius: 10px; padding: 2px 9px; }
-
-    .global-result-item { display: block; color: inherit; text-decoration: none; }
-    .global-result-item .name { font-size: 1rem; }
-    .res-code { display: inline-block; margin-top: 6px; background: var(--primary-light); color: var(--primary-dark); font-weight: 800; border-radius: 6px; padding: 2px 10px; font-size: .95rem; }
-    .res-count { font-size: .8rem; color: #4a5560; margin: 4px 2px 8px; }
-    mark { background: #ffe9a8; color: inherit; border-radius: 2px; padding: 0 1px; }
-
-    /* contraste */
-    .building-card .meta, .app-description, .ownership-footer, .modal .modal-sub, .field-hint,
-    .link-btn, .global-result-item .loc, .empty-state, .loading-msg { color: #4a5560; }
-    .ownership-footer .copyright { color: #5b6670; }
-    .ownership-footer, .field-hint, .link-btn { font-size: .82rem; }
-    .link-btn.danger { color: #b02a1c; }
-
-    /* desktop */
-    @media (min-width: 1000px) {
-        main { max-width: 1200px; }
-        .card-grid, .building-grid { grid-template-columns: repeat(3, 1fr); }
-        .search-container, .floor-chips { padding-left: max(15px, calc((100vw - 1200px) / 2 + 15px)); padding-right: max(15px, calc((100vw - 1200px) / 2 + 15px)); }
-        .floor-chips { flex-wrap: wrap; overflow: visible; }
-    }
+@media (max-width: 640px) {
+    .container { padding: 0 14px; }
+    .brand-name { font-size: 1.1rem; }
+    .brand-sep, .top-btn span { display: none; }
+    .hero .container { padding-top: 28px; padding-bottom: 30px; }
+    .hero { background-image: linear-gradient(180deg, #f1f6fe 0%, rgba(241,246,254,.9) 55%, rgba(241,246,254,.6) 100%), var(--hero-img); }
+    .searchbar { padding-left: 12px; }
+    .searchbar .btn span { display: none; }
+    .searchbar .btn { padding: 0 16px; }
+    .panel { padding: 14px; }
+    .modal { padding: 20px; }
+    .m-head h2 { font-size: 1.35rem; }
+    .res { grid-template-columns: 60px 1fr; }
+    .res-code { grid-column: 2; justify-self: start; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
 <body>
-
-<header id="appHeader"></header>
-<main id="mainContent"></main>
-<button class="fab hidden" id="fabAddRoom" title="Adicionar sala">+</button>
+<a class="skip" href="#app">Ir para o conteúdo</a>
+<header class="topbar">
+    <div class="container">
+        <a class="brand" href="#/" aria-label="MapTec · TJRR — página inicial">
+            <img class="brand-logo" id="logo" alt="Logotipo do TJRR" src="https://avatars.githubusercontent.com/u/24796065?s=280&v=4" onerror="this.style.display='none'">
+            <span class="brand-sep"></span>
+            <span><span class="brand-name">MapTec · TJRR</span><br><span class="brand-sub">Salas e códigos de transferência</span></span>
+        </a>
+        <div class="top-actions" id="topActions"></div>
+    </div>
+</header>
+<div id="banner"></div>
+<main id="app" tabindex="-1"><div class="container"><p class="empty">Carregando…</p></div></main>
+<footer class="footer"><div class="container" id="footer"></div></footer>
 <div id="modalRoot"></div>
 
 <script>
-// =====================================================================
-// BANCO DE DADOS BASE (prédios mapeados oficialmente)
-// Cada unidade pode ter: sala (número), nome, codigoTransferencia
-// =====================================================================
-const db = {
-    "predios": [
-        {
-            "id": "adm",
-            "nome": "Sede Administrativa",
-            "cor": "#004494",
-            "divisoes": [
-                { "nome": "Térreo", "unidades": [
-                    { "sala": "01", "nome": "SECRETARIA GERAL DA CORREGEDORIA", "codigoTransferencia": "245" },
-                    { "sala": "02", "nome": "SALA DE AUDIENCIAS CPS", "codigoTransferencia": "" },
-                    { "sala": "03", "nome": "COMISSÃO PERMANENTE DE SINDICANCIA", "codigoTransferencia": "22" },
-                    { "sala": "04", "nome": "DIRETORIA DE GESTÃO EXTRAJUDICIAL", "codigoTransferencia": "1180" },
-                    { "sala": "05", "nome": "JUIZ AUXILIAR DA CORREGEDORIA", "codigoTransferencia": "719" },
-                    { "sala": "06", "nome": "GABINETE DA CORREGEDORIA", "codigoTransferencia": "20" },
-                    { "sala": "08", "nome": "SALA DE REUNIÃO", "codigoTransferencia": "" },
-                    { "sala": "09", "nome": "ASSESSORIA JURIDICA", "codigoTransferencia": "21" },
-                    { "sala": "10", "nome": "EQUIPE TECNICA_DG1G/DGEX/CEJAI/CRSF,/SEC/SAD", "codigoTransferencia": "" },
-                    { "sala": "", "nome": "OUVIDORIA", "codigoTransferencia": "1150" },
-                    { "sala": "", "nome": "COMISSÃO PERMANENTE DE SEGURANÇA INSTITUCIONAL", "codigoTransferencia": "688" },
-                    { "sala": "", "nome": "SALA DE ACOLHIMENTO", "codigoTransferencia": "" },
-                    { "sala": "", "nome": "SALA DE REUNIAO OUVIDORIA", "codigoTransferencia": "" },
-                    { "sala": "", "nome": "JUSTIÇA CIDADÃ", "codigoTransferencia": "" }
-                ]},
-                { "nome": "1º Piso", "unidades": [
-                    { "sala": "102", "nome": "SALA DE HACK", "codigoTransferencia": "" },
-                    { "sala": "103", "nome": "SECRETARIA DE GESTÃO DE PESSOAS", "codigoTransferencia": "239" },
-                    { "sala": "104", "nome": "GRUPO DE MONITORAMENTO E FISCALIZAÇÃO DO SISTEMA CARCERÁRIO E SOCIOEDUCATIVO", "codigoTransferencia": "676" },
-                    { "sala": "105", "nome": "SECRETARIA DE GESTÃO DE PESSOAS - GABINETE", "codigoTransferencia": "" },
-                    { "sala": "106", "nome": "GRUPO DE MONITORAMENTO E FISCALIZAÇÃO DO SISTEMA CARCERÁRIO - GMF", "codigoTransferencia": "980" },
-                    { "sala": "107", "nome": "SUBSECRETARIA DE GESTÃO DE FORÇA DE TRABALHO / SECRETARIA DE GESTÃO DE PESSOAS ASSESSORIA", "codigoTransferencia": "971" },
-                    { "sala": "109", "nome": "SUBSECRETARIA DE ANÁLISE DE DESPESAS COM PESSOAL/SETOR DE FOLHA DE PAGAMENTO", "codigoTransferencia": "974" },
-                    { "sala": "110", "nome": "SETOR DE LICENÇA E AFASTAMENTO", "codigoTransferencia": "650" },
-                    { "sala": "115", "nome": "SETOR DE GESTÃO DA FORÇA DE TRABALHO AUXILIAR", "codigoTransferencia": "970" },
-                    { "sala": "116", "nome": "SUBSECRETARIA DE ACOMPANHAMENTO FUNCIONAL", "codigoTransferencia": "867" },
-                    { "sala": "118", "nome": "SUBSECRETARIA DE GESTÃO ESTRATÉGICA DE PESSOAS/SETOR DE MONITORAMENTO DE DESEMPENHO", "codigoTransferencia": "973" },
-                    { "sala": "119", "nome": "SECRETARIA DE GESTÃO DE PESSOAS GABINETE ADJUNTO", "codigoTransferencia": "" },
-                    { "sala": "121", "nome": "SUBSECRETARIA DE DESENVOLVIMENTO DE PESSOAL", "codigoTransferencia": "645" },
-                    { "sala": "124", "nome": "SUBSECRETARIA DE CIBERSEGURANÇA", "codigoTransferencia": "1169" },
-                    { "sala": "125", "nome": "SUBSECRETARIA DE APOIO A DECISÃO", "codigoTransferencia": "893" },
-                    { "sala": "127", "nome": "SECRETARIA DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO GABINETE", "codigoTransferencia": "892" },
-                    { "sala": "128", "nome": "SECRETARIA DE TECNOLOGIA DA INFORMAÇÃO_SALA DE REUNIÃO", "codigoTransferencia": "" },
-                    { "sala": "131", "nome": "SUBSECRETARIA DE GESTÃO DE CONTRATOS DE TIC", "codigoTransferencia": "900" },
-                    { "sala": "132", "nome": "SUBSECRETARIA DE INFRAESTRUTURA DE TIC", "codigoTransferencia": "894" },
-                    { "sala": "135", "nome": "CENTRAL DE ATENCIMENTO DE INFORMÁTICA", "codigoTransferencia": "" },
-                    { "sala": "139", "nome": "SUBSECRETARIA CENTRAL DE SERVIÇOS", "codigoTransferencia": "898" }
-                ]},
-                { "nome": "2º Piso", "unidades": [
-                    { "sala": "202", "nome": "SALA DE HACK", "codigoTransferencia": "" },
-                    { "sala": "204", "nome": "SUBCOORDENADORIA JURÍDICA DE PRECATORIOS", "codigoTransferencia": "1208" },
-                    { "sala": "206", "nome": "COORDENAÇÃO NÚCLEO DE PRECATORIOS", "codigoTransferencia": "912" },
-                    { "sala": "207", "nome": "SECRETARIA DE AUDITORIA INTERNA", "codigoTransferencia": "909" },
-                    { "sala": "208", "nome": "SUBCOORDENADORIA DE ANALISE CONTÁBIL DE PRECATORIOS", "codigoTransferencia": "1205" },
-                    { "sala": "210", "nome": "SUBCOORDENADORIA DE ANALISE CONTÁBIL DE PRECATORIOS", "codigoTransferencia": "1205" },
-                    { "sala": "212", "nome": "NÚCLEO DE PRECATORIOS ATENDIMENTO", "codigoTransferencia": "" },
-                    { "sala": "213", "nome": "SECRETARIA DE GESTÃO ESTRATÉGICA / SETOR DE SUSTENTABILIDADE E RESPONSABILIDADE SOCIAL", "codigoTransferencia": "888" },
-                    { "sala": "216", "nome": "SUBSECRETARIA DE PROCESSOS E GESTÃO DE QUALIDADE", "codigoTransferencia": "889" },
-                    { "sala": "220", "nome": "VICE-PRESIDENCIA NUCLEO DE GERENCIAMENTO DE PRECENDENTES", "codigoTransferencia": "1096" },
-                    { "sala": "223", "nome": "COMISSÃO PERMANENTE DE LEGISLAÇÃO E JURISPRUDÊNCIA", "codigoTransferencia": "946" },
-                    { "sala": "225", "nome": "NATJUS", "codigoTransferencia": "1200" },
-                    { "sala": "226", "nome": "NÚCLEO DE PROJETOS E INOVAÇÃO NPI", "codigoTransferencia": "1111" },
-                    { "sala": "229", "nome": "SECRETARIA DE INFRAESTRUTURA E LOGISTICA SIL", "codigoTransferencia": "962" },
-                    { "sala": "230", "nome": "SETOR DE MANUTENÇÃO PREDIAL", "codigoTransferencia": "966" },
-                    { "sala": "231", "nome": "SECRETARIA DE INFRAESTRUTURA E LOGISTICA SIL", "codigoTransferencia": "962" },
-                    { "sala": "234", "nome": "SUBSECRETARIA DE INFRAESTRUTURA SINFRA", "codigoTransferencia": "965" },
-                    { "sala": "235", "nome": "SETOR DE SERVIÇOS TERCEIRIZADOS", "codigoTransferencia": "963" },
-                    { "sala": "239", "nome": "SUBSECRETARIA DE PATRIMÔNIO", "codigoTransferencia": "967" },
-                    { "sala": "240", "nome": "SUBSECRETARIA DE SERVIÇOS GERAIS", "codigoTransferencia": "863" }
-                ]},
-                { "nome": "3º Piso", "unidades": [
-                    { "sala": "302", "nome": "SALA DE HACK", "codigoTransferencia": "" },
-                    { "sala": "304", "nome": "UNIDADE DE JUSTIÇA RESTAURATIVA SALA DE SESSÃO RESTAURATIVA", "codigoTransferencia": "944" },
-                    { "sala": "305", "nome": "SECRETARIA DE ORÇAMENTO E FINANÇAS", "codigoTransferencia": "954" },
-                    { "sala": "307", "nome": "SECRETARIA DE ORÇAMENTO E FINANÇAS GABINETE", "codigoTransferencia": "" },
-                    { "sala": "309", "nome": "SUBSECRETARIA DE ARRECADAÇÃO", "codigoTransferencia": "1236" },
-                    { "sala": "312", "nome": "SUBSECRETARIA DE ORÇAMENTO", "codigoTransferencia": "956" },
-                    { "sala": "314", "nome": "JUSTIÇA COMUNITÁRIA", "codigoTransferencia": "1147" },
-                    { "sala": "315", "nome": "SUBSECRETARIA DE CONTABILIDADE", "codigoTransferencia": "958" },
-                    { "sala": "320", "nome": "SUBSECRETÁRIA DE FINANÇAS", "codigoTransferencia": "960" },
-                    { "sala": "326", "nome": "SECRETARIA DE GESTÃO ADMINISTRATIVA/GABINETE", "codigoTransferencia": "950" },
-                    { "sala": "327", "nome": "SECRETARIA GERAL GABINETE", "codigoTransferencia": "947" },
-                    { "sala": "329", "nome": "NÚCLEO JURÍDICO ADMINISTRATIVO", "codigoTransferencia": "949" },
-                    { "sala": "330", "nome": "SETOR DE CONVÊNIOS E CONGÊNERES", "codigoTransferencia": "951" },
-                    { "sala": "332", "nome": "SUBSECRETARIA DE CONTRATOS", "codigoTransferencia": "866" },
-                    { "sala": "334", "nome": "SUBSECRETARIA DE CONTRATOS TERCEIRIZADOS", "codigoTransferencia": "952" },
-                    { "sala": "335", "nome": "SUBSECRETARIA DE AQUISIÇÕES, LICITAÇÕES E CREDENCIAMENTOS SALC", "codigoTransferencia": "862" },
-                    { "sala": "336", "nome": "SUBSECRETARIA DE REGISTRO E MOVIMENTAÇÃO DE MAGISTRADOS", "codigoTransferencia": "1246" },
-                    { "sala": "338", "nome": "SECRETARIA DE GESTÃO DE MAGISTRADOS", "codigoTransferencia": "1245" },
-                    { "sala": "339", "nome": "DIRETORIA DE GESTÃO DOCUMENTAL", "codigoTransferencia": "1193" }
-                ]},
-                { "nome": "4º Piso", "unidades": [
-                    { "sala": "412", "nome": "SALA DE REUNIAO", "codigoTransferencia": "" },
-                    { "sala": "413", "nome": "ESTÚDIO", "codigoTransferencia": "" },
-                    { "sala": "414", "nome": "LABORATÓRIO DE INFORMATICA", "codigoTransferencia": "" },
-                    { "sala": "415", "nome": "AUDITÓRIO", "codigoTransferencia": "" },
-                    { "sala": "", "nome": "COORDENADORIA ACADÊMICA", "codigoTransferencia": "1174" },
-                    { "sala": "", "nome": "SUBCOORDENADORIA DE APOIO ADMINISTRATIVO", "codigoTransferencia": "1182" },
-                    { "sala": "", "nome": "SETOR DE TECNOLOGIA, PRODUÇÃO E COMUNICAÇÃO", "codigoTransferencia": "1171" },
-                    { "sala": "", "nome": "SETOR DE FORMAÇÃO E APERFEIÇOAMENTO", "codigoTransferencia": "1102" },
-                    { "sala": "", "nome": "SETOR DE REGISTRO E INFORMACAO", "codigoTransferencia": "1100" }
-                ]}
-            ]
-        },
-        {
-            "id": "cidadania",
-            "nome": "Fórum Cidadania / Latife Salomão",
-            "cor": "#0f6e5c",
-            "divisoes": [
-                { "nome": "Áreas Comuns", "unidades": [
-                    { "sala": "011", "nome": "LANCHONETE", "codigoTransferencia": "" },
-                    { "sala": "020", "nome": "AUDITÓRIO", "codigoTransferencia": "" },
-                    { "sala": "021", "nome": "COPA", "codigoTransferencia": "" },
-                    { "sala": "022", "nome": "DML", "codigoTransferencia": "" },
-                    { "sala": "029", "nome": "GUARITA DOS FUNDOS LATIFE", "codigoTransferencia": "" },
-                    { "sala": "031", "nome": "ACESSO PORTA DOS FUNDOS LATIFE", "codigoTransferencia": "" }
-                ]},
-                { "nome": "Bloco 1", "unidades": [
-                    { "sala": "101", "nome": "CENTRAL DE JUIZADOS", "codigoTransferencia": "" },
-                    { "sala": "102", "nome": "CONCILIAÇÃO 1", "codigoTransferencia": "" },
-                    { "sala": "103", "nome": "CONCILIAÇÃO 2", "codigoTransferencia": "" },
-                    { "sala": "104", "nome": "CONCILIAÇÃO 3", "codigoTransferencia": "" },
-                    { "sala": "105", "nome": "CONCILIAÇÃO 4", "codigoTransferencia": "" },
-                    { "sala": "106", "nome": "SETOR DE CONCILIAÇÃO", "codigoTransferencia": "692" },
-                    { "sala": "107", "nome": "COPA", "codigoTransferencia": "" },
-                    { "sala": "108", "nome": "SETOR DE ATENDIMENTO, ATERMAÇÃO E DISTRIBUIÇÃO", "codigoTransferencia": "940" },
-                    { "sala": "109", "nome": "CONCILIAÇÃO 5", "codigoTransferencia": "" },
-                    { "sala": "110", "nome": "DIRETORIA", "codigoTransferencia": "" },
-                    { "sala": "111", "nome": "CONCILIAÇÃO 6", "codigoTransferencia": "" },
-                    { "sala": "112", "nome": "CONCILIAÇÃO 7", "codigoTransferencia": "" },
-                    { "sala": "113", "nome": "CONCILIAÇÃO 8", "codigoTransferencia": "" },
-                    { "sala": "114", "nome": "CONCILIAÇÃO 9", "codigoTransferencia": "" },
-                    { "sala": "115", "nome": "SETOR DE MOVIMENTAÇÃO E EXECUÇÃO DOS JUIZADOS ESPECIAIS CÍVEIS", "codigoTransferencia": "939" },
-                    { "sala": "116", "nome": "SALA DO HACK", "codigoTransferencia": "" },
-                    { "sala": "117", "nome": "NUPEMEC / CEJUSC", "codigoTransferencia": "914" },
-                    { "sala": "118", "nome": "SALA DE AUDIÊNCIAS 1", "codigoTransferencia": "" },
-                    { "sala": "119", "nome": "SALA DE AUDIÊNCIAS 2", "codigoTransferencia": "" },
-                    { "sala": "120", "nome": "SALA DE AUDIÊNCIAS 3", "codigoTransferencia": "" },
-                    { "sala": "121", "nome": "SALA DE AUDIÊNCIAS 4", "codigoTransferencia": "" },
-                    { "sala": "122", "nome": "SALA DO JUIZ COORDENADOR", "codigoTransferencia": "" },
-                    { "sala": "123", "nome": "NUPEMEC", "codigoTransferencia": "" },
-                    { "sala": "124", "nome": "COPA", "codigoTransferencia": "" },
-                    { "sala": "125", "nome": "CEJUSC", "codigoTransferencia": "" },
-                    { "sala": "126", "nome": "SALA DE SUPERENDIVIDAMENTO", "codigoTransferencia": "1214" },
-                    { "sala": "128", "nome": "SALA DE AUDIÊNCIAS 5", "codigoTransferencia": "" },
-                    { "sala": "129", "nome": "BRINQUEDOTECA", "codigoTransferencia": "" },
-                    { "sala": "130", "nome": "ACESSO RESTRITO", "codigoTransferencia": "" },
-                    { "sala": "131", "nome": "ESCRITÓRIO E DESCANSO TERCEIRIZADOS", "codigoTransferencia": "" },
-                    { "sala": "132", "nome": "Depósito", "codigoTransferencia": "" }
-                ]},
-                { "nome": "Bloco 2", "unidades": [
-                    { "sala": "201", "nome": "1º, 2º E 3º JUIZADOS ESPECIAIS CÍVEIS", "codigoTransferencia": "1234" },
-                    { "sala": "202", "nome": "1º JUIZADO ESPECIAL CÍVEL - AUDIÊNCIA", "codigoTransferencia": "" },
-                    { "sala": "203", "nome": "1° JUIZADO ESPECIAL CÍVEL - GABINETE", "codigoTransferencia": "932" },
-                    { "sala": "204", "nome": "3º JUIZADO ESPECIAL CÍVEL - GABINETE", "codigoTransferencia": "936" },
-                    { "sala": "205", "nome": "3º JUIZADO ESPECIAL CÍVEL - AUDIÊNCIA", "codigoTransferencia": "" },
-                    { "sala": "206", "nome": "2º JUIZADO ESPECIAL CÍVEL - GABINETE", "codigoTransferencia": "934" },
-                    { "sala": "207", "nome": "BANHEIRO FEMININO", "codigoTransferencia": "" },
-                    { "sala": "208", "nome": "BANHEIRO MASCULINO", "codigoTransferencia": "" },
-                    { "sala": "209", "nome": "COPA", "codigoTransferencia": "" },
-                    { "sala": "210", "nome": "2° JUIZADO ESPECIAL CÍVEL - AUDIÊNCIA", "codigoTransferencia": "" },
-                    { "sala": "211", "nome": "SETOR DE MOVIMENTAÇÃO E EXECUÇÃO", "codigoTransferencia": "939" }
-                ]},
-                { "nome": "Bloco 3", "unidades": [
-                    { "sala": "301", "nome": "SALA DE MONITORAMENTO", "codigoTransferencia": "711" },
-                    { "sala": "302", "nome": "TURMA RECURSAL", "codigoTransferencia": "125" },
-                    { "sala": "303", "nome": "OAB", "codigoTransferencia": "523" },
-                    { "sala": "304", "nome": "TRE", "codigoTransferencia": "" },
-                    { "sala": "305", "nome": "PREFEITURA MUNICIPAL DE BOA VISTA (PROCON BOA VISTA)", "codigoTransferencia": "" },
-                    { "sala": "306", "nome": "PROCON ASSEMBLEIA", "codigoTransferencia": "" },
-                    { "sala": "307", "nome": "STI", "codigoTransferencia": "" },
-                    { "sala": "309", "nome": "ACESSO RESTRITO", "codigoTransferencia": "" },
-                    { "sala": "310", "nome": "ACESSO RESTRITO", "codigoTransferencia": "" }
-                ]},
-                { "nome": "Bloco 4", "unidades": [
-                    { "sala": "401", "nome": "DPE", "codigoTransferencia": "" },
-                    { "sala": "402", "nome": "MPE", "codigoTransferencia": "" },
-                    { "sala": "403", "nome": "SALA DO RACK / ELÉTRICA QGBT", "codigoTransferencia": "" },
-                    { "sala": "404", "nome": "GOVERNO DO ESTADO DE RORAIMA", "codigoTransferencia": "" },
-                    { "sala": "405", "nome": "GOVERNO DO ESTADO DE RORAIMA", "codigoTransferencia": "" },
-                    { "sala": "406", "nome": "POLÍCIA FEDERAL", "codigoTransferencia": "" },
-                    { "sala": "407", "nome": "RECEITA FEDERAL", "codigoTransferencia": "" },
-                    { "sala": "408", "nome": "DIRETORIA DO FÓRUM DA CIDADANIA", "codigoTransferencia": "1250" },
-                    { "sala": "409", "nome": "1ª E 2ª VARAS DA INFÂNCIA E JUVENTUDE", "codigoTransferencia": "" },
-                    { "sala": "410", "nome": "BRINQUEDOTECA", "codigoTransferencia": "" },
-                    { "sala": "411", "nome": "2ª VARA DA INFÂNCIA E JUVENTUDE - AUDIÊNCIA", "codigoTransferencia": "" },
-                    { "sala": "413", "nome": "2ª VARA DA INFÂNCIA E JUVENTUDE - GABINETE", "codigoTransferencia": "1037" },
-                    { "sala": "414", "nome": "1ª VARA DA INFÂNCIA E JUVENTUDE - GABINETE", "codigoTransferencia": "1026" },
-                    { "sala": "415", "nome": "1ª VARA DA INFÂNCIA E JUVENTUDE - AUDIÊNCIA", "codigoTransferencia": "" },
-                    { "sala": "416", "nome": "CARTÓRIO (ACESSO RESTRITO)", "codigoTransferencia": "117" },
-                    { "sala": "417", "nome": "CARTÓRIO ATENDIMENTO", "codigoTransferencia": "" },
-                    { "sala": "419", "nome": "SALA DE ESPERA ADOLESCENTE", "codigoTransferencia": "" },
-                    { "sala": "420", "nome": "SECRETARIA DO SETOR INTERPROFISSIONAL", "codigoTransferencia": "119" },
-                    { "sala": "421", "nome": "SALA DE DEPOIMENTO ESPECIAL", "codigoTransferencia": "1160" },
-                    { "sala": "422", "nome": "CIJ COORDENAÇÃO", "codigoTransferencia": "305" },
-                    { "sala": "423", "nome": "BANHEIRO MASCULINO", "codigoTransferencia": "" },
-                    { "sala": "424", "nome": "BANHEIRO FEMININO", "codigoTransferencia": "" },
-                    { "sala": "425", "nome": "ACESSO RESTRITO", "codigoTransferencia": "" },
-                    { "sala": "426", "nome": "EQUIPE TÉCNICA CÍVEL 1", "codigoTransferencia": "" },
-                    { "sala": "427", "nome": "EQUIPE TÉCNICA CÍVEL 2", "codigoTransferencia": "" },
-                    { "sala": "428", "nome": "EQUIPE TÉCNICA INFRACIONAL", "codigoTransferencia": "1159" },
-                    { "sala": "429", "nome": "DIVISÃO DE PROTEÇÃO", "codigoTransferencia": "755" }
-                ]},
-                { "nome": "Bloco 5 (Itinerante) - Térreo", "unidades": [
-                    { "sala": "501", "nome": "ATENDIMENTO COORDENAÇÃO", "codigoTransferencia": "" },
-                    { "sala": "509", "nome": "SALA DE AUDIÊNCIA", "codigoTransferencia": "" },
-                    { "sala": "S/N", "nome": "BRINQUEDOTECA", "codigoTransferencia": "" }
-                ]},
-                { "nome": "Bloco 5 (Itinerante) - 1º Piso", "unidades": [
-                    { "sala": "513", "nome": "ATENDIMENTO CARTÓRIO", "codigoTransferencia": "" },
-                    { "sala": "514", "nome": "SALA DE VÍDEO", "codigoTransferencia": "" },
-                    { "sala": "515", "nome": "DEFENSORIA PÚBLICA", "codigoTransferencia": "" },
-                    { "sala": "516", "nome": "CARTÓRIO DA JUSTIÇA ITINERANTE", "codigoTransferencia": "137" },
-                    { "sala": "518", "nome": "COORDENAÇÃO", "codigoTransferencia": "1024" },
-                    { "sala": "519", "nome": "COORDENADOR", "codigoTransferencia": "" },
-                    { "sala": "520", "nome": "SALA DE REUNIÃO", "codigoTransferencia": "" },
-                    { "sala": "521", "nome": "COPA", "codigoTransferencia": "" },
-                    { "sala": "522", "nome": "GABINETE VARA DA JUSTIÇA ITINERANTE", "codigoTransferencia": "873" }
-                ]}
-            ]
-        },
-        {
-            "id": "criminal",
-            "nome": "Fórum Criminal Min. Evandro Lins e Silva",
-            "cor": "#8a1f2b",
-            "divisoes": [
-                { "nome": "Térreo", "unidades": [
-                    { "sala": "0", "nome": "Limpeza", "codigoTransferencia": "" },
-                    { "sala": "4", "nome": "SETOR DE PRIMEIRO ATENDIMENTO, PESQUISA E ANDAMENTO PROCESSUAL", "codigoTransferencia": "628" },
-                    { "sala": "8", "nome": "Protocolo", "codigoTransferencia": "629" },
-                    { "sala": "9", "nome": "Cartório Distribuidor", "codigoTransferencia": "410" },
-                    { "sala": "11", "nome": "2ª Vara criminal do Júri - Cartório", "codigoTransferencia": "444" },
-                    { "sala": "12", "nome": "2ª Vara criminal do Júri - Secretaria", "codigoTransferencia": "449" },
-                    { "sala": "14", "nome": "1ª Vara criminal do Júri - Cartório", "codigoTransferencia": "421" },
-                    { "sala": "14", "nome": "1ª Vara criminal do Júri - Secretaria", "codigoTransferencia": "425" },
-                    { "sala": "16", "nome": "Administração", "codigoTransferencia": "575" },
-                    { "sala": "17", "nome": "1ª Vara criminal do Júri - Sala de Audiência", "codigoTransferencia": "422" },
-                    { "sala": "17", "nome": "1ª Vara criminal do Júri - Gabinete", "codigoTransferencia": "426" },
-                    { "sala": "20", "nome": "2ª Vara criminal do Júri - Salão do Júri", "codigoTransferencia": "455" },
-                    { "sala": "39", "nome": "2ª Vara criminal do Júri - Sala de Audiência", "codigoTransferencia": "447" },
-                    { "sala": "40", "nome": "2ª Vara criminal do Júri - Gabinete", "codigoTransferencia": "448" }
-                ]},
-                { "nome": "1º Piso", "unidades": [
-                    { "sala": "0", "nome": "Unidade de Justiça Restaurativa", "codigoTransferencia": "681" },
-                    { "sala": "1", "nome": "Video Conferência", "codigoTransferencia": "1123" },
-                    { "sala": "100", "nome": "OAB", "codigoTransferencia": "1115" },
-                    { "sala": "101", "nome": "Distribuidor Execução penal", "codigoTransferencia": "" },
-                    { "sala": "102", "nome": "Divisão de acompanhamento", "codigoTransferencia": "1054" },
-                    { "sala": "108", "nome": "Secretaria Da Vara De Entorpecentes E Organizações Criminosas - Cartório", "codigoTransferencia": "" },
-                    { "sala": "112", "nome": "1ª Vara criminal - Secretaria Juiz", "codigoTransferencia": "" },
-                    { "sala": "114", "nome": "Vepema - Secretaria Juiz", "codigoTransferencia": "474" },
-                    { "sala": "114", "nome": "Vepema - Cartório", "codigoTransferencia": "" },
-                    { "sala": "118", "nome": "Central de Depoimento Especial", "codigoTransferencia": "1195" },
-                    { "sala": "121", "nome": "Cartório Unificado das Varas Criminais", "codigoTransferencia": "" },
-                    { "sala": "126", "nome": "3ª Vara criminal - Secretaria Juiz", "codigoTransferencia": "" },
-                    { "sala": "140", "nome": "Vepema - Gestão de Ações e Projetos Sociais", "codigoTransferencia": "1188" },
-                    { "sala": "145", "nome": "Vepema - Gabinete", "codigoTransferencia": "473" },
-                    { "sala": "145", "nome": "Vepema - Sala de Audiência", "codigoTransferencia": "472" }
-                ]},
-                { "nome": "2º Piso", "unidades": [
-                    { "sala": "0", "nome": "1º Juizado de Violência Doméstica - Secretaria Juiz", "codigoTransferencia": "531" },
-                    { "sala": "200", "nome": "Vara de Execução Penal - Secretaria Juiz", "codigoTransferencia": "553" },
-                    { "sala": "204", "nome": "Vara de Execução Penal - Sala de Audiência", "codigoTransferencia": "551" },
-                    { "sala": "205", "nome": "Vara de Execução Penal - Gabinete", "codigoTransferencia": "554" },
-                    { "sala": "211", "nome": "2ª vara criminal - Sala de Audiência", "codigoTransferencia": "" },
-                    { "sala": "213", "nome": "Entorpecentes - Secretaria Juiz", "codigoTransferencia": "1060" },
-                    { "sala": "215", "nome": "2º Juizado de Violência Doméstica - Secretaria Juiz", "codigoTransferencia": "" },
-                    { "sala": "215", "nome": "2º Juizado de Violência Doméstica - Gabinete", "codigoTransferencia": "1035" },
-                    { "sala": "216", "nome": "Secretaria Unificada dos Juizados de Violência Doméstica", "codigoTransferencia": "1190" },
-                    { "sala": "217", "nome": "2º Juizado de Violência Doméstica - Sala de Audiência", "codigoTransferencia": "" },
-                    { "sala": "220", "nome": "Central Eletrônica de Mandados", "codigoTransferencia": "920" },
-                    { "sala": "221", "nome": "Juiz Substituto", "codigoTransferencia": "1121" },
-                    { "sala": "224", "nome": "Coordenadoria do Juizado de Violência Doméstica", "codigoTransferencia": "1061" },
-                    { "sala": "226", "nome": "Central de mandados", "codigoTransferencia": "" },
-                    { "sala": "227", "nome": "Vara Criminal do Idoso/Criança - Analistas", "codigoTransferencia": "545" },
-                    { "sala": "229", "nome": "Vara Criminal do Idoso/Criança - Cartório", "codigoTransferencia": "542" },
-                    { "sala": "231", "nome": "Juizado Especial criminal - Sala de Audiência", "codigoTransferencia": "" },
-                    { "sala": "241", "nome": "Sala de Saúde", "codigoTransferencia": "195" },
-                    { "sala": "242", "nome": "sala do CEAVCAI", "codigoTransferencia": "1196" },
-                    { "sala": "243", "nome": "1º Juizado de Violência Doméstica - Sala de Audiência", "codigoTransferencia": "529" },
-                    { "sala": "249", "nome": "1º Juizado de Violência Doméstica - Gabinete", "codigoTransferencia": "1032" },
-                    { "sala": "250", "nome": "Diretoria", "codigoTransferencia": "916" },
-                    { "sala": "252", "nome": "1º Juizado de Violência Doméstica - Equipe Multidisciplinar", "codigoTransferencia": "533" }
-                ]}
-            ]
-        },
-        {
-            "id": "palacio",
-            "nome": "Palácio da Justiça",
-            "cor": "#5b3a8e",
-            "divisoes": [
-                { "nome": "Térreo", "unidades": [
-                    { "sala": "", "nome": "Tribunal do Pleno", "codigoTransferencia": "684" },
-                    { "sala": "", "nome": "Secretaria Tribunal Pleno", "codigoTransferencia": "10" },
-                    { "sala": "", "nome": "Secretaria das Câmaras Reunidas", "codigoTransferencia": "670" },
-                    { "sala": "", "nome": "Cartório Distribuidor do 2º Grau", "codigoTransferencia": "882" },
-                    { "sala": "", "nome": "Corregedoria Geral da Justiça", "codigoTransferencia": "976" },
-                    { "sala": "", "nome": "Ouvidoria", "codigoTransferencia": "987" },
-                    { "sala": "", "nome": "Assessoria Militar", "codigoTransferencia": "709" }
-                ]},
-                { "nome": "1º Piso", "unidades": [
-                    { "sala": "", "nome": "Vice-Presidência", "codigoTransferencia": "1091" },
-                    { "sala": "", "nome": "Gabinete Des. Jésus Nascimento", "codigoTransferencia": "855" },
-                    { "sala": "", "nome": "Gabinete Des. Mozarildo Cavalcanti", "codigoTransferencia": "854" },
-                    { "sala": "", "nome": "Gabinete Des. Leonardo Cupello", "codigoTransferencia": "851" },
-                    { "sala": "", "nome": "Gabinete Des. Ricardo Oliveira", "codigoTransferencia": "1104" }
-                ]},
-                { "nome": "2º Piso", "unidades": [
-                    { "sala": "", "nome": "Presidência", "codigoTransferencia": "883" },
-                    { "sala": "", "nome": "Gabinete Desª. Elaine Bianchi", "codigoTransferencia": "1108" },
-                    { "sala": "", "nome": "Gabinete Desª. Tânia Vasconcelos", "codigoTransferencia": "1107" },
-                    { "sala": "", "nome": "Gabinete Des. Cristóvão Suter", "codigoTransferencia": "852" },
-                    { "sala": "", "nome": "Gabinete Des. Mauro Campello", "codigoTransferencia": "1105" },
-                    { "sala": "", "nome": "Gabinete Des. Almiro Padilha", "codigoTransferencia": "1106" },
-                    { "sala": "", "nome": "Gabinete Des. Erick Linhares", "codigoTransferencia": "853" }
-                ]}
-            ]
-        },
-        {
-            "id": "sobral",
-            "nome": "Fórum Cível Advogado Sobral Pinto",
-            "cor": "#0e5a7a",
-            "divisoes": [
-                { "nome": "Térreo", "unidades": [
-                    { "sala": "", "nome": "Auditório", "codigoTransferencia": "371" },
-                    { "sala": "", "nome": "Lanchonete", "codigoTransferencia": "" },
-                    { "sala": "", "nome": "Consulta de Processos", "codigoTransferencia": "413" },
-                    { "sala": "", "nome": "Cartório Distribuidor", "codigoTransferencia": "626" },
-                    { "sala": "", "nome": "Protocolo Adm.", "codigoTransferencia": "624" },
-                    { "sala": "", "nome": "Contadoria", "codigoTransferencia": "625" },
-                    { "sala": "", "nome": "1ª Vara da Família", "codigoTransferencia": "871" },
-                    { "sala": "", "nome": "2ª Vara da Família", "codigoTransferencia": "994" },
-                    { "sala": "", "nome": "Defensoria Pública", "codigoTransferencia": "380" },
-                    { "sala": "", "nome": "Ouvidoria", "codigoTransferencia": "383" },
-                    { "sala": "", "nome": "NAT-JUS", "codigoTransferencia": "1200" }
-                ]},
-                { "nome": "1º Piso", "unidades": [
-                    { "sala": "", "nome": "Juizado Fazendário", "codigoTransferencia": "1069" },
-                    { "sala": "", "nome": "1ª Vara Fazenda Pública", "codigoTransferencia": "1014" },
-                    { "sala": "", "nome": "2ª Vara Fazenda Pública", "codigoTransferencia": "1017" }
-                ]},
-                { "nome": "2º Piso", "unidades": [
-                    { "sala": "", "nome": "1ª Vara Cível", "codigoTransferencia": "77" },
-                    { "sala": "", "nome": "2ª Vara Cível", "codigoTransferencia": "78" },
-                    { "sala": "", "nome": "3ª Vara Cível", "codigoTransferencia": "79" },
-                    { "sala": "", "nome": "4ª Vara Cível", "codigoTransferencia": "80" },
-                    { "sala": "", "nome": "5ª Vara Cível", "codigoTransferencia": "677" },
-                    { "sala": "", "nome": "6ª Vara Cível", "codigoTransferencia": "678" },
-                    { "sala": "", "nome": "Vara de Execução Fiscal", "codigoTransferencia": "1172" },
-                    { "sala": "", "nome": "Gab. Juízes Substitutos", "codigoTransferencia": "1093" },
-                    { "sala": "", "nome": "OAB", "codigoTransferencia": "376" },
-                    { "sala": "", "nome": "Administração", "codigoTransferencia": "" }
-                ]}
-            ]
-        }
-    ]
+// ============================================================
+// CONFIG
+// ============================================================
+const REPO = 'Rafajames/MapTec-TJRR';
+const DATA_URL = 'data/maptec.json';
+const CACHE_DATA = 'maptec_data_cache_v3';
+const CACHE_DATE = 'maptec_updated_v3';
+
+// ============================================================
+// ÍCONES
+// ============================================================
+const ICONS = {
+    search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+    building: '<path d="M3 21h18M5 21V5a1 1 0 011-1h8a1 1 0 011 1v16M15 9h3a1 1 0 011 1v11M9 8h2M9 12h2M9 16h2"/>',
+    layers: '<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',
+    pin: '<path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    door: '<path d="M6 21V4a1 1 0 011-1h10a1 1 0 011 1v17M3 21h18"/><circle cx="14.5" cy="12.5" r=".8" fill="currentColor"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+    arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    home: '<path d="M3 11l9-8 9 8M5 10v10h14V10"/>',
+    copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 011-1h10"/>',
+    x: '<path d="M6 6l12 12M18 6L6 18"/>',
+    grid: '<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>',
+    list: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+    chevron: '<path d="M9 6l6 6-6 6"/>',
+    edit: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>',
+    wifi: '<path d="M2 8.8a15 15 0 0120 0M5 12.5a10 10 0 0114 0M8.5 16a5 5 0 017 0M12 19.5h.01"/>',
+    check: '<path d="M20 6L9 17l-5-5"/>'
 };
-
-// =====================================================================
-// DADOS CADASTRADOS PELOS TÉCNICOS (persistidos e compartilhados)
-// =====================================================================
-const STORAGE_KEY_ROOMS = 'salas-adicionadas-tecnicos';
-const STORAGE_KEY_PREDIOS = 'predios-adicionados-tecnicos';
-const STORAGE_KEY_CODES = 'codigos-transferencia-overrides';
-const STORAGE_KEY_REFS = 'referencias-localizacao';
-const DADOS_ATUALIZADOS = '16/11/2026';
-
-// ===================== CONFIGURAÇÃO — ALTERE AQUI =====================
-// Troque a senha abaixo por uma de sua escolha antes de distribuir o arquivo.
-// Atenção: como este é um arquivo aberto (sem servidor), qualquer pessoa que
-// abrir o código-fonte da página consegue ver essa senha. Ela serve para
-// evitar edições acidentais por técnicos comuns, não é uma senha segura.
-const ADMIN_PASSWORD = 'roraima-adm-2026';
-const OWNER_NAME = 'Jamerson Rafael';
-// ========================================================================
-
-let userRooms = [];      // { id, predioId, divisaoNome, sala, nome, codigoTransferencia }
-let userPredios = [];    // { id, nome, divisoes: [...], userAdded: true }
-let refOverrides = {};   // { chave: 'texto de referência/como chegar' }
-let sortMode = localStorage.getItem('maptec_sort') || 'sala';
-let codeOverrides = {};  // { "predioId||divisaoNome||sala||nome": "codigo" }  -> usado para editar salas fixas do db
-let dataLoaded = false;
-let isAdminMode = localStorage.getItem('mapeamento_admin_mode') === 'true';
-let isOffline = false;
-
-const LOGO_TJRR_URL = 'https://avatars.githubusercontent.com/u/24796065?s=280&v=4';
-const GITHUB_SVG = '<svg class="github-icon" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>';
-const GITHUB_PROFILE_URL = 'https://github.com/Rafajames';
-const APP_DESCRIPTION = 'Ferramenta de apoio ao deslocamento técnico pelas dependências do Tribunal de Justiça do Estado de Roraima: localize salas, setores e códigos de transferência.';
-
-const LOGO_TJRR_SVG = `<img src="${LOGO_TJRR_URL}" alt="Logo TJRR" class="logo-tjrr" onclick="handleLogoTap()" onerror="this.style.display='none'">`;
-
-let logoTapCount = 0;
-let logoTapTimer = null;
-function handleLogoTap() {
-    if (isAdminMode) return;
-    logoTapCount++;
-    clearTimeout(logoTapTimer);
-    logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 2500);
-    if (logoTapCount >= 5) {
-        logoTapCount = 0;
-        openAdminLoginModal();
-    }
+function ico(name, size) {
+    size = size || 20;
+    return `<svg class="ico" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
 }
 
-function uid(prefix) {
-    return (prefix || 'u') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
-
-// Camada de armazenamento: tenta o storage compartilhado do Claude; se não
-// existir (arquivo aberto direto no navegador) ou falhar (sem internet),
-// usa uma cópia local no navegador (localStorage) para manter a plataforma
-// funcionando offline. Fica marcado como "offline" quando cai no fallback.
-async function storageGet(key, shared) {
-    if (typeof window.storage !== 'undefined') {
-        try {
-            const r = await window.storage.get(key, shared);
-            if (r && r.value) localStorage.setItem('cache_' + key, r.value);
-            isOffline = false;
-            return r;
-        } catch (e) { /* cai para o cache local abaixo */ }
-    }
-    isOffline = true;
-    const cached = localStorage.getItem('cache_' + key);
-    return cached ? { key, value: cached, shared } : null;
-}
-
-async function storageSet(key, value, shared) {
-    localStorage.setItem('cache_' + key, value);
-    if (typeof window.storage !== 'undefined') {
-        try {
-            const r = await window.storage.set(key, value, shared);
-            isOffline = false;
-            return r;
-        } catch (e) {
-            isOffline = true;
-            return null;
-        }
-    }
-    isOffline = true;
-    return { key, value, shared };
-}
-
-async function loadAllData() {
-    try {
-        const r = await storageGet(STORAGE_KEY_ROOMS, true);
-        if (r && r.value) userRooms = JSON.parse(r.value);
-    } catch (e) { userRooms = []; }
-
-    try {
-        const r = await storageGet(STORAGE_KEY_PREDIOS, true);
-        if (r && r.value) userPredios = JSON.parse(r.value);
-    } catch (e) { userPredios = []; }
-
-    try {
-        const r = await storageGet(STORAGE_KEY_CODES, true);
-        if (r && r.value) codeOverrides = JSON.parse(r.value);
-    } catch (e) { codeOverrides = {}; }
-
-    try {
-        const r = await storageGet(STORAGE_KEY_REFS, true);
-        if (r && r.value) refOverrides = JSON.parse(r.value);
-    } catch (e) { refOverrides = {}; }
-
-    dataLoaded = true;
-    route();
-}
-
-async function saveUserRooms() {
-    try { await storageSet(STORAGE_KEY_ROOMS, JSON.stringify(userRooms), true); route(); }
-    catch (e) { showToast('Erro ao salvar. Tente novamente.'); console.error(e); }
-}
-async function saveUserPredios() {
-    try { await storageSet(STORAGE_KEY_PREDIOS, JSON.stringify(userPredios), true); route(); }
-    catch (e) { showToast('Erro ao salvar. Tente novamente.'); console.error(e); }
-}
-async function saveRefOverrides() {
-    try { await storageSet(STORAGE_KEY_REFS, JSON.stringify(refOverrides), true); route(); }
-    catch (e) { showToast('Erro ao salvar. Tente novamente.'); console.error(e); }
-}
-async function saveCodeOverrides() {
-    try { await storageSet(STORAGE_KEY_CODES, JSON.stringify(codeOverrides), true); route(); }
-    catch (e) { showToast('Erro ao salvar. Tente novamente.'); console.error(e); }
-}
-
-// ===================== MODO ADM / VISUALIZAÇÃO =====================
-function toggleAdminMode() {
-    if (isAdminMode) {
-        if (confirm('Sair do modo ADM e voltar para visualização?')) {
-            isAdminMode = false;
-            localStorage.setItem('mapeamento_admin_mode', 'false');
-            route();
-        }
-    } else {
-        openAdminLoginModal();
-    }
-}
-
-function openAdminLoginModal() {
-    document.getElementById('modalRoot').innerHTML = `
-        <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
-            <div class="modal">
-                <h2>Entrar como ADM</h2>
-                <div class="modal-sub">Digite a senha de administrador para poder editar prédios, salas, pisos e códigos.</div>
-                <div class="field">
-                    <label>Senha</label>
-                    <input id="admin_pass" type="password" placeholder="Senha de ADM">
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="confirmarAdminLogin()">Entrar</button>
-                </div>
-            </div>
-        </div>`;
-    const input = document.getElementById('admin_pass');
-    input.focus();
-    input.addEventListener('keyup', (e) => { if (e.key === 'Enter') confirmarAdminLogin(); });
-}
-
-function confirmarAdminLogin() {
-    const senha = document.getElementById('admin_pass').value;
-    if (senha === ADMIN_PASSWORD) {
-        isAdminMode = true;
-        localStorage.setItem('mapeamento_admin_mode', 'true');
-        closeModal();
-        showToast('Modo ADM ativado.');
-        route();
-    } else {
-        showToast('Senha incorreta.');
-    }
-}
-
-function renderModeButton() {
-    return isAdminMode
-        ? `<button class="mode-btn mode-btn-admin" onclick="toggleAdminMode()">🔓 ADM</button>`
-        : '';
-}
-
-function renderOfflineBadge() {
-    return ''; // aviso removido da interface — o fallback offline continua funcionando silenciosamente
-}
-
-function showToast(msg) {
-    const t = document.createElement('div');
-    t.className = 'toast';
-    t.textContent = msg;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 2400);
-}
-
-function escapeHtml(str) {
-    const d = document.createElement('div');
-    d.textContent = str || '';
-    return d.innerHTML;
-}
-
-const PALETA_FALLBACK = ['#b5651d', '#3d5a80', '#6b4226', '#2f9e44', '#c2185b', '#455a64'];
-function getPredioColor(predio) {
-    if (predio.cor) return predio.cor;
-    let hash = 0;
-    for (let i = 0; i < predio.id.length; i++) hash = (hash * 31 + predio.id.charCodeAt(i)) >>> 0;
-    return PALETA_FALLBACK[hash % PALETA_FALLBACK.length];
-}
-
-function labelDivisoes(divisoes) {
-    const usaBloco = divisoes.some(d => d.nome.toLowerCase().includes('bloco'));
-    const unidade = usaBloco ? 'bloco' : 'piso';
-    return divisoes.length + ' ' + unidade + (divisoes.length === 1 ? '' : 's');
-}
-
-
-// ===================== TEXTO / BUSCA =====================
+// ============================================================
+// TEXTO / BUSCA
+// ============================================================
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const SIGLAS = new Set(['CPS','SEC','SAD','GMF','TIC','TI','NPI','SIL','DML','OAB','TRE','STI','DPE','MPE','CIJ','CEJAI','CEJUSC','CRSF','DGEX','CEAVCAI','NATJUS','NUPEMEC','PROCON','QGBT','SALC','SINFRA','NAT','JUS','TJRR','CNJ']);
 const MINUSC = new Set(['de','da','do','das','dos','e','em','no','na','nos','nas','para','com','ao']);
 const ACENTOS = { ANALISE:'análise', ATENCIMENTO:'atendimento', AUDIENCIAS:'audiências', INFORMACAO:'informação', INFORMATICA:'informática', JURIDICA:'jurídica', LOGISTICA:'logística', NUCLEO:'núcleo', PRECATORIOS:'precatórios', PRECENDENTES:'precedentes', PRESIDENCIA:'presidência', REUNIAO:'reunião', SINDICANCIA:'sindicância', TECNICA:'técnica' };
 
-// Só formata na EXIBIÇÃO (os dados e os códigos de edição continuam intactos).
+// Só formata na EXIBIÇÃO; o JSON mantém o texto original.
 function fmtNome(s) {
     s = String(s || '');
     const letras = s.replace(/[^A-Za-zÀ-ú]/g, '');
@@ -1147,7 +272,7 @@ function fmtNome(s) {
     s = s.replace(/,\//g, '/').replace(/_/g, ' – ');
     if (!letras || ups / letras.length < 0.6) return s.trim();
     let first = true;
-    return s.replace(/[A-Za-zÀ-ú0-9ºª]+/g, (w) => {
+    return s.replace(/[A-Za-zÀ-ú0-9ºª]+/g, w => {
         const wasFirst = first; first = false;
         if (SIGLAS.has(w)) return w;
         if (/\d/.test(w) && /[A-Z]/.test(w)) return w;
@@ -1156,582 +281,371 @@ function fmtNome(s) {
         return low.charAt(0).toUpperCase() + low.slice(1);
     }).trim();
 }
-
-function norm(s) {
-    return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-}
-function matches(hayNorm, q) {
-    const tokens = norm(q).split(/\s+/).filter(Boolean);
-    return tokens.every(tk => hayNorm.includes(tk));
-}
+const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const slugify = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const plural = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
+function tokens(q) { return norm(q).split(/\s+/).filter(Boolean); }
+function matches(hay, q) { return tokens(q).every(t => hay.includes(t)); }
 function highlight(text, q) {
-    const tokens = norm(q).split(/\s+/).filter(Boolean);
-    const n = norm(text);
-    if (!tokens.length || n.length !== text.length) return escapeHtml(text);
+    const tk = tokens(q), n = norm(text);
+    if (!tk.length || n.length !== text.length) return esc(text);
     const marks = new Array(text.length).fill(false);
-    tokens.forEach(tk => {
-        let i = n.indexOf(tk);
-        while (i !== -1) { for (let k = i; k < i + tk.length; k++) marks[k] = true; i = n.indexOf(tk, i + tk.length); }
-    });
+    tk.forEach(t => { let i = n.indexOf(t); while (i !== -1) { for (let k = i; k < i + t.length; k++) marks[k] = true; i = n.indexOf(t, i + t.length); } });
     let out = '', open = false;
     for (let k = 0; k < text.length; k++) {
         if (marks[k] && !open) { out += '<mark>'; open = true; }
         if (!marks[k] && open) { out += '</mark>'; open = false; }
-        out += escapeHtml(text[k]);
+        out += esc(text[k]);
     }
     return out + (open ? '</mark>' : '');
 }
-function plural(n, um, varios) { return n + ' ' + (n === 1 ? um : varios); }
-function cardKey(u) { return slugify((u.sala || '') + '-' + u.nome); }
+function fmtData(iso) {
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('pt-BR', { timeZone: 'America/Manaus' });
+}
+function labelAndares(p) {
+    const bloco = p.divisoes.some(d => /bloco/i.test(d.nome));
+    return plural(p.divisoes.length, bloco ? 'bloco' : 'andar', bloco ? 'blocos' : 'andares');
+}
+const totalSalas = p => p.divisoes.reduce((a, d) => a + d.unidades.length, 0);
 
-function copiarCodigo(cod) {
-    const ok = () => showToast('Código ' + cod + ' copiado.');
+// ============================================================
+// DADOS (somente leitura — data/maptec.json no repositório)
+// ============================================================
+let DATA = null;
+let INDEX = [];
+let state = { offline: false, updatedAt: localStorage.getItem(CACHE_DATE) || '' };
+
+async function loadData() {
+    try {
+        const r = await fetch(DATA_URL, { cache: 'no-cache' });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const fromSW = r.headers.get('X-MapTec-Cache') === '1';
+        DATA = await r.json();
+        if (!fromSW) localStorage.setItem(CACHE_DATA, JSON.stringify(DATA));
+        state.offline = fromSW;
+        const lm = r.headers.get('last-modified');
+        if (!state.updatedAt && lm) state.updatedAt = new Date(lm).toISOString();
+    } catch (e) {
+        const c = localStorage.getItem(CACHE_DATA);
+        if (c) { DATA = JSON.parse(c); state.offline = true; }
+    }
+    if (!DATA) return false;
+    buildIndex();
+    return true;
+}
+function buildIndex() {
+    INDEX = [];
+    DATA.predios.forEach(p => p.divisoes.forEach(d => d.unidades.forEach((u, i) => {
+        INDEX.push({
+            p, d, u, aslug: slugify(d.nome),
+            hay: norm([u.nome, u.sala, u.codigo, u.obs, d.nome, p.nome, p.nomeCurto, p.subtitulo, p.endereco.bairro].join(' '))
+        });
+    })));
+}
+// A data vem do último commit REAL do arquivo de dados (API pública do GitHub).
+async function loadUpdatedAt() {
+    try {
+        const r = await fetch(`https://api.github.com/repos/${REPO}/commits?path=${encodeURIComponent(DATA_URL)}&per_page=1`);
+        if (!r.ok) return;
+        const j = await r.json();
+        const iso = j && j[0] && j[0].commit && j[0].commit.committer && j[0].commit.committer.date;
+        if (iso) { state.updatedAt = iso; localStorage.setItem(CACHE_DATE, iso); renderFooter(); renderBanner(); }
+    } catch (e) { /* mantém a data em cache */ }
+}
+
+// ============================================================
+// ESTRUTURA COMUM
+// ============================================================
+const $ = id => document.getElementById(id);
+function renderFooter() {
+    const d = state.updatedAt ? fmtData(state.updatedAt) : '';
+    $('footer').innerHTML = `
+        <strong>MapTec · TJRR</strong>
+        <span>Ferramenta de consulta de salas, setores, unidades e códigos de transferência do Tribunal de Justiça do Estado de Roraima.</span>
+        <span>Desenvolvido por <a href="https://github.com/Rafajames" target="_blank" rel="noopener noreferrer">Rafajames</a>${d ? ' · Base de salas atualizada em ' + d : ''}</span>`;
+}
+function renderBanner() {
+    const d = state.updatedAt ? fmtData(state.updatedAt) : '';
+    $('banner').innerHTML = state.offline
+        ? `<div class="banner" role="status"><div class="container">${ico('wifi', 18)}<span>Sem conexão: exibindo os dados salvos neste aparelho${d ? ' (base de ' + d + ')' : ''}. Podem estar desatualizados.</span></div></div>`
+        : '';
+}
+function renderTopActions(isHome) {
+    $('topActions').innerHTML = (isHome ? '' : `<a class="top-btn" href="#/">${ico('home')}<span>Início</span></a>`)
+        + `<button class="top-btn" id="aboutBtn" type="button">${ico('info')}<span>Sobre o sistema</span></button>`;
+    $('aboutBtn').addEventListener('click', openAbout);
+}
+function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+    document.body.appendChild(t); setTimeout(() => t.remove(), 2200);
+}
+
+// ============================================================
+// HOME
+// ============================================================
+let homeQuery = '';
+function renderHome() {
+    document.title = 'MapTec · TJRR';
+    renderTopActions(true);
+    const hero = DATA.predios[0] ? DATA.predios[0].foto : '';
+    $('app').innerHTML = `
+        <section class="hero" style="--hero-img:url('${esc(hero)}')">
+            <div class="container">
+                <h1>Encontre salas, setores e unidades do TJRR</h1>
+                <p>Use a busca ou selecione um prédio para visualizar os andares e salas disponíveis.</p>
+                <form class="searchbar" id="homeForm" role="search">
+                    ${ico('search', 22)}
+                    <label class="sr" for="q">Buscar sala, setor, unidade ou código</label>
+                    <input id="q" type="search" placeholder="Buscar sala, setor ou código…" autocomplete="off" value="${esc(homeQuery)}">
+                    <button class="btn btn-primary" type="submit"><span>Buscar</span>${ico('arrow')}</button>
+                </form>
+            </div>
+        </section>
+        <div class="container" id="homeBody"></div>`;
+    const input = $('q');
+    input.addEventListener('input', () => { homeQuery = input.value; renderHomeBody(); });
+    $('homeForm').addEventListener('submit', e => { e.preventDefault(); input.blur(); const f = document.querySelector('.res'); if (f) f.focus(); });
+    renderHomeBody();
+}
+function searchAll(q) {
+    const t = tokens(q), nq = norm(q).trim();
+    const res = [];
+    INDEX.forEach((r, i) => {
+        if (!t.every(x => r.hay.includes(x))) return;
+        let s = 0;
+        if (r.u.sala && norm(r.u.sala) === nq) s += 100;
+        if (r.u.codigo && norm(r.u.codigo) === nq) s += 90;
+        if (norm(r.u.nome).startsWith(nq)) s += 20;
+        res.push({ r, s, i });
+    });
+    res.sort((a, b) => b.s - a.s || a.i - b.i);
+    return res.map(x => x.r);
+}
+function renderHomeBody() {
+    const q = homeQuery.trim(), box = $('homeBody');
+    if (!q) {
+        box.innerHTML = `<h2 class="section-title">${ico('building', 22)} Prédios do Tribunal</h2>
+            <div class="building-grid">${DATA.predios.map((p, i) => `
+                <a class="b-card" href="#/predio/${esc(p.id)}" style="animation-delay:${i * 50}ms">
+                    <img src="${esc(p.foto)}" alt="Fachada do ${esc(p.nomeCurto || p.nome)}" loading="lazy" width="480" height="270">
+                    <div class="b-body">
+                        <h3 class="b-name">${esc(p.nomeCurto || p.nome)}</h3>
+                        <div class="b-meta">${ico('pin', 15)} ${esc(p.endereco.bairro)}</div>
+                        <div class="b-meta">${ico('building', 15)} ${labelAndares(p)} · ${plural(totalSalas(p), 'sala', 'salas')}</div>
+                        <span class="b-go" aria-hidden="true">${ico('arrow', 18)}</span>
+                    </div>
+                </a>`).join('')}</div>`;
+        return;
+    }
+    const res = searchAll(q), MAX = 80;
+    if (!res.length) {
+        box.innerHTML = `<div class="empty" role="status"><strong>Nada encontrado para "${esc(q)}"</strong>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</div>`;
+        return;
+    }
+    box.innerHTML = `<div class="res-count" role="status" aria-live="polite">${plural(res.length, 'resultado', 'resultados')}${res.length > MAX ? ` — mostrando os ${MAX} primeiros; refine a busca` : ''}</div>
+        <div class="res-list">${res.slice(0, MAX).map(r => `
+            <a class="res" href="#/predio/${esc(r.p.id)}/${r.aslug}/${esc(r.u.id)}">
+                <span class="res-num">${r.u.sala ? esc(r.u.sala) : 's/n'}</span>
+                <span><div class="res-name">${highlight(fmtNome(r.u.nome), q)}</div>
+                <div class="res-loc">${esc(r.p.nomeCurto || r.p.nome)} · ${esc(r.d.nome)}</div></span>
+                ${r.u.codigo ? `<span class="res-code">Cód. ${highlight(r.u.codigo, q)}</span>` : ''}
+            </a>`).join('')}</div>`;
+}
+
+// ============================================================
+// PRÉDIO
+// ============================================================
+let viewMode = localStorage.getItem('maptec_view') || 'grid';
+let buildingQuery = '';
+let curBuilding = null;
+
+const mapsUrl = p => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent([p.endereco.logradouro, p.endereco.bairro, p.endereco.cidade, p.endereco.cep].filter(Boolean).join(', '));
+
+function renderBuilding(p, aslug) {
+    const andar = p.divisoes.find(d => slugify(d.nome) === aslug) || p.divisoes[0];
+    document.title = (p.nomeCurto || p.nome) + ' · MapTec';
+    renderTopActions(false);
+    const e = p.endereco;
+    const bloco = p.divisoes.some(d => /bloco/i.test(d.nome));
+    $('app').innerHTML = `<div class="container">
+        <nav class="crumbs" aria-label="Você está em"><a href="#/">Início</a>${ico('chevron', 14)}<span aria-current="page">${esc(p.nomeCurto || p.nome)}</span></nav>
+        <div class="layout">
+            <aside class="side">
+                <img src="${esc(p.foto)}" alt="Fachada do ${esc(p.nomeCurto || p.nome)}" width="480" height="270">
+                <div class="side-body">
+                    <h1>${esc(p.nomeCurto || p.nome)}</h1>
+                    ${p.subtitulo ? `<div class="sub">${esc(p.subtitulo)}</div>` : ''}
+                    <div class="addr">${ico('pin', 18)}<div>${esc(e.logradouro)}<br>${esc(e.bairro)}${e.cidade ? ' · ' + esc(e.cidade) : ''}${e.cep ? '<br>CEP ' + esc(e.cep) : ''}</div></div>
+                    <a class="btn btn-soft" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener noreferrer">${ico('pin', 18)} Abrir no Google Maps</a>
+                    <p class="side-count">${plural(totalSalas(p), 'sala cadastrada', 'salas cadastradas')}</p>
+                    <h2 class="floors-title">${bloco ? 'Blocos' : 'Andares'}</h2>
+                    <nav class="floors" aria-label="${bloco ? 'Blocos' : 'Andares'}">${p.divisoes.map(d => {
+                        const s = slugify(d.nome);
+                        return `<a class="floor" href="#/predio/${esc(p.id)}/${s}" ${d === andar ? 'aria-current="true"' : ''}>${ico('layers', 16)}${esc(d.nome)}<span class="n">${d.unidades.length}</span></a>`;
+                    }).join('')}</nav>
+                </div>
+            </aside>
+            <section class="panel" aria-labelledby="floorTitle">
+                <div class="panel-head"><span class="ico-wrap">${ico('layers', 30)}</span><div><h2 id="floorTitle">${esc(andar.nome)}</h2><p id="floorSub"></p></div></div>
+                <div class="tools">
+                    <label class="field">${ico('search', 20)}<span class="sr">Buscar neste prédio</span><input id="bq" type="search" placeholder="Buscar por número ou setor…" autocomplete="off" value="${esc(buildingQuery)}"></label>
+                    <div class="view-toggle" role="group" aria-label="Modo de exibição">
+                        <button type="button" id="vGrid" aria-label="Grade" aria-pressed="${viewMode === 'grid'}">${ico('grid')}</button>
+                        <button type="button" id="vList" aria-label="Lista" aria-pressed="${viewMode === 'list'}">${ico('list')}</button>
+                    </div>
+                </div>
+                <div id="roomsBox"></div>
+            </section>
+        </div></div>`;
+    const draw = () => drawRooms(p, andar);
+    $('bq').addEventListener('input', () => { buildingQuery = $('bq').value; draw(); });
+    $('vGrid').addEventListener('click', () => setView('grid', draw));
+    $('vList').addEventListener('click', () => setView('list', draw));
+    draw();
+}
+function setView(m, draw) {
+    viewMode = m; localStorage.setItem('maptec_view', m);
+    $('vGrid').setAttribute('aria-pressed', m === 'grid'); $('vList').setAttribute('aria-pressed', m === 'list');
+    draw();
+}
+function drawRooms(p, andar) {
+    const q = buildingQuery.trim();
+    let items;
+    if (q) items = INDEX.filter(r => r.p === p && matches(r.hay, q));
+    else items = andar.unidades.map(u => ({ p, d: andar, u, aslug: slugify(andar.nome) }));
+    $('floorSub').textContent = q
+        ? `${plural(items.length, 'resultado', 'resultados')} em todo o prédio`
+        : 'Selecione uma sala para ver mais informações';
+    if (!items.length) {
+        $('roomsBox').innerHTML = `<div class="empty" role="status"><strong>Nenhuma sala encontrada</strong>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</div>`;
+        return;
+    }
+    $('roomsBox').innerHTML = `<div class="rooms ${viewMode}">${items.map((r, i) => `
+        <a class="room" href="#/predio/${esc(p.id)}/${r.aslug}/${esc(r.u.id)}" style="animation-delay:${Math.min(i, 20) * 15}ms">
+            <span class="room-num">${r.u.sala ? highlight(r.u.sala, q) : 's/n'}</span>
+            <span class="room-name">${highlight(fmtNome(r.u.nome), q)}</span>
+            ${q ? `<span class="room-floor">${esc(r.d.nome)}</span>` : ''}
+            ${r.u.codigo ? `<span class="room-code">Cód. ${highlight(r.u.codigo, q)}</span>` : ''}
+        </a>`).join('')}</div>`;
+}
+
+// ============================================================
+// MODAIS
+// ============================================================
+let lastFocus = null;
+function showModal(html, onClose) {
+    lastFocus = document.activeElement;
+    $('modalRoot').innerHTML = `<div class="overlay" id="overlay">${html}</div>`;
+    const ov = $('overlay');
+    ov.addEventListener('click', e => { if (e.target === ov) onClose(); });
+    ov.querySelector('.modal-x').addEventListener('click', onClose);
+    ov.querySelector('.modal-x').focus();
+    document.body.style.overflow = 'hidden';
+}
+function hideModal() {
+    $('modalRoot').innerHTML = '';
+    document.body.style.overflow = '';
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
+    lastFocus = null;
+}
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && $('overlay')) { e.preventDefault(); $('overlay').querySelector('.modal-x').click(); }
+});
+
+function openRoom(p, aslug, u) {
+    const andar = p.divisoes.find(d => slugify(d.nome) === aslug) || p.divisoes[0];
+    const base = `#/predio/${p.id}/${aslug}`;
+    const sug = `https://github.com/${REPO}/issues/new?title=${encodeURIComponent('Correção: ' + (u.sala ? 'sala ' + u.sala : fmtNome(u.nome)) + ' — ' + (p.nomeCurto || p.nome))}&body=${encodeURIComponent(`Prédio: ${p.nome}\nAndar/bloco: ${andar.nome}\nSala: ${u.sala || 's/n'}\nSetor/unidade: ${u.nome}\nCódigo atual: ${u.codigo || '—'}\n\nO que está incorreto ou faltando?\n`)}`;
+    showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+        <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
+        <div class="m-head"><span class="m-badge">${ico('door', 32)}</span><h2 id="mTitle">${u.sala ? 'Sala ' + esc(u.sala) : esc(fmtNome(u.nome))}</h2></div>
+        <div class="m-row">${ico('building', 22)}<span>${esc(p.nomeCurto || p.nome)}</span></div>
+        <div class="m-row">${ico('layers', 22)}<span>${esc(andar.nome)}</span></div>
+        <div class="m-row">${ico('door', 22)}<span>${esc(fmtNome(u.nome))}</span></div>
+        ${u.codigo
+            ? `<div class="m-code"><div><small>Código de transferência</small><strong>${esc(u.codigo)}</strong></div><button class="btn btn-primary" type="button" id="copyBtn">${ico('copy', 18)} Copiar</button></div>`
+            : `<div class="m-nocode">Sem código de transferência cadastrado.</div>`}
+        ${u.obs ? `<div class="m-obs">${ico('info', 20)}<span>${esc(u.obs)}</span></div>` : ''}
+        <div class="m-actions">
+            <a class="btn btn-soft" href="${esc(sug)}" target="_blank" rel="noopener noreferrer">${ico('edit', 18)} Sugerir correção</a>
+            <a class="btn btn-primary" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener noreferrer">${ico('pin', 18)} Ver prédio no Google Maps</a>
+        </div>
+    </div>`, () => { location.hash = base; });
+    const cb = $('copyBtn');
+    if (cb) cb.addEventListener('click', () => copiar(u.codigo));
+}
+function copiar(cod) {
+    const ok = () => toast('Código ' + cod + ' copiado.');
     if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(cod).then(ok, () => showToast('Não foi possível copiar.'));
+        navigator.clipboard.writeText(cod).then(ok, () => toast('Não foi possível copiar.'));
     } else {
-        const ta = document.createElement('textarea');
-        ta.value = cod; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); ok(); } catch (e) { showToast('Não foi possível copiar.'); }
+        const ta = document.createElement('textarea'); ta.value = cod; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); } catch (e) { toast('Não foi possível copiar.'); }
         ta.remove();
     }
 }
-function toggleSort() {
-    sortMode = sortMode === 'az' ? 'sala' : 'az';
-    localStorage.setItem('maptec_sort', sortMode);
-    renderBuildingPage(currentPredioId);
+function openAbout() {
+    const it = (i, t, d) => `<div class="about-item"><span class="circ">${ico(i, 22)}</span><div><strong>${t}</strong><span>${d}</span></div></div>`;
+    showModal(`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="aTitle">
+        <button class="modal-x" type="button" aria-label="Fechar">${ico('x', 24)}</button>
+        <h2 id="aTitle" style="margin:0 40px 6px 0;color:var(--navy)">MapTec · TJRR</h2>
+        <p style="margin:0;color:var(--muted)">Consulta rápida de salas, setores, unidades e códigos de transferência dos prédios do Tribunal de Justiça do Estado de Roraima.</p>
+        <div class="about-list">
+            ${it('search', 'Busca rápida', 'Encontre por número da sala, setor, unidade, código ou prédio.')}
+            ${it('building', 'Navegação simples', 'Escolha o prédio e o andar para ver todas as salas.')}
+            ${it('edit', 'Correções', 'Encontrou algo errado? Use "Sugerir correção" na sala.')}
+            ${it('check', 'Funciona sem internet', 'Os últimos dados consultados ficam salvos no aparelho.')}
+        </div>
+    </div>`, hideModal);
 }
 
-function todosPredios() {
-    return db.predios.concat(userPredios);
-}
-
-function findPredio(id) {
-    return todosPredios().find(p => p.id === id);
-}
-
-function codeKey(predioId, divisaoNome, sala, nome) {
-    return predioId + '||' + divisaoNome + '||' + (sala || '') + '||' + nome;
-}
-
-// Retorna as divisões de um prédio já mescladas com as salas adicionadas pelos técnicos
-// e com os códigos de transferência atualizados (overrides para salas fixas).
-function getDivisoesComExtras(predio) {
-    const divisoes = predio.divisoes.map(d => ({
-        nome: d.nome,
-        unidades: d.unidades.map(u => {
-            const key = codeKey(predio.id, d.nome, u.sala, u.nome);
-            const overrideCode = codeOverrides[key];
-            return {
-                sala: u.sala,
-                nome: u.nome,
-                codigoTransferencia: overrideCode !== undefined ? overrideCode : (u.codigoTransferencia || ''),
-                userAdded: false,
-                codeEditKey: key
-            };
-        })
-    }));
-
-    const extras = userRooms.filter(r => r.predioId === predio.id);
-    extras.forEach(extra => {
-        let divisao = divisoes.find(d => d.nome.toLowerCase() === extra.divisaoNome.toLowerCase());
-        if (!divisao) {
-            divisao = { nome: extra.divisaoNome, unidades: [] };
-            divisoes.push(divisao);
-        }
-        divisao.unidades.push({
-            sala: extra.sala,
-            nome: extra.nome,
-            codigoTransferencia: extra.codigoTransferencia || '',
-            userAdded: true,
-            userAddedId: extra.id
-        });
-    });
-    return divisoes;
-}
-
-// =====================================================================
-// ROTEAMENTO (cada prédio = "página" própria via hash)
-// =====================================================================
+// ============================================================
+// ROTAS
+// ============================================================
+let rendered = '';
 function route() {
-    if (!dataLoaded) { renderLoading(); return; }
-    const hash = window.location.hash || '#/';
-    const match = hash.match(/^#\/predio\/([^\/]+)(?:\/([^\/]+))?/);
-    if (match) {
-        renderBuildingPage(match[1], match[2]);
-    } else {
-        renderHomePage();
+    if (!DATA) return;
+    const m = location.hash.match(/^#\/predio\/([^\/]+)(?:\/([^\/]+))?(?:\/([^\/]+))?/);
+    if (!m) {
+        hideModalIf();
+        if (rendered !== 'home') { rendered = 'home'; renderHome(); window.scrollTo(0, 0); }
+        return;
     }
+    const p = DATA.predios.find(x => x.id === m[1]);
+    if (!p) { location.hash = '#/'; return; }
+    const aslug = m[2] || slugify(p.divisoes[0].nome);
+    const key = 'b:' + p.id + ':' + aslug;
+    if (rendered !== key) {
+        if (!rendered.startsWith('b:' + p.id + ':')) buildingQuery = '';
+        rendered = key; renderBuilding(p, aslug);
+        if (!m[3]) window.scrollTo(0, 0);
+    }
+    if (m[3]) {
+        const u = p.divisoes.flatMap(d => d.unidades).find(x => x.id === m[3]);
+        if (u) openRoom(p, aslug, u); else location.hash = `#/predio/${p.id}/${aslug}`;
+    } else hideModalIf();
 }
+function hideModalIf() { if ($('overlay')) hideModal(); }
 window.addEventListener('hashchange', route);
 
-function renderLoading() {
-    document.getElementById('appHeader').innerHTML = `
-        <div class="header-top">${LOGO_TJRR_SVG}<h1 class="header-title">MapTec</h1></div>`;
-    document.getElementById('mainContent').innerHTML = `<div class="loading-msg">Carregando...</div>`;
-}
-
-// ---------- HOME ----------
-function renderHomePage() {
-    document.getElementById('fabAddRoom').classList.add('hidden');
-    document.getElementById('appHeader').style.backgroundColor = '';
-
-    document.getElementById('appHeader').innerHTML = `
-        <div class="header-top">
-            ${LOGO_TJRR_SVG}
-            <div>
-                <h1 class="header-title">MapTec</h1>
-                <div class="header-subtitle">Salas e códigos de transferência · TJRR</div>
-            </div>
-            ${renderModeButton()}
-        </div>
-        ${renderOfflineBadge()}
-        <div class="search-container">
-            <input type="text" id="globalSearchInput" class="search-input" placeholder="Buscar sala, setor ou código em todos os prédios..." aria-label="Buscar em todos os prédios" autocomplete="off">
-        </div>`;
-
-    document.getElementById('globalSearchInput').addEventListener('input', renderGlobalSearchOrGrid);
-    renderGlobalSearchOrGrid();
-}
-
-function renderGlobalSearchOrGrid() {
-    const q = (document.getElementById('globalSearchInput').value || '').trim();
-    const main = document.getElementById('mainContent');
-    const predios = todosPredios();
-    const last = localStorage.getItem('maptec_last');
-
-    if (!q) {
-        main.innerHTML = `<div class="building-grid">` +
-            predios.map(p => {
-                const divisoes = getDivisoesComExtras(p);
-                const totalSalas = divisoes.reduce((acc, d) => acc + d.unidades.length, 0);
-                const cor = getPredioColor(p);
-                return `
-                    <a class="building-card" href="#/predio/${p.id}" style="border-left-color: ${cor};">
-                        <h2 style="color: ${cor};">${escapeHtml(p.nome)}${p.id === last ? '<span class="badge-last">último acesso</span>' : ''}</h2>
-                        <div class="meta">${labelDivisoes(divisoes)} · ${plural(totalSalas, 'sala mapeada', 'salas mapeadas')}</div>
-                    </a>`;
-            }).join('') +
-            (isAdminMode ? `<div class="building-card add-new" role="button" tabindex="0" onclick="openAddPredioModal()">+ Cadastrar novo prédio</div>` : '') +
-            `</div>` +
-            `<div class="ownership-footer">
-                <div class="app-description">${escapeHtml(APP_DESCRIPTION)}</div>
-                <a class="github-link" href="${GITHUB_PROFILE_URL}" target="_blank" rel="noopener noreferrer">
-                    ${GITHUB_SVG}
-                    Desenvolvido por Rafajames
-                </a>
-                <div class="copyright">Base de salas atualizada em ${DADOS_ATUALIZADOS}</div>
-            </div>`;
-        return;
-    }
-
-    let results = [];
-    predios.forEach(p => {
-        getDivisoesComExtras(p).forEach(div => {
-            div.unidades.forEach(u => {
-                const hay = norm(`${u.nome} ${u.sala} ${u.codigoTransferencia} ${div.nome} ${p.nome}`);
-                if (matches(hay, q)) results.push({ predio: p, divisaoNome: div.nome, unidade: u });
-            });
-        });
-    });
-
-    if (results.length === 0) {
-        main.innerHTML = `<div class="empty-state"><div class="big">Nada encontrado para "${escapeHtml(q)}"</div><p>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</p></div>`;
-        return;
-    }
-
-    main.innerHTML = `<div class="res-count">${plural(results.length, 'resultado', 'resultados')}</div><div class="global-results">` + results.map(r => `
-        <a class="global-result-item" href="#/predio/${r.predio.id}/${cardKey(r.unidade)}">
-            <div class="name">${highlight(fmtNome(r.unidade.nome), q)}</div>
-            <div class="loc">${escapeHtml(r.predio.nome)} · ${escapeHtml(r.divisaoNome)}${r.unidade.sala ? ' · Sala ' + escapeHtml(r.unidade.sala) : ''}</div>
-            ${r.unidade.codigoTransferencia ? `<span class="res-code">Cód. ${highlight(r.unidade.codigoTransferencia, q)}</span>` : ''}
-        </a>
-    `).join('') + `</div>`;
-}
-
-// ---------- CADASTRAR NOVO PRÉDIO ----------
-function openAddPredioModal() {
-    if (!isAdminMode) { showToast('Entre no modo ADM para cadastrar prédios.'); return; }
-    document.getElementById('modalRoot').innerHTML = `
-        <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
-            <div class="modal">
-                <h2>Cadastrar novo prédio</h2>
-                <div class="modal-sub">Depois de criado, você poderá adicionar os andares/blocos e salas dentro dele.</div>
-                <div class="field">
-                    <label>Nome do prédio</label>
-                    <input id="np_nome" type="text" placeholder="Ex: Fórum de Caracaraí">
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarNovoPredio()">Criar prédio</button>
-                </div>
-            </div>
-        </div>`;
-    document.getElementById('np_nome').focus();
-}
-
-async function salvarNovoPredio() {
-    const nome = document.getElementById('np_nome').value.trim();
-    if (!nome) { showToast('Informe o nome do prédio.'); return; }
-
-    const novoPredio = { id: uid('predio'), nome, divisoes: [], userAdded: true };
-    userPredios.push(novoPredio);
-    closeModal();
-    await saveUserPredios();
-    showToast('Prédio criado. Agora adicione as salas.');
-    window.location.hash = '#/predio/' + novoPredio.id;
-}
-
-async function excluirPredio(predioId) {
-    if (!isAdminMode) { showToast('Entre no modo ADM para excluir prédios.'); return; }
-    if (!confirm('Remover este prédio e todas as salas cadastradas nele pelos técnicos? Essa ação não pode ser desfeita.')) return;
-    userPredios = userPredios.filter(p => p.id !== predioId);
-    userRooms = userRooms.filter(r => r.predioId !== predioId);
-    await saveUserPredios();
-    await saveUserRooms();
-    showToast('Prédio removido.');
-    window.location.hash = '#/';
-}
-
-// ---------- PÁGINA DO PRÉDIO ----------
-let currentPredioId = null;
-
-function renderBuildingPage(predioId, focusKey) {
-    const predio = findPredio(predioId);
-    if (!predio) { window.location.hash = '#/'; return; }
-    const mudou = currentPredioId !== predioId;
-    const prevInput = document.getElementById('searchInput');
-    const prevSearch = (!mudou && prevInput) ? prevInput.value : '';
-    currentPredioId = predioId;
-    localStorage.setItem('maptec_last', predioId);
-
-    const divisoes = getDivisoesComExtras(predio);
-    const cor = getPredioColor(predio);
-
-    const header = document.getElementById('appHeader');
-    header.style.backgroundColor = cor;
-    header.innerHTML = `
-        <div class="header-top">
-            <button class="back-btn" aria-label="Voltar para a lista de prédios" onclick="window.location.hash='#/'">‹</button>
-            <div>
-                <h1 class="header-title">${escapeHtml(predio.nome)}</h1>
-                <div class="header-subtitle">${labelDivisoes(divisoes)}${predio.userAdded ? ' · cadastrado por técnico' : ''}</div>
-            </div>
-            ${renderModeButton()}
-        </div>
-        ${renderOfflineBadge()}
-        <div class="search-container">
-            <div class="search-row">
-                <input type="text" id="searchInput" class="search-input" placeholder="Buscar sala, setor ou código..." aria-label="Buscar neste prédio" autocomplete="off" oninput="filtrarCards()">
-                <button class="sort-btn" onclick="toggleSort()" aria-label="Alternar ordenação" title="Alternar ordenação">${sortMode === 'az' ? 'Por sala' : 'A–Z'}</button>
-            </div>
-        </div>
-        <div class="floor-chips" id="floorChips"></div>`;
-    if (prevSearch) document.getElementById('searchInput').value = prevSearch;
-
-    document.getElementById('floorChips').innerHTML = divisoes.map(d =>
-        `<button class="chip" style="background:${cor}1a; color:${cor}; border-color:${cor}55;" onclick="scrollToFloor('${slugify(d.nome)}')">${escapeHtml(d.nome)}</button>`
-    ).join('') + (isAdminMode && predio.userAdded ? `<button class="chip" style="background:#fdecea;color:#b02a1c;border-color:#f5c6c2;" onclick="excluirPredio('${predio.id}')">Excluir prédio</button>` : '');
-
-    const main = document.getElementById('mainContent');
-    main.innerHTML = '';
-
-    if (divisoes.length === 0 || divisoes.every(d => d.unidades.length === 0)) {
-        main.innerHTML = `<div class="empty-state"><div class="big">Nenhuma sala cadastrada ainda</div><p>${isAdminMode ? 'Use o botão "+" para adicionar a primeira sala deste prédio.' : 'Entre no modo ADM para cadastrar salas.'}</p></div>`;
-    } else {
-        divisoes.forEach(divisao => {
-            const section = document.createElement('div');
-            section.className = 'floor-section';
-            section.id = 'floor-' + slugify(divisao.nome);
-
-            const titulo = document.createElement('h2');
-            titulo.className = 'floor-title';
-            titulo.style.borderBottomColor = cor;
-            titulo.setAttribute('role', 'button');
-            titulo.setAttribute('tabindex', '0');
-            titulo.setAttribute('aria-label', 'Recolher ou expandir ' + divisao.nome);
-            titulo.innerHTML = `<span>${escapeHtml(divisao.nome)}</span><span class="floor-count">${divisao.unidades.length}</span>`;
-            const alterna = () => section.classList.toggle('collapsed');
-            titulo.addEventListener('click', alterna);
-            titulo.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alterna(); } });
-            section.appendChild(titulo);
-
-            const grid = document.createElement('div');
-            grid.className = 'card-grid';
-
-            const unidades = sortMode === 'az'
-                ? divisao.unidades.slice().sort((a, b) => norm(a.nome).localeCompare(norm(b.nome), 'pt-BR'))
-                : divisao.unidades;
-
-            unidades.forEach(unidade => {
-                const card = document.createElement('div');
-                card.className = 'card' + (unidade.userAdded ? ' user-added' : '');
-                card.style.borderLeftColor = unidade.userAdded ? 'var(--accent)' : cor;
-
-                const refKey = unidade.userAdded ? 'user||' + unidade.userAddedId : unidade.codeEditKey;
-                const ref = refOverrides[refKey] || '';
-                const cod = unidade.codigoTransferencia;
-                card.setAttribute('data-key', cardKey(unidade));
-                card.setAttribute('data-search', norm(`${unidade.nome} ${unidade.sala} ${cod} ${ref}`));
-
-                const htmlSala = unidade.sala ? `<div class="sala-info">Sala <strong>${escapeHtml(unidade.sala)}</strong></div>` : '';
-                const badgeNova = unidade.userAdded ? `<span class="badge-nova">Cadastrada por técnico</span>` : '';
-
-                const editArgs = unidade.userAdded
-                    ? `true, '${unidade.userAddedId}', ''`
-                    : `false, '', '${unidade.codeEditKey.replace(/'/g, "\\'")}'`;
-                const editCall = `openEditCodeModal(${editArgs}, '${escapeHtml(cod).replace(/'/g, "\\'")}')`;
-
-                let codeHtml;
-                if (cod) {
-                    const bloco = `<span class="code-label">Cód. transferência</span><span class="code-num">${escapeHtml(cod)}</span>`;
-                    codeHtml = (isAdminMode
-                        ? `<div class="code-block editable" onclick="${editCall}" title="Editar código">${bloco}</div>`
-                        : `<div class="code-block">${bloco}</div>`)
-                        + `<button class="copy-btn" data-c="${escapeHtml(cod)}" onclick="copiarCodigo(this.dataset.c)" aria-label="Copiar código ${escapeHtml(cod)}">Copiar</button>`;
-                } else {
-                    codeHtml = isAdminMode
-                        ? `<div class="code-empty add" role="button" tabindex="0" onclick="${editCall}">+ Adicionar código</div>`
-                        : `<div class="code-empty">Sem código mapeado</div>`;
-                }
-
-                const btnRef = isAdminMode
-                    ? `<button class="link-btn" data-k="${encodeURIComponent(refKey)}" data-r="${encodeURIComponent(ref)}" onclick="openEditRefModal(decodeURIComponent(this.dataset.k), decodeURIComponent(this.dataset.r))">${ref ? 'editar' : '+'} referência</button>`
-                    : '';
-                const btnRemover = (isAdminMode && unidade.userAdded)
-                    ? `<button class="link-btn danger" onclick="removerSalaUsuario('${unidade.userAddedId}')">remover</button>`
-                    : '';
-
-                card.innerHTML = `
-                    <h3>${escapeHtml(fmtNome(unidade.nome))}</h3>
-                    ${ref ? `<div class="ref-line">📍 ${escapeHtml(ref)}</div>` : ''}
-                    <div class="info-row">
-                        ${codeHtml}
-                        ${htmlSala}
-                    </div>
-                    ${badgeNova ? `<div style="margin-top:8px">${badgeNova}</div>` : ''}
-                    <div class="card-actions">${btnRef}${btnRemover}</div>
-                `;
-                grid.appendChild(card);
-            });
-
-            section.appendChild(grid);
-            main.appendChild(section);
-        });
-        main.insertAdjacentHTML('beforeend', `<div id="noResults" class="empty-state hidden"><div class="big">Nenhuma sala encontrada</div><p>Confira a grafia ou tente só parte do nome, o número da sala ou o código.</p></div>`);
-    }
-
-    document.getElementById('fabAddRoom').classList.toggle('hidden', !isAdminMode);
-    if (prevSearch) filtrarCards();
-
-    if (focusKey) {
-        const el = document.querySelector(`.card[data-key="${focusKey}"]`);
-        if (el) {
-            el.closest('.floor-section').classList.remove('collapsed');
-            setTimeout(() => { el.scrollIntoView({ block: 'center' }); el.classList.add('flash'); }, 60);
-        }
-    } else if (mudou) {
-        window.scrollTo(0, 0);
-    }
-}
-
-function scrollToFloor(slug) {
-    const el = document.getElementById('floor-' + slug);
-    if (el) { el.classList.remove('collapsed'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-}
-
-function slugify(str) {
-    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-');
-}
-
-function filtrarCards() {
-    const q = document.getElementById('searchInput').value;
-    const cards = document.querySelectorAll('.card');
-    const sections = document.querySelectorAll('.floor-section');
-
-    cards.forEach(card => card.classList.toggle('hidden', !matches(card.getAttribute('data-search'), q)));
-
-    sections.forEach(section => {
-        const cardsInSection = section.querySelectorAll('.card');
-        const hiddenCards = section.querySelectorAll('.card.hidden');
-        section.classList.toggle('hidden', cardsInSection.length === hiddenCards.length);
-        if (q.trim()) section.classList.remove('collapsed');
-    });
-    const nr = document.getElementById('noResults');
-    if (nr) nr.classList.toggle('hidden', document.querySelectorAll('.card:not(.hidden)').length > 0);
-}
-
-// =====================================================================
-// REFERÊNCIA DE LOCALIZAÇÃO ("como chegar")
-// =====================================================================
-let editingRefKey = null;
-function openEditRefModal(refKey, current) {
-    if (!isAdminMode) { showToast('Entre no modo ADM para editar referências.'); return; }
-    editingRefKey = refKey;
-    document.getElementById('modalRoot').innerHTML = `
-        <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
-            <div class="modal">
-                <h2>Referência de localização</h2>
-                <div class="modal-sub">Ajuda o técnico a chegar na sala.</div>
-                <div class="field">
-                    <label>Como chegar</label>
-                    <input id="er_ref" type="text" placeholder="Ex: Corredor da direita, ao lado do elevador" value="${escapeHtml(current || '').replace(/"/g, '&quot;')}">
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarRef()">Salvar</button>
-                </div>
-            </div>
-        </div>`;
-    document.getElementById('er_ref').focus();
-}
-async function salvarRef() {
-    const v = document.getElementById('er_ref').value.trim();
-    if (v) refOverrides[editingRefKey] = v; else delete refOverrides[editingRefKey];
-    closeModal();
-    await saveRefOverrides();
-    showToast('Referência atualizada.');
-}
-
-// =====================================================================
-// EDITAR CÓDIGO DE TRANSFERÊNCIA (qualquer sala, fixa ou cadastrada)
-// =====================================================================
-function openEditCodeModal(isUserAdded, userAddedId, fixedKey, currentCode) {
-    if (!isAdminMode) { showToast('Entre no modo ADM para editar códigos.'); return; }
-    document.getElementById('modalRoot').innerHTML = `
-        <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
-            <div class="modal">
-                <h2>Código de transferência</h2>
-                <div class="field">
-                    <label>Código</label>
-                    <input id="ec_codigo" type="text" placeholder="Ex: 1234" value="${escapeHtml(currentCode || '')}">
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarCodigo(${isUserAdded}, '${userAddedId}', '${fixedKey.replace(/'/g, "\\'")}')">Salvar</button>
-                </div>
-            </div>
-        </div>`;
-    document.getElementById('ec_codigo').focus();
-}
-
-async function salvarCodigo(isUserAdded, userAddedId, fixedKey) {
-    const codigo = document.getElementById('ec_codigo').value.trim();
-    if (isUserAdded) {
-        const r = userRooms.find(r => r.id === userAddedId);
-        if (r) r.codigoTransferencia = codigo;
-        closeModal();
-        renderBuildingPage(currentPredioId);
-        await saveUserRooms();
-    } else {
-        codeOverrides[fixedKey] = codigo;
-        closeModal();
-        renderBuildingPage(currentPredioId);
-        await saveCodeOverrides();
-    }
-    showToast('Código atualizado.');
-}
-
-// =====================================================================
-// ADICIONAR SALA NÃO MAPEADA (técnicos em campo)
-// =====================================================================
-document.getElementById('fabAddRoom').addEventListener('click', () => {
-    if (currentPredioId) openAddRoomModal(currentPredioId);
-});
-
-function openAddRoomModal(predioId) {
-    if (!isAdminMode) { showToast('Entre no modo ADM para adicionar salas.'); return; }
-    const predio = findPredio(predioId);
-    const divisoes = getDivisoesComExtras(predio);
-    const options = divisoes.map(d => `<option value="${escapeHtml(d.nome)}">${escapeHtml(d.nome)}</option>`).join('');
-
-    document.getElementById('modalRoot').innerHTML = `
-        <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
-            <div class="modal">
-                <h2>Adicionar sala</h2>
-                <div class="modal-sub">${escapeHtml(predio.nome)}</div>
-                <div class="field">
-                    <label>Andar / Bloco</label>
-                    <select id="f_divisao">
-                        ${options}
-                        <option value="__nova__">+ Novo andar/bloco...</option>
-                    </select>
-                </div>
-                <div class="field hidden" id="f_novaDivisaoWrap">
-                    <label>Nome do novo andar/bloco</label>
-                    <input id="f_novaDivisao" type="text" placeholder="Ex: 5º Andar, Bloco 6">
-                </div>
-                <div class="field">
-                    <label>Nome da sala / setor</label>
-                    <input id="f_nome" type="text" placeholder="Ex: Cartório da 2ª Vara Cível">
-                </div>
-                <div class="field">
-                    <label>Número da sala (opcional)</label>
-                    <input id="f_sala" type="text" placeholder="Ex: 305">
-                </div>
-                <div class="field">
-                    <label>Código de transferência (opcional)</label>
-                    <input id="f_codigo" type="text" placeholder="Ex: 1234">
-                    <div class="field-hint">Se ainda não souber o código, deixe em branco e edite depois.</div>
-                </div>
-                <div class="field">
-                    <label>Referência de localização (opcional)</label>
-                    <input id="f_ref" type="text" placeholder="Ex: Ao lado do elevador">
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarNovaSala('${predioId}')">Salvar</button>
-                </div>
-            </div>
-        </div>`;
-
-    document.getElementById('f_divisao').addEventListener('change', (e) => {
-        document.getElementById('f_novaDivisaoWrap').classList.toggle('hidden', e.target.value !== '__nova__');
-    });
-    document.getElementById('f_nome').focus();
-}
-
-async function salvarNovaSala(predioId) {
-    const divisaoSelect = document.getElementById('f_divisao').value;
-    let divisaoNome = divisaoSelect;
-    if (divisaoSelect === '__nova__') {
-        divisaoNome = document.getElementById('f_novaDivisao').value.trim();
-    }
-    const sala = document.getElementById('f_sala').value.trim();
-    const nome = document.getElementById('f_nome').value.trim();
-    const codigoTransferencia = document.getElementById('f_codigo').value.trim();
-
-    if (!divisaoNome) { showToast('Informe o andar/bloco.'); return; }
-    if (!nome) { showToast('Informe o nome da sala/setor.'); return; }
-
-    const novoId = uid('sala');
-    userRooms.push({ id: novoId, predioId, divisaoNome, sala, nome, codigoTransferencia });
-    const refTxt = (document.getElementById('f_ref').value || '').trim();
-    if (refTxt) refOverrides['user||' + novoId] = refTxt;
-    closeModal();
-    renderBuildingPage(predioId);
-    await saveUserRooms();
-    if (refTxt) await saveRefOverrides();
-    showToast('Sala adicionada.');
-}
-
-async function removerSalaUsuario(userAddedId) {
-    if (!isAdminMode) { showToast('Entre no modo ADM para remover salas.'); return; }
-    userRooms = userRooms.filter(r => r.id !== userAddedId);
-    delete refOverrides['user||' + userAddedId];
-    closeModal();
-    renderBuildingPage(currentPredioId);
-    await saveUserRooms();
-    showToast('Sala removida.');
-}
-
-function closeModal() {
-    document.getElementById('modalRoot').innerHTML = '';
-}
-
-// =====================================================================
+// ============================================================
 // INIT
-// =====================================================================
-loadAllData();
+// ============================================================
+(async function init() {
+    renderFooter();
+    const ok = await loadData();
+    if (!ok) {
+        $('app').innerHTML = `<div class="container"><div class="empty" role="alert"><strong>Não foi possível carregar os dados</strong>Verifique sua conexão e tente novamente.<br><br><button class="btn btn-primary" onclick="location.reload()">Tentar novamente</button></div></div>`;
+        return;
+    }
+    renderBanner(); renderFooter();
+    route();
+    loadUpdatedAt();
+})();
+
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>

@@ -1,0 +1,2103 @@
+{
+ "versao": 1,
+ "predios": [
+  {
+   "id": "adm",
+   "nome": "Sede Administrativa",
+   "nomeCurto": "Sede Administrativa",
+   "subtitulo": "Edifício Luiz Rosalvo Indrusiak Fin",
+   "endereco": {
+    "logradouro": "Avenida Capitão Ene Garcez, 1696",
+    "bairro": "São Francisco",
+    "cidade": "Boa Vista – RR",
+    "cep": "69305-135"
+   },
+   "foto": "assets/predios/sede.jpg",
+   "divisoes": [
+    {
+     "nome": "Térreo",
+     "unidades": [
+      {
+       "id": "01-secretaria-geral-da-corregedoria",
+       "sala": "01",
+       "nome": "SECRETARIA GERAL DA CORREGEDORIA",
+       "codigo": "245",
+       "obs": ""
+      },
+      {
+       "id": "02-sala-de-audiencias-cps",
+       "sala": "02",
+       "nome": "SALA DE AUDIENCIAS CPS",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "03-comissao-permanente-de-sindicancia",
+       "sala": "03",
+       "nome": "COMISSÃO PERMANENTE DE SINDICANCIA",
+       "codigo": "22",
+       "obs": ""
+      },
+      {
+       "id": "04-diretoria-de-gestao-extrajudicial",
+       "sala": "04",
+       "nome": "DIRETORIA DE GESTÃO EXTRAJUDICIAL",
+       "codigo": "1180",
+       "obs": ""
+      },
+      {
+       "id": "05-juiz-auxiliar-da-corregedoria",
+       "sala": "05",
+       "nome": "JUIZ AUXILIAR DA CORREGEDORIA",
+       "codigo": "719",
+       "obs": ""
+      },
+      {
+       "id": "06-gabinete-da-corregedoria",
+       "sala": "06",
+       "nome": "GABINETE DA CORREGEDORIA",
+       "codigo": "20",
+       "obs": ""
+      },
+      {
+       "id": "08-sala-de-reuniao",
+       "sala": "08",
+       "nome": "SALA DE REUNIÃO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "09-assessoria-juridica",
+       "sala": "09",
+       "nome": "ASSESSORIA JURIDICA",
+       "codigo": "21",
+       "obs": ""
+      },
+      {
+       "id": "10-equipe-tecnica-dg1g-dgex-cejai-crsf-sec-sad",
+       "sala": "10",
+       "nome": "EQUIPE TECNICA_DG1G/DGEX/CEJAI/CRSF,/SEC/SAD",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "sn-ouvidoria",
+       "sala": "",
+       "nome": "OUVIDORIA",
+       "codigo": "1150",
+       "obs": ""
+      },
+      {
+       "id": "sn-comissao-permanente-de-seguranca-institucional",
+       "sala": "",
+       "nome": "COMISSÃO PERMANENTE DE SEGURANÇA INSTITUCIONAL",
+       "codigo": "688",
+       "obs": ""
+      },
+      {
+       "id": "sn-sala-de-acolhimento",
+       "sala": "",
+       "nome": "SALA DE ACOLHIMENTO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "sn-sala-de-reuniao-ouvidoria",
+       "sala": "",
+       "nome": "SALA DE REUNIAO OUVIDORIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "sn-justica-cidada",
+       "sala": "",
+       "nome": "JUSTIÇA CIDADÃ",
+       "codigo": "",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "1º Piso",
+     "unidades": [
+      {
+       "id": "102-sala-de-hack",
+       "sala": "102",
+       "nome": "SALA DE HACK",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "103-secretaria-de-gestao-de-pessoas",
+       "sala": "103",
+       "nome": "SECRETARIA DE GESTÃO DE PESSOAS",
+       "codigo": "239",
+       "obs": ""
+      },
+      {
+       "id": "104-grupo-de-monitoramento-e-fiscalizacao-do-sistema-carcerario-e-socioeducativo",
+       "sala": "104",
+       "nome": "GRUPO DE MONITORAMENTO E FISCALIZAÇÃO DO SISTEMA CARCERÁRIO E SOCIOEDUCATIVO",
+       "codigo": "676",
+       "obs": ""
+      },
+      {
+       "id": "105-secretaria-de-gestao-de-pessoas-gabinete",
+       "sala": "105",
+       "nome": "SECRETARIA DE GESTÃO DE PESSOAS - GABINETE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "106-grupo-de-monitoramento-e-fiscalizacao-do-sistema-carcerario-gmf",
+       "sala": "106",
+       "nome": "GRUPO DE MONITORAMENTO E FISCALIZAÇÃO DO SISTEMA CARCERÁRIO - GMF",
+       "codigo": "980",
+       "obs": ""
+      },
+      {
+       "id": "107-subsecretaria-de-gestao-de-forca-de-trabalho-secretaria-de-gestao-de-pessoas",
+       "sala": "107",
+       "nome": "SUBSECRETARIA DE GESTÃO DE FORÇA DE TRABALHO / SECRETARIA DE GESTÃO DE PESSOAS ASSESSORIA",
+       "codigo": "971",
+       "obs": ""
+      },
+      {
+       "id": "109-subsecretaria-de-analise-de-despesas-com-pessoal-setor-de-folha-de-pagamento",
+       "sala": "109",
+       "nome": "SUBSECRETARIA DE ANÁLISE DE DESPESAS COM PESSOAL/SETOR DE FOLHA DE PAGAMENTO",
+       "codigo": "974",
+       "obs": ""
+      },
+      {
+       "id": "110-setor-de-licenca-e-afastamento",
+       "sala": "110",
+       "nome": "SETOR DE LICENÇA E AFASTAMENTO",
+       "codigo": "650",
+       "obs": ""
+      },
+      {
+       "id": "115-setor-de-gestao-da-forca-de-trabalho-auxiliar",
+       "sala": "115",
+       "nome": "SETOR DE GESTÃO DA FORÇA DE TRABALHO AUXILIAR",
+       "codigo": "970",
+       "obs": ""
+      },
+      {
+       "id": "116-subsecretaria-de-acompanhamento-funcional",
+       "sala": "116",
+       "nome": "SUBSECRETARIA DE ACOMPANHAMENTO FUNCIONAL",
+       "codigo": "867",
+       "obs": ""
+      },
+      {
+       "id": "118-subsecretaria-de-gestao-estrategica-de-pessoas-setor-de-monitoramento-de-des",
+       "sala": "118",
+       "nome": "SUBSECRETARIA DE GESTÃO ESTRATÉGICA DE PESSOAS/SETOR DE MONITORAMENTO DE DESEMPENHO",
+       "codigo": "973",
+       "obs": ""
+      },
+      {
+       "id": "119-secretaria-de-gestao-de-pessoas-gabinete-adjunto",
+       "sala": "119",
+       "nome": "SECRETARIA DE GESTÃO DE PESSOAS GABINETE ADJUNTO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "121-subsecretaria-de-desenvolvimento-de-pessoal",
+       "sala": "121",
+       "nome": "SUBSECRETARIA DE DESENVOLVIMENTO DE PESSOAL",
+       "codigo": "645",
+       "obs": ""
+      },
+      {
+       "id": "124-subsecretaria-de-ciberseguranca",
+       "sala": "124",
+       "nome": "SUBSECRETARIA DE CIBERSEGURANÇA",
+       "codigo": "1169",
+       "obs": ""
+      },
+      {
+       "id": "125-subsecretaria-de-apoio-a-decisao",
+       "sala": "125",
+       "nome": "SUBSECRETARIA DE APOIO A DECISÃO",
+       "codigo": "893",
+       "obs": ""
+      },
+      {
+       "id": "127-secretaria-de-tecnologia-da-informacao-e-comunicacao-gabinete",
+       "sala": "127",
+       "nome": "SECRETARIA DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO GABINETE",
+       "codigo": "892",
+       "obs": ""
+      },
+      {
+       "id": "128-secretaria-de-tecnologia-da-informacao-sala-de-reuniao",
+       "sala": "128",
+       "nome": "SECRETARIA DE TECNOLOGIA DA INFORMAÇÃO_SALA DE REUNIÃO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "131-subsecretaria-de-gestao-de-contratos-de-tic",
+       "sala": "131",
+       "nome": "SUBSECRETARIA DE GESTÃO DE CONTRATOS DE TIC",
+       "codigo": "900",
+       "obs": ""
+      },
+      {
+       "id": "132-subsecretaria-de-infraestrutura-de-tic",
+       "sala": "132",
+       "nome": "SUBSECRETARIA DE INFRAESTRUTURA DE TIC",
+       "codigo": "894",
+       "obs": ""
+      },
+      {
+       "id": "135-central-de-atencimento-de-informatica",
+       "sala": "135",
+       "nome": "CENTRAL DE ATENCIMENTO DE INFORMÁTICA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "139-subsecretaria-central-de-servicos",
+       "sala": "139",
+       "nome": "SUBSECRETARIA CENTRAL DE SERVIÇOS",
+       "codigo": "898",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "2º Piso",
+     "unidades": [
+      {
+       "id": "202-sala-de-hack",
+       "sala": "202",
+       "nome": "SALA DE HACK",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "204-subcoordenadoria-juridica-de-precatorios",
+       "sala": "204",
+       "nome": "SUBCOORDENADORIA JURÍDICA DE PRECATORIOS",
+       "codigo": "1208",
+       "obs": ""
+      },
+      {
+       "id": "206-coordenacao-nucleo-de-precatorios",
+       "sala": "206",
+       "nome": "COORDENAÇÃO NÚCLEO DE PRECATORIOS",
+       "codigo": "912",
+       "obs": ""
+      },
+      {
+       "id": "207-secretaria-de-auditoria-interna",
+       "sala": "207",
+       "nome": "SECRETARIA DE AUDITORIA INTERNA",
+       "codigo": "909",
+       "obs": ""
+      },
+      {
+       "id": "208-subcoordenadoria-de-analise-contabil-de-precatorios",
+       "sala": "208",
+       "nome": "SUBCOORDENADORIA DE ANALISE CONTÁBIL DE PRECATORIOS",
+       "codigo": "1205",
+       "obs": ""
+      },
+      {
+       "id": "210-subcoordenadoria-de-analise-contabil-de-precatorios",
+       "sala": "210",
+       "nome": "SUBCOORDENADORIA DE ANALISE CONTÁBIL DE PRECATORIOS",
+       "codigo": "1205",
+       "obs": ""
+      },
+      {
+       "id": "212-nucleo-de-precatorios-atendimento",
+       "sala": "212",
+       "nome": "NÚCLEO DE PRECATORIOS ATENDIMENTO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "213-secretaria-de-gestao-estrategica-setor-de-sustentabilidade-e-responsabilidad",
+       "sala": "213",
+       "nome": "SECRETARIA DE GESTÃO ESTRATÉGICA / SETOR DE SUSTENTABILIDADE E RESPONSABILIDADE SOCIAL",
+       "codigo": "888",
+       "obs": ""
+      },
+      {
+       "id": "216-subsecretaria-de-processos-e-gestao-de-qualidade",
+       "sala": "216",
+       "nome": "SUBSECRETARIA DE PROCESSOS E GESTÃO DE QUALIDADE",
+       "codigo": "889",
+       "obs": ""
+      },
+      {
+       "id": "220-vice-presidencia-nucleo-de-gerenciamento-de-precendentes",
+       "sala": "220",
+       "nome": "VICE-PRESIDENCIA NUCLEO DE GERENCIAMENTO DE PRECENDENTES",
+       "codigo": "1096",
+       "obs": ""
+      },
+      {
+       "id": "223-comissao-permanente-de-legislacao-e-jurisprudencia",
+       "sala": "223",
+       "nome": "COMISSÃO PERMANENTE DE LEGISLAÇÃO E JURISPRUDÊNCIA",
+       "codigo": "946",
+       "obs": ""
+      },
+      {
+       "id": "225-natjus",
+       "sala": "225",
+       "nome": "NATJUS",
+       "codigo": "1200",
+       "obs": ""
+      },
+      {
+       "id": "226-nucleo-de-projetos-e-inovacao-npi",
+       "sala": "226",
+       "nome": "NÚCLEO DE PROJETOS E INOVAÇÃO NPI",
+       "codigo": "1111",
+       "obs": ""
+      },
+      {
+       "id": "229-secretaria-de-infraestrutura-e-logistica-sil",
+       "sala": "229",
+       "nome": "SECRETARIA DE INFRAESTRUTURA E LOGISTICA SIL",
+       "codigo": "962",
+       "obs": ""
+      },
+      {
+       "id": "230-setor-de-manutencao-predial",
+       "sala": "230",
+       "nome": "SETOR DE MANUTENÇÃO PREDIAL",
+       "codigo": "966",
+       "obs": ""
+      },
+      {
+       "id": "231-secretaria-de-infraestrutura-e-logistica-sil",
+       "sala": "231",
+       "nome": "SECRETARIA DE INFRAESTRUTURA E LOGISTICA SIL",
+       "codigo": "962",
+       "obs": ""
+      },
+      {
+       "id": "234-subsecretaria-de-infraestrutura-sinfra",
+       "sala": "234",
+       "nome": "SUBSECRETARIA DE INFRAESTRUTURA SINFRA",
+       "codigo": "965",
+       "obs": ""
+      },
+      {
+       "id": "235-setor-de-servicos-terceirizados",
+       "sala": "235",
+       "nome": "SETOR DE SERVIÇOS TERCEIRIZADOS",
+       "codigo": "963",
+       "obs": ""
+      },
+      {
+       "id": "239-subsecretaria-de-patrimonio",
+       "sala": "239",
+       "nome": "SUBSECRETARIA DE PATRIMÔNIO",
+       "codigo": "967",
+       "obs": ""
+      },
+      {
+       "id": "240-subsecretaria-de-servicos-gerais",
+       "sala": "240",
+       "nome": "SUBSECRETARIA DE SERVIÇOS GERAIS",
+       "codigo": "863",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "3º Piso",
+     "unidades": [
+      {
+       "id": "302-sala-de-hack",
+       "sala": "302",
+       "nome": "SALA DE HACK",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "304-unidade-de-justica-restaurativa-sala-de-sessao-restaurativa",
+       "sala": "304",
+       "nome": "UNIDADE DE JUSTIÇA RESTAURATIVA SALA DE SESSÃO RESTAURATIVA",
+       "codigo": "944",
+       "obs": ""
+      },
+      {
+       "id": "305-secretaria-de-orcamento-e-financas",
+       "sala": "305",
+       "nome": "SECRETARIA DE ORÇAMENTO E FINANÇAS",
+       "codigo": "954",
+       "obs": ""
+      },
+      {
+       "id": "307-secretaria-de-orcamento-e-financas-gabinete",
+       "sala": "307",
+       "nome": "SECRETARIA DE ORÇAMENTO E FINANÇAS GABINETE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "309-subsecretaria-de-arrecadacao",
+       "sala": "309",
+       "nome": "SUBSECRETARIA DE ARRECADAÇÃO",
+       "codigo": "1236",
+       "obs": ""
+      },
+      {
+       "id": "312-subsecretaria-de-orcamento",
+       "sala": "312",
+       "nome": "SUBSECRETARIA DE ORÇAMENTO",
+       "codigo": "956",
+       "obs": ""
+      },
+      {
+       "id": "314-justica-comunitaria",
+       "sala": "314",
+       "nome": "JUSTIÇA COMUNITÁRIA",
+       "codigo": "1147",
+       "obs": ""
+      },
+      {
+       "id": "315-subsecretaria-de-contabilidade",
+       "sala": "315",
+       "nome": "SUBSECRETARIA DE CONTABILIDADE",
+       "codigo": "958",
+       "obs": ""
+      },
+      {
+       "id": "320-subsecretaria-de-financas",
+       "sala": "320",
+       "nome": "SUBSECRETÁRIA DE FINANÇAS",
+       "codigo": "960",
+       "obs": ""
+      },
+      {
+       "id": "326-secretaria-de-gestao-administrativa-gabinete",
+       "sala": "326",
+       "nome": "SECRETARIA DE GESTÃO ADMINISTRATIVA/GABINETE",
+       "codigo": "950",
+       "obs": ""
+      },
+      {
+       "id": "327-secretaria-geral-gabinete",
+       "sala": "327",
+       "nome": "SECRETARIA GERAL GABINETE",
+       "codigo": "947",
+       "obs": ""
+      },
+      {
+       "id": "329-nucleo-juridico-administrativo",
+       "sala": "329",
+       "nome": "NÚCLEO JURÍDICO ADMINISTRATIVO",
+       "codigo": "949",
+       "obs": ""
+      },
+      {
+       "id": "330-setor-de-convenios-e-congeneres",
+       "sala": "330",
+       "nome": "SETOR DE CONVÊNIOS E CONGÊNERES",
+       "codigo": "951",
+       "obs": ""
+      },
+      {
+       "id": "332-subsecretaria-de-contratos",
+       "sala": "332",
+       "nome": "SUBSECRETARIA DE CONTRATOS",
+       "codigo": "866",
+       "obs": ""
+      },
+      {
+       "id": "334-subsecretaria-de-contratos-terceirizados",
+       "sala": "334",
+       "nome": "SUBSECRETARIA DE CONTRATOS TERCEIRIZADOS",
+       "codigo": "952",
+       "obs": ""
+      },
+      {
+       "id": "335-subsecretaria-de-aquisicoes-licitacoes-e-credenciamentos-salc",
+       "sala": "335",
+       "nome": "SUBSECRETARIA DE AQUISIÇÕES, LICITAÇÕES E CREDENCIAMENTOS SALC",
+       "codigo": "862",
+       "obs": ""
+      },
+      {
+       "id": "336-subsecretaria-de-registro-e-movimentacao-de-magistrados",
+       "sala": "336",
+       "nome": "SUBSECRETARIA DE REGISTRO E MOVIMENTAÇÃO DE MAGISTRADOS",
+       "codigo": "1246",
+       "obs": ""
+      },
+      {
+       "id": "338-secretaria-de-gestao-de-magistrados",
+       "sala": "338",
+       "nome": "SECRETARIA DE GESTÃO DE MAGISTRADOS",
+       "codigo": "1245",
+       "obs": ""
+      },
+      {
+       "id": "339-diretoria-de-gestao-documental",
+       "sala": "339",
+       "nome": "DIRETORIA DE GESTÃO DOCUMENTAL",
+       "codigo": "1193",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "4º Piso",
+     "unidades": [
+      {
+       "id": "412-sala-de-reuniao",
+       "sala": "412",
+       "nome": "SALA DE REUNIAO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "413-estudio",
+       "sala": "413",
+       "nome": "ESTÚDIO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "414-laboratorio-de-informatica",
+       "sala": "414",
+       "nome": "LABORATÓRIO DE INFORMATICA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "415-auditorio",
+       "sala": "415",
+       "nome": "AUDITÓRIO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "sn-coordenadoria-academica",
+       "sala": "",
+       "nome": "COORDENADORIA ACADÊMICA",
+       "codigo": "1174",
+       "obs": ""
+      },
+      {
+       "id": "sn-subcoordenadoria-de-apoio-administrativo",
+       "sala": "",
+       "nome": "SUBCOORDENADORIA DE APOIO ADMINISTRATIVO",
+       "codigo": "1182",
+       "obs": ""
+      },
+      {
+       "id": "sn-setor-de-tecnologia-producao-e-comunicacao",
+       "sala": "",
+       "nome": "SETOR DE TECNOLOGIA, PRODUÇÃO E COMUNICAÇÃO",
+       "codigo": "1171",
+       "obs": ""
+      },
+      {
+       "id": "sn-setor-de-formacao-e-aperfeicoamento",
+       "sala": "",
+       "nome": "SETOR DE FORMAÇÃO E APERFEIÇOAMENTO",
+       "codigo": "1102",
+       "obs": ""
+      },
+      {
+       "id": "sn-setor-de-registro-e-informacao",
+       "sala": "",
+       "nome": "SETOR DE REGISTRO E INFORMACAO",
+       "codigo": "1100",
+       "obs": ""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cidadania",
+   "nome": "Fórum Cidadania / Latife Salomão",
+   "nomeCurto": "Fórum da Cidadania",
+   "subtitulo": "Palácio Latife Salomão",
+   "endereco": {
+    "logradouro": "Avenida Glaycon de Paiva, 550",
+    "bairro": "Mecejana",
+    "cidade": "Boa Vista – RR",
+    "cep": ""
+   },
+   "foto": "assets/predios/cidadania.jpg",
+   "divisoes": [
+    {
+     "nome": "Áreas Comuns",
+     "unidades": [
+      {
+       "id": "011-lanchonete",
+       "sala": "011",
+       "nome": "LANCHONETE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "020-auditorio",
+       "sala": "020",
+       "nome": "AUDITÓRIO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "021-copa",
+       "sala": "021",
+       "nome": "COPA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "022-dml",
+       "sala": "022",
+       "nome": "DML",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "029-guarita-dos-fundos-latife",
+       "sala": "029",
+       "nome": "GUARITA DOS FUNDOS LATIFE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "031-acesso-porta-dos-fundos-latife",
+       "sala": "031",
+       "nome": "ACESSO PORTA DOS FUNDOS LATIFE",
+       "codigo": "",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "Bloco 1",
+     "unidades": [
+      {
+       "id": "101-central-de-juizados",
+       "sala": "101",
+       "nome": "CENTRAL DE JUIZADOS",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "102-conciliacao-1",
+       "sala": "102",
+       "nome": "CONCILIAÇÃO 1",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "103-conciliacao-2",
+       "sala": "103",
+       "nome": "CONCILIAÇÃO 2",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "104-conciliacao-3",
+       "sala": "104",
+       "nome": "CONCILIAÇÃO 3",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "105-conciliacao-4",
+       "sala": "105",
+       "nome": "CONCILIAÇÃO 4",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "106-setor-de-conciliacao",
+       "sala": "106",
+       "nome": "SETOR DE CONCILIAÇÃO",
+       "codigo": "692",
+       "obs": ""
+      },
+      {
+       "id": "107-copa",
+       "sala": "107",
+       "nome": "COPA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "108-setor-de-atendimento-atermacao-e-distribuicao",
+       "sala": "108",
+       "nome": "SETOR DE ATENDIMENTO, ATERMAÇÃO E DISTRIBUIÇÃO",
+       "codigo": "940",
+       "obs": ""
+      },
+      {
+       "id": "109-conciliacao-5",
+       "sala": "109",
+       "nome": "CONCILIAÇÃO 5",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "110-diretoria",
+       "sala": "110",
+       "nome": "DIRETORIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "111-conciliacao-6",
+       "sala": "111",
+       "nome": "CONCILIAÇÃO 6",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "112-conciliacao-7",
+       "sala": "112",
+       "nome": "CONCILIAÇÃO 7",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "113-conciliacao-8",
+       "sala": "113",
+       "nome": "CONCILIAÇÃO 8",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "114-conciliacao-9",
+       "sala": "114",
+       "nome": "CONCILIAÇÃO 9",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "115-setor-de-movimentacao-e-execucao-dos-juizados-especiais-civeis",
+       "sala": "115",
+       "nome": "SETOR DE MOVIMENTAÇÃO E EXECUÇÃO DOS JUIZADOS ESPECIAIS CÍVEIS",
+       "codigo": "939",
+       "obs": ""
+      },
+      {
+       "id": "116-sala-do-hack",
+       "sala": "116",
+       "nome": "SALA DO HACK",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "117-nupemec-cejusc",
+       "sala": "117",
+       "nome": "NUPEMEC / CEJUSC",
+       "codigo": "914",
+       "obs": ""
+      },
+      {
+       "id": "118-sala-de-audiencias-1",
+       "sala": "118",
+       "nome": "SALA DE AUDIÊNCIAS 1",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "119-sala-de-audiencias-2",
+       "sala": "119",
+       "nome": "SALA DE AUDIÊNCIAS 2",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "120-sala-de-audiencias-3",
+       "sala": "120",
+       "nome": "SALA DE AUDIÊNCIAS 3",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "121-sala-de-audiencias-4",
+       "sala": "121",
+       "nome": "SALA DE AUDIÊNCIAS 4",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "122-sala-do-juiz-coordenador",
+       "sala": "122",
+       "nome": "SALA DO JUIZ COORDENADOR",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "123-nupemec",
+       "sala": "123",
+       "nome": "NUPEMEC",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "124-copa",
+       "sala": "124",
+       "nome": "COPA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "125-cejusc",
+       "sala": "125",
+       "nome": "CEJUSC",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "126-sala-de-superendividamento",
+       "sala": "126",
+       "nome": "SALA DE SUPERENDIVIDAMENTO",
+       "codigo": "1214",
+       "obs": ""
+      },
+      {
+       "id": "128-sala-de-audiencias-5",
+       "sala": "128",
+       "nome": "SALA DE AUDIÊNCIAS 5",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "129-brinquedoteca",
+       "sala": "129",
+       "nome": "BRINQUEDOTECA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "130-acesso-restrito",
+       "sala": "130",
+       "nome": "ACESSO RESTRITO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "131-escritorio-e-descanso-terceirizados",
+       "sala": "131",
+       "nome": "ESCRITÓRIO E DESCANSO TERCEIRIZADOS",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "132-deposito",
+       "sala": "132",
+       "nome": "Depósito",
+       "codigo": "",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "Bloco 2",
+     "unidades": [
+      {
+       "id": "201-1-2-e-3-juizados-especiais-civeis",
+       "sala": "201",
+       "nome": "1º, 2º E 3º JUIZADOS ESPECIAIS CÍVEIS",
+       "codigo": "1234",
+       "obs": ""
+      },
+      {
+       "id": "202-1-juizado-especial-civel-audiencia",
+       "sala": "202",
+       "nome": "1º JUIZADO ESPECIAL CÍVEL - AUDIÊNCIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "203-1-juizado-especial-civel-gabinete",
+       "sala": "203",
+       "nome": "1° JUIZADO ESPECIAL CÍVEL - GABINETE",
+       "codigo": "932",
+       "obs": ""
+      },
+      {
+       "id": "204-3-juizado-especial-civel-gabinete",
+       "sala": "204",
+       "nome": "3º JUIZADO ESPECIAL CÍVEL - GABINETE",
+       "codigo": "936",
+       "obs": ""
+      },
+      {
+       "id": "205-3-juizado-especial-civel-audiencia",
+       "sala": "205",
+       "nome": "3º JUIZADO ESPECIAL CÍVEL - AUDIÊNCIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "206-2-juizado-especial-civel-gabinete",
+       "sala": "206",
+       "nome": "2º JUIZADO ESPECIAL CÍVEL - GABINETE",
+       "codigo": "934",
+       "obs": ""
+      },
+      {
+       "id": "207-banheiro-feminino",
+       "sala": "207",
+       "nome": "BANHEIRO FEMININO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "208-banheiro-masculino",
+       "sala": "208",
+       "nome": "BANHEIRO MASCULINO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "209-copa",
+       "sala": "209",
+       "nome": "COPA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "210-2-juizado-especial-civel-audiencia",
+       "sala": "210",
+       "nome": "2° JUIZADO ESPECIAL CÍVEL - AUDIÊNCIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "211-setor-de-movimentacao-e-execucao",
+       "sala": "211",
+       "nome": "SETOR DE MOVIMENTAÇÃO E EXECUÇÃO",
+       "codigo": "939",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "Bloco 3",
+     "unidades": [
+      {
+       "id": "301-sala-de-monitoramento",
+       "sala": "301",
+       "nome": "SALA DE MONITORAMENTO",
+       "codigo": "711",
+       "obs": ""
+      },
+      {
+       "id": "302-turma-recursal",
+       "sala": "302",
+       "nome": "TURMA RECURSAL",
+       "codigo": "125",
+       "obs": ""
+      },
+      {
+       "id": "303-oab",
+       "sala": "303",
+       "nome": "OAB",
+       "codigo": "523",
+       "obs": ""
+      },
+      {
+       "id": "304-tre",
+       "sala": "304",
+       "nome": "TRE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "305-prefeitura-municipal-de-boa-vista-procon-boa-vista",
+       "sala": "305",
+       "nome": "PREFEITURA MUNICIPAL DE BOA VISTA (PROCON BOA VISTA)",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "306-procon-assembleia",
+       "sala": "306",
+       "nome": "PROCON ASSEMBLEIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "307-sti",
+       "sala": "307",
+       "nome": "STI",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "309-acesso-restrito",
+       "sala": "309",
+       "nome": "ACESSO RESTRITO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "310-acesso-restrito",
+       "sala": "310",
+       "nome": "ACESSO RESTRITO",
+       "codigo": "",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "Bloco 4",
+     "unidades": [
+      {
+       "id": "401-dpe",
+       "sala": "401",
+       "nome": "DPE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "402-mpe",
+       "sala": "402",
+       "nome": "MPE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "403-sala-do-rack-eletrica-qgbt",
+       "sala": "403",
+       "nome": "SALA DO RACK / ELÉTRICA QGBT",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "404-governo-do-estado-de-roraima",
+       "sala": "404",
+       "nome": "GOVERNO DO ESTADO DE RORAIMA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "405-governo-do-estado-de-roraima",
+       "sala": "405",
+       "nome": "GOVERNO DO ESTADO DE RORAIMA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "406-policia-federal",
+       "sala": "406",
+       "nome": "POLÍCIA FEDERAL",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "407-receita-federal",
+       "sala": "407",
+       "nome": "RECEITA FEDERAL",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "408-diretoria-do-forum-da-cidadania",
+       "sala": "408",
+       "nome": "DIRETORIA DO FÓRUM DA CIDADANIA",
+       "codigo": "1250",
+       "obs": ""
+      },
+      {
+       "id": "409-1-e-2-varas-da-infancia-e-juventude",
+       "sala": "409",
+       "nome": "1ª E 2ª VARAS DA INFÂNCIA E JUVENTUDE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "410-brinquedoteca",
+       "sala": "410",
+       "nome": "BRINQUEDOTECA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "411-2-vara-da-infancia-e-juventude-audiencia",
+       "sala": "411",
+       "nome": "2ª VARA DA INFÂNCIA E JUVENTUDE - AUDIÊNCIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "413-2-vara-da-infancia-e-juventude-gabinete",
+       "sala": "413",
+       "nome": "2ª VARA DA INFÂNCIA E JUVENTUDE - GABINETE",
+       "codigo": "1037",
+       "obs": ""
+      },
+      {
+       "id": "414-1-vara-da-infancia-e-juventude-gabinete",
+       "sala": "414",
+       "nome": "1ª VARA DA INFÂNCIA E JUVENTUDE - GABINETE",
+       "codigo": "1026",
+       "obs": ""
+      },
+      {
+       "id": "415-1-vara-da-infancia-e-juventude-audiencia",
+       "sala": "415",
+       "nome": "1ª VARA DA INFÂNCIA E JUVENTUDE - AUDIÊNCIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "416-cartorio-acesso-restrito",
+       "sala": "416",
+       "nome": "CARTÓRIO (ACESSO RESTRITO)",
+       "codigo": "117",
+       "obs": ""
+      },
+      {
+       "id": "417-cartorio-atendimento",
+       "sala": "417",
+       "nome": "CARTÓRIO ATENDIMENTO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "419-sala-de-espera-adolescente",
+       "sala": "419",
+       "nome": "SALA DE ESPERA ADOLESCENTE",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "420-secretaria-do-setor-interprofissional",
+       "sala": "420",
+       "nome": "SECRETARIA DO SETOR INTERPROFISSIONAL",
+       "codigo": "119",
+       "obs": ""
+      },
+      {
+       "id": "421-sala-de-depoimento-especial",
+       "sala": "421",
+       "nome": "SALA DE DEPOIMENTO ESPECIAL",
+       "codigo": "1160",
+       "obs": ""
+      },
+      {
+       "id": "422-cij-coordenacao",
+       "sala": "422",
+       "nome": "CIJ COORDENAÇÃO",
+       "codigo": "305",
+       "obs": ""
+      },
+      {
+       "id": "423-banheiro-masculino",
+       "sala": "423",
+       "nome": "BANHEIRO MASCULINO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "424-banheiro-feminino",
+       "sala": "424",
+       "nome": "BANHEIRO FEMININO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "425-acesso-restrito",
+       "sala": "425",
+       "nome": "ACESSO RESTRITO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "426-equipe-tecnica-civel-1",
+       "sala": "426",
+       "nome": "EQUIPE TÉCNICA CÍVEL 1",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "427-equipe-tecnica-civel-2",
+       "sala": "427",
+       "nome": "EQUIPE TÉCNICA CÍVEL 2",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "428-equipe-tecnica-infracional",
+       "sala": "428",
+       "nome": "EQUIPE TÉCNICA INFRACIONAL",
+       "codigo": "1159",
+       "obs": ""
+      },
+      {
+       "id": "429-divisao-de-protecao",
+       "sala": "429",
+       "nome": "DIVISÃO DE PROTEÇÃO",
+       "codigo": "755",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "Bloco 5 (Itinerante) - Térreo",
+     "unidades": [
+      {
+       "id": "501-atendimento-coordenacao",
+       "sala": "501",
+       "nome": "ATENDIMENTO COORDENAÇÃO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "509-sala-de-audiencia",
+       "sala": "509",
+       "nome": "SALA DE AUDIÊNCIA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "s-n-brinquedoteca",
+       "sala": "S/N",
+       "nome": "BRINQUEDOTECA",
+       "codigo": "",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "Bloco 5 (Itinerante) - 1º Piso",
+     "unidades": [
+      {
+       "id": "513-atendimento-cartorio",
+       "sala": "513",
+       "nome": "ATENDIMENTO CARTÓRIO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "514-sala-de-video",
+       "sala": "514",
+       "nome": "SALA DE VÍDEO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "515-defensoria-publica",
+       "sala": "515",
+       "nome": "DEFENSORIA PÚBLICA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "516-cartorio-da-justica-itinerante",
+       "sala": "516",
+       "nome": "CARTÓRIO DA JUSTIÇA ITINERANTE",
+       "codigo": "137",
+       "obs": ""
+      },
+      {
+       "id": "518-coordenacao",
+       "sala": "518",
+       "nome": "COORDENAÇÃO",
+       "codigo": "1024",
+       "obs": ""
+      },
+      {
+       "id": "519-coordenador",
+       "sala": "519",
+       "nome": "COORDENADOR",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "520-sala-de-reuniao",
+       "sala": "520",
+       "nome": "SALA DE REUNIÃO",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "521-copa",
+       "sala": "521",
+       "nome": "COPA",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "522-gabinete-vara-da-justica-itinerante",
+       "sala": "522",
+       "nome": "GABINETE VARA DA JUSTIÇA ITINERANTE",
+       "codigo": "873",
+       "obs": ""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "criminal",
+   "nome": "Fórum Criminal Min. Evandro Lins e Silva",
+   "nomeCurto": "Fórum Criminal",
+   "subtitulo": "Ministro Evandro Lins e Silva",
+   "endereco": {
+    "logradouro": "Avenida CB PM José Tabira de Alencar Macedo, 602",
+    "bairro": "Caranã",
+    "cidade": "Boa Vista – RR",
+    "cep": ""
+   },
+   "foto": "assets/predios/criminal.jpg",
+   "divisoes": [
+    {
+     "nome": "Térreo",
+     "unidades": [
+      {
+       "id": "0-limpeza",
+       "sala": "0",
+       "nome": "Limpeza",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "4-setor-de-primeiro-atendimento-pesquisa-e-andamento-processual",
+       "sala": "4",
+       "nome": "SETOR DE PRIMEIRO ATENDIMENTO, PESQUISA E ANDAMENTO PROCESSUAL",
+       "codigo": "628",
+       "obs": ""
+      },
+      {
+       "id": "8-protocolo",
+       "sala": "8",
+       "nome": "Protocolo",
+       "codigo": "629",
+       "obs": ""
+      },
+      {
+       "id": "9-cartorio-distribuidor",
+       "sala": "9",
+       "nome": "Cartório Distribuidor",
+       "codigo": "410",
+       "obs": ""
+      },
+      {
+       "id": "11-2-vara-criminal-do-juri-cartorio",
+       "sala": "11",
+       "nome": "2ª Vara criminal do Júri - Cartório",
+       "codigo": "444",
+       "obs": ""
+      },
+      {
+       "id": "12-2-vara-criminal-do-juri-secretaria",
+       "sala": "12",
+       "nome": "2ª Vara criminal do Júri - Secretaria",
+       "codigo": "449",
+       "obs": ""
+      },
+      {
+       "id": "14-1-vara-criminal-do-juri-cartorio",
+       "sala": "14",
+       "nome": "1ª Vara criminal do Júri - Cartório",
+       "codigo": "421",
+       "obs": ""
+      },
+      {
+       "id": "14-1-vara-criminal-do-juri-secretaria",
+       "sala": "14",
+       "nome": "1ª Vara criminal do Júri - Secretaria",
+       "codigo": "425",
+       "obs": ""
+      },
+      {
+       "id": "16-administracao",
+       "sala": "16",
+       "nome": "Administração",
+       "codigo": "575",
+       "obs": ""
+      },
+      {
+       "id": "17-1-vara-criminal-do-juri-sala-de-audiencia",
+       "sala": "17",
+       "nome": "1ª Vara criminal do Júri - Sala de Audiência",
+       "codigo": "422",
+       "obs": ""
+      },
+      {
+       "id": "17-1-vara-criminal-do-juri-gabinete",
+       "sala": "17",
+       "nome": "1ª Vara criminal do Júri - Gabinete",
+       "codigo": "426",
+       "obs": ""
+      },
+      {
+       "id": "20-2-vara-criminal-do-juri-salao-do-juri",
+       "sala": "20",
+       "nome": "2ª Vara criminal do Júri - Salão do Júri",
+       "codigo": "455",
+       "obs": ""
+      },
+      {
+       "id": "39-2-vara-criminal-do-juri-sala-de-audiencia",
+       "sala": "39",
+       "nome": "2ª Vara criminal do Júri - Sala de Audiência",
+       "codigo": "447",
+       "obs": ""
+      },
+      {
+       "id": "40-2-vara-criminal-do-juri-gabinete",
+       "sala": "40",
+       "nome": "2ª Vara criminal do Júri - Gabinete",
+       "codigo": "448",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "1º Piso",
+     "unidades": [
+      {
+       "id": "0-unidade-de-justica-restaurativa",
+       "sala": "0",
+       "nome": "Unidade de Justiça Restaurativa",
+       "codigo": "681",
+       "obs": ""
+      },
+      {
+       "id": "1-video-conferencia",
+       "sala": "1",
+       "nome": "Video Conferência",
+       "codigo": "1123",
+       "obs": ""
+      },
+      {
+       "id": "100-oab",
+       "sala": "100",
+       "nome": "OAB",
+       "codigo": "1115",
+       "obs": ""
+      },
+      {
+       "id": "101-distribuidor-execucao-penal",
+       "sala": "101",
+       "nome": "Distribuidor Execução penal",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "102-divisao-de-acompanhamento",
+       "sala": "102",
+       "nome": "Divisão de acompanhamento",
+       "codigo": "1054",
+       "obs": ""
+      },
+      {
+       "id": "108-secretaria-da-vara-de-entorpecentes-e-organizacoes-criminosas-cartorio",
+       "sala": "108",
+       "nome": "Secretaria Da Vara De Entorpecentes E Organizações Criminosas - Cartório",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "112-1-vara-criminal-secretaria-juiz",
+       "sala": "112",
+       "nome": "1ª Vara criminal - Secretaria Juiz",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "114-vepema-secretaria-juiz",
+       "sala": "114",
+       "nome": "Vepema - Secretaria Juiz",
+       "codigo": "474",
+       "obs": ""
+      },
+      {
+       "id": "114-vepema-cartorio",
+       "sala": "114",
+       "nome": "Vepema - Cartório",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "118-central-de-depoimento-especial",
+       "sala": "118",
+       "nome": "Central de Depoimento Especial",
+       "codigo": "1195",
+       "obs": ""
+      },
+      {
+       "id": "121-cartorio-unificado-das-varas-criminais",
+       "sala": "121",
+       "nome": "Cartório Unificado das Varas Criminais",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "126-3-vara-criminal-secretaria-juiz",
+       "sala": "126",
+       "nome": "3ª Vara criminal - Secretaria Juiz",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "140-vepema-gestao-de-acoes-e-projetos-sociais",
+       "sala": "140",
+       "nome": "Vepema - Gestão de Ações e Projetos Sociais",
+       "codigo": "1188",
+       "obs": ""
+      },
+      {
+       "id": "145-vepema-gabinete",
+       "sala": "145",
+       "nome": "Vepema - Gabinete",
+       "codigo": "473",
+       "obs": ""
+      },
+      {
+       "id": "145-vepema-sala-de-audiencia",
+       "sala": "145",
+       "nome": "Vepema - Sala de Audiência",
+       "codigo": "472",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "2º Piso",
+     "unidades": [
+      {
+       "id": "0-1-juizado-de-violencia-domestica-secretaria-juiz",
+       "sala": "0",
+       "nome": "1º Juizado de Violência Doméstica - Secretaria Juiz",
+       "codigo": "531",
+       "obs": ""
+      },
+      {
+       "id": "200-vara-de-execucao-penal-secretaria-juiz",
+       "sala": "200",
+       "nome": "Vara de Execução Penal - Secretaria Juiz",
+       "codigo": "553",
+       "obs": ""
+      },
+      {
+       "id": "204-vara-de-execucao-penal-sala-de-audiencia",
+       "sala": "204",
+       "nome": "Vara de Execução Penal - Sala de Audiência",
+       "codigo": "551",
+       "obs": ""
+      },
+      {
+       "id": "205-vara-de-execucao-penal-gabinete",
+       "sala": "205",
+       "nome": "Vara de Execução Penal - Gabinete",
+       "codigo": "554",
+       "obs": ""
+      },
+      {
+       "id": "211-2-vara-criminal-sala-de-audiencia",
+       "sala": "211",
+       "nome": "2ª vara criminal - Sala de Audiência",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "213-entorpecentes-secretaria-juiz",
+       "sala": "213",
+       "nome": "Entorpecentes - Secretaria Juiz",
+       "codigo": "1060",
+       "obs": ""
+      },
+      {
+       "id": "215-2-juizado-de-violencia-domestica-secretaria-juiz",
+       "sala": "215",
+       "nome": "2º Juizado de Violência Doméstica - Secretaria Juiz",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "215-2-juizado-de-violencia-domestica-gabinete",
+       "sala": "215",
+       "nome": "2º Juizado de Violência Doméstica - Gabinete",
+       "codigo": "1035",
+       "obs": ""
+      },
+      {
+       "id": "216-secretaria-unificada-dos-juizados-de-violencia-domestica",
+       "sala": "216",
+       "nome": "Secretaria Unificada dos Juizados de Violência Doméstica",
+       "codigo": "1190",
+       "obs": ""
+      },
+      {
+       "id": "217-2-juizado-de-violencia-domestica-sala-de-audiencia",
+       "sala": "217",
+       "nome": "2º Juizado de Violência Doméstica - Sala de Audiência",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "220-central-eletronica-de-mandados",
+       "sala": "220",
+       "nome": "Central Eletrônica de Mandados",
+       "codigo": "920",
+       "obs": ""
+      },
+      {
+       "id": "221-juiz-substituto",
+       "sala": "221",
+       "nome": "Juiz Substituto",
+       "codigo": "1121",
+       "obs": ""
+      },
+      {
+       "id": "224-coordenadoria-do-juizado-de-violencia-domestica",
+       "sala": "224",
+       "nome": "Coordenadoria do Juizado de Violência Doméstica",
+       "codigo": "1061",
+       "obs": ""
+      },
+      {
+       "id": "226-central-de-mandados",
+       "sala": "226",
+       "nome": "Central de mandados",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "227-vara-criminal-do-idoso-crianca-analistas",
+       "sala": "227",
+       "nome": "Vara Criminal do Idoso/Criança - Analistas",
+       "codigo": "545",
+       "obs": ""
+      },
+      {
+       "id": "229-vara-criminal-do-idoso-crianca-cartorio",
+       "sala": "229",
+       "nome": "Vara Criminal do Idoso/Criança - Cartório",
+       "codigo": "542",
+       "obs": ""
+      },
+      {
+       "id": "231-juizado-especial-criminal-sala-de-audiencia",
+       "sala": "231",
+       "nome": "Juizado Especial criminal - Sala de Audiência",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "241-sala-de-saude",
+       "sala": "241",
+       "nome": "Sala de Saúde",
+       "codigo": "195",
+       "obs": ""
+      },
+      {
+       "id": "242-sala-do-ceavcai",
+       "sala": "242",
+       "nome": "sala do CEAVCAI",
+       "codigo": "1196",
+       "obs": ""
+      },
+      {
+       "id": "243-1-juizado-de-violencia-domestica-sala-de-audiencia",
+       "sala": "243",
+       "nome": "1º Juizado de Violência Doméstica - Sala de Audiência",
+       "codigo": "529",
+       "obs": ""
+      },
+      {
+       "id": "249-1-juizado-de-violencia-domestica-gabinete",
+       "sala": "249",
+       "nome": "1º Juizado de Violência Doméstica - Gabinete",
+       "codigo": "1032",
+       "obs": ""
+      },
+      {
+       "id": "250-diretoria",
+       "sala": "250",
+       "nome": "Diretoria",
+       "codigo": "916",
+       "obs": ""
+      },
+      {
+       "id": "252-1-juizado-de-violencia-domestica-equipe-multidisciplinar",
+       "sala": "252",
+       "nome": "1º Juizado de Violência Doméstica - Equipe Multidisciplinar",
+       "codigo": "533",
+       "obs": ""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "palacio",
+   "nome": "Palácio da Justiça",
+   "nomeCurto": "Palácio da Justiça",
+   "subtitulo": "Desembargador Robério Nunes dos Anjos",
+   "endereco": {
+    "logradouro": "Praça do Centro Cívico, 296",
+    "bairro": "Centro",
+    "cidade": "Boa Vista – RR",
+    "cep": "69301-380"
+   },
+   "foto": "assets/predios/palacio.jpg",
+   "divisoes": [
+    {
+     "nome": "Térreo",
+     "unidades": [
+      {
+       "id": "sn-tribunal-do-pleno",
+       "sala": "",
+       "nome": "Tribunal do Pleno",
+       "codigo": "684",
+       "obs": ""
+      },
+      {
+       "id": "sn-secretaria-tribunal-pleno",
+       "sala": "",
+       "nome": "Secretaria Tribunal Pleno",
+       "codigo": "10",
+       "obs": ""
+      },
+      {
+       "id": "sn-secretaria-das-camaras-reunidas",
+       "sala": "",
+       "nome": "Secretaria das Câmaras Reunidas",
+       "codigo": "670",
+       "obs": ""
+      },
+      {
+       "id": "sn-cartorio-distribuidor-do-2-grau",
+       "sala": "",
+       "nome": "Cartório Distribuidor do 2º Grau",
+       "codigo": "882",
+       "obs": ""
+      },
+      {
+       "id": "sn-corregedoria-geral-da-justica",
+       "sala": "",
+       "nome": "Corregedoria Geral da Justiça",
+       "codigo": "976",
+       "obs": ""
+      },
+      {
+       "id": "sn-ouvidoria",
+       "sala": "",
+       "nome": "Ouvidoria",
+       "codigo": "987",
+       "obs": ""
+      },
+      {
+       "id": "sn-assessoria-militar",
+       "sala": "",
+       "nome": "Assessoria Militar",
+       "codigo": "709",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "1º Piso",
+     "unidades": [
+      {
+       "id": "sn-vice-presidencia",
+       "sala": "",
+       "nome": "Vice-Presidência",
+       "codigo": "1091",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-jesus-nascimento",
+       "sala": "",
+       "nome": "Gabinete Des. Jésus Nascimento",
+       "codigo": "855",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-mozarildo-cavalcanti",
+       "sala": "",
+       "nome": "Gabinete Des. Mozarildo Cavalcanti",
+       "codigo": "854",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-leonardo-cupello",
+       "sala": "",
+       "nome": "Gabinete Des. Leonardo Cupello",
+       "codigo": "851",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-ricardo-oliveira",
+       "sala": "",
+       "nome": "Gabinete Des. Ricardo Oliveira",
+       "codigo": "1104",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "2º Piso",
+     "unidades": [
+      {
+       "id": "sn-presidencia",
+       "sala": "",
+       "nome": "Presidência",
+       "codigo": "883",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-elaine-bianchi",
+       "sala": "",
+       "nome": "Gabinete Desª. Elaine Bianchi",
+       "codigo": "1108",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-tania-vasconcelos",
+       "sala": "",
+       "nome": "Gabinete Desª. Tânia Vasconcelos",
+       "codigo": "1107",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-cristovao-suter",
+       "sala": "",
+       "nome": "Gabinete Des. Cristóvão Suter",
+       "codigo": "852",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-mauro-campello",
+       "sala": "",
+       "nome": "Gabinete Des. Mauro Campello",
+       "codigo": "1105",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-almiro-padilha",
+       "sala": "",
+       "nome": "Gabinete Des. Almiro Padilha",
+       "codigo": "1106",
+       "obs": ""
+      },
+      {
+       "id": "sn-gabinete-des-erick-linhares",
+       "sala": "",
+       "nome": "Gabinete Des. Erick Linhares",
+       "codigo": "853",
+       "obs": ""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sobral",
+   "nome": "Fórum Cível Advogado Sobral Pinto",
+   "nomeCurto": "Fórum Cível",
+   "subtitulo": "Advogado Sobral Pinto",
+   "endereco": {
+    "logradouro": "Praça do Centro Cívico, 666",
+    "bairro": "Centro",
+    "cidade": "Boa Vista – RR",
+    "cep": "69301-380"
+   },
+   "foto": "assets/predios/sobral.jpg",
+   "divisoes": [
+    {
+     "nome": "Térreo",
+     "unidades": [
+      {
+       "id": "sn-auditorio",
+       "sala": "",
+       "nome": "Auditório",
+       "codigo": "371",
+       "obs": ""
+      },
+      {
+       "id": "sn-lanchonete",
+       "sala": "",
+       "nome": "Lanchonete",
+       "codigo": "",
+       "obs": ""
+      },
+      {
+       "id": "sn-consulta-de-processos",
+       "sala": "",
+       "nome": "Consulta de Processos",
+       "codigo": "413",
+       "obs": ""
+      },
+      {
+       "id": "sn-cartorio-distribuidor",
+       "sala": "",
+       "nome": "Cartório Distribuidor",
+       "codigo": "626",
+       "obs": ""
+      },
+      {
+       "id": "sn-protocolo-adm",
+       "sala": "",
+       "nome": "Protocolo Adm.",
+       "codigo": "624",
+       "obs": ""
+      },
+      {
+       "id": "sn-contadoria",
+       "sala": "",
+       "nome": "Contadoria",
+       "codigo": "625",
+       "obs": ""
+      },
+      {
+       "id": "sn-1-vara-da-familia",
+       "sala": "",
+       "nome": "1ª Vara da Família",
+       "codigo": "871",
+       "obs": ""
+      },
+      {
+       "id": "sn-2-vara-da-familia",
+       "sala": "",
+       "nome": "2ª Vara da Família",
+       "codigo": "994",
+       "obs": ""
+      },
+      {
+       "id": "sn-defensoria-publica",
+       "sala": "",
+       "nome": "Defensoria Pública",
+       "codigo": "380",
+       "obs": ""
+      },
+      {
+       "id": "sn-ouvidoria",
+       "sala": "",
+       "nome": "Ouvidoria",
+       "codigo": "383",
+       "obs": ""
+      },
+      {
+       "id": "sn-nat-jus",
+       "sala": "",
+       "nome": "NAT-JUS",
+       "codigo": "1200",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "1º Piso",
+     "unidades": [
+      {
+       "id": "sn-juizado-fazendario",
+       "sala": "",
+       "nome": "Juizado Fazendário",
+       "codigo": "1069",
+       "obs": ""
+      },
+      {
+       "id": "sn-1-vara-fazenda-publica",
+       "sala": "",
+       "nome": "1ª Vara Fazenda Pública",
+       "codigo": "1014",
+       "obs": ""
+      },
+      {
+       "id": "sn-2-vara-fazenda-publica",
+       "sala": "",
+       "nome": "2ª Vara Fazenda Pública",
+       "codigo": "1017",
+       "obs": ""
+      }
+     ]
+    },
+    {
+     "nome": "2º Piso",
+     "unidades": [
+      {
+       "id": "sn-1-vara-civel",
+       "sala": "",
+       "nome": "1ª Vara Cível",
+       "codigo": "77",
+       "obs": ""
+      },
+      {
+       "id": "sn-2-vara-civel",
+       "sala": "",
+       "nome": "2ª Vara Cível",
+       "codigo": "78",
+       "obs": ""
+      },
+      {
+       "id": "sn-3-vara-civel",
+       "sala": "",
+       "nome": "3ª Vara Cível",
+       "codigo": "79",
+       "obs": ""
+      },
+      {
+       "id": "sn-4-vara-civel",
+       "sala": "",
+       "nome": "4ª Vara Cível",
+       "codigo": "80",
+       "obs": ""
+      },
+      {
+       "id": "sn-5-vara-civel",
+       "sala": "",
+       "nome": "5ª Vara Cível",
+       "codigo": "677",
+       "obs": ""
+      },
+      {
+       "id": "sn-6-vara-civel",
+       "sala": "",
+       "nome": "6ª Vara Cível",
+       "codigo": "678",
+       "obs": ""
+      },
+      {
+       "id": "sn-vara-de-execucao-fiscal",
+       "sala": "",
+       "nome": "Vara de Execução Fiscal",
+       "codigo": "1172",
+       "obs": ""
+      },
+      {
+       "id": "sn-gab-juizes-substitutos",
+       "sala": "",
+       "nome": "Gab. Juízes Substitutos",
+       "codigo": "1093",
+       "obs": ""
+      },
+      {
+       "id": "sn-oab",
+       "sala": "",
+       "nome": "OAB",
+       "codigo": "376",
+       "obs": ""
+      },
+      {
+       "id": "sn-administracao",
+       "sala": "",
+       "nome": "Administração",
+       "codigo": "",
+       "obs": ""
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

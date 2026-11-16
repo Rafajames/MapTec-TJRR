@@ -1,19 +1,50 @@
-# 🗺️ MapTec — TJRR
+# 🗺️ MapTec · TJRR
 
-Localizador de salas, setores e códigos de transferência das dependências do Tribunal de Justiça do Estado de Roraima. Aplicação web leve (HTML/CSS/JS), instalável como app (PWA) e com consulta offline.
+Encontre salas, setores, unidades e **códigos de transferência** dos prédios do Tribunal de Justiça do Estado de Roraima.
 
 **Acesse:** https://rafajames.github.io/MapTec-TJRR/
 
-## ✨ Funcionalidades
+O MapTec **não** tem plantas nem mapas internos: ele informa prédio, andar, número da sala, setor/unidade, código de transferência e o endereço do prédio (com atalho para o Google Maps).
 
-- **Busca unificada** por sala, setor, andar ou código — ignora acentos e maiúsculas, aceita várias palavras e destaca o trecho encontrado.
-- **Código em destaque** em cada card, com botão **Copiar**.
-- **Referência de localização** ("como chegar") por sala, editável no modo ADM.
-- **Pisos recolhíveis**, ordenação **Por sala / A–Z** e link direto para uma sala (`#/predio/<id>/<sala>`).
-- **PWA**: instala na tela inicial e funciona sem internet.
-- **Layout responsivo**: celular (1 coluna) e desktop (3 colunas).
-- **Modo ADM**: cadastrar/editar salas, códigos e referências pela interface.
+## Como funciona
 
-## 📄 Uso
+- Aplicação estática (HTML/CSS/JS) publicada no GitHub Pages. Sem login, sem banco de dados e sem chaves.
+- **Os dados ficam em [`data/maptec.json`](data/maptec.json)** e são somente leitura para os visitantes. Quem atualiza é o mantenedor, por commit.
+- Pesquisa global (sala, setor, unidade, código, prédio) ignorando acentos; navegação por prédio e andar; grade ou lista; botão para copiar o código.
+- Instalável (PWA) e com consulta offline: sem conexão, mostra os últimos dados salvos e avisa que podem estar desatualizados.
+- A data "Base de salas atualizada em" vem do último commit real de `data/maptec.json` (API pública do GitHub).
+- Visitantes podem usar **Sugerir correção** na sala, que abre uma issue do GitHub já preenchida.
 
-Ferramenta de apoio às equipes técnicas do TJRR. Desenvolvido por [Rafajames](https://github.com/Rafajames).
+## Como atualizar os dados
+
+Edite `data/maptec.json` (direto pelo GitHub, botão ✏️) e faça o commit. O site atualiza em ~1 minuto.
+
+```json
+{
+  "predios": [{
+    "id": "adm",
+    "nome": "Sede Administrativa",
+    "nomeCurto": "Sede Administrativa",
+    "subtitulo": "Edifício Luiz Rosalvo Indrusiak Fin",
+    "endereco": { "logradouro": "Avenida Capitão Ene Garcez, 1696", "bairro": "São Francisco", "cidade": "Boa Vista – RR", "cep": "69305-135" },
+    "foto": "assets/predios/sede.jpg",
+    "divisoes": [{
+      "nome": "Térreo",
+      "unidades": [
+        { "id": "01-secretaria-geral", "sala": "01", "nome": "SECRETARIA GERAL DA CORREGEDORIA", "codigo": "245", "obs": "" }
+      ]
+    }]
+  }]
+}
+```
+
+- `id` de cada unidade deve ser **único dentro do prédio** (só letras minúsculas, números e hífen) e não deve mudar, pois forma o link da sala.
+- `sala` e `codigo` podem ser vazios; `obs` é uma observação opcional exibida na sala.
+- Para novo prédio: adicione um item em `predios` e a foto em `assets/predios/`.
+- Endereços e demais textos podem ser completados a qualquer momento.
+
+## Publicação
+
+GitHub Pages a partir da branch `main` (raiz). Basta fazer o commit.
+
+Desenvolvido por [Rafajames](https://github.com/Rafajames).
